@@ -1,7 +1,6 @@
 import { DeviceTypeProps } from "@src/interfaces";
 import { convertScale } from "@src/utils/utils";
 import styled from "styled-components/native";
-import { Pressable } from "react-native";
 
 type DeviceType = {
   deviceType: DeviceTypeProps;

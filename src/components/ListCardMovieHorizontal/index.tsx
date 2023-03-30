@@ -1,6 +1,5 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import { View, FlatList } from "react-native";
-import { scale } from "react-native-size-matters";
 
 import CardPrimaryMovie from "@src/components/CardPrimaryMovie";
 import HeaderList from "@src/components/HeaderList";

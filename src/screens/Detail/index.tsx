@@ -6,8 +6,8 @@ import {
   ResponseFormattedDetailMovieProps,
   UrlsIsValidProps,
 } from "@src/interfaces";
-import { Fontisto, Octicons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { Fontisto } from "@expo/vector-icons";
+
 import { FontAwesome } from "@expo/vector-icons";
 
 import {
@@ -40,8 +40,7 @@ import { useSettings } from "@src/hooks/settings";
 import SectionCollection from "@src/components/SectionCollection";
 import SectionSeasons from "@src/components/SectionSeasons";
 import LoadPage from "@src/components/LoadPage";
-import Header from "@src/components/Header";
-import HeaderDetail from "../../components/HeaderDetail/index";
+import HeaderDetail from "@src/components/HeaderDetail/index";
 
 type ParamsProps = {
   params: {
@@ -76,7 +75,7 @@ export function Detail() {
     "Task orphaned for request <NSMutableURLRequest",
   ]);
   const navigation = useNavigation();
-  const { deviceType, themeText } = useSettings();
+  const { deviceType } = useSettings();
   const router = useRoute() as ParamsProps;
   const { id, type } = router.params;
   const webViewRef = useRef<WebView[]>([]);

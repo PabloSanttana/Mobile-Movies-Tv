@@ -7,7 +7,6 @@ import {
   FlatList,
   View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 
 import { Container } from "./styles";
 import {
