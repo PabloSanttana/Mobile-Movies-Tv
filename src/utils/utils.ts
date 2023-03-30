@@ -1,0 +1,291 @@
+import { scale } from "react-native-size-matters";
+import { format, isValid } from "date-fns";
+import { ptBR } from "date-fns/locale";
+const { BASE_IMAGE_URL } = process.env;
+import {
+  MovieProps,
+  ResponseHttpDefaultDetailMovieProps,
+  ResponseFormattedDetailMovieProps,
+  TvProps,
+  ResponseHttpDefaultDetailTvProps,
+} from "@src/interfaces";
+import { CardProps } from "@src/interfaces";
+
+const Language = {
+  bg: "Búlgaro",
+  es: "Espanhol",
+  cs: "Checo",
+  da: "Dinamarquês",
+  de: "Alemão",
+  et: "Estónio",
+  el: "Grego",
+  en: "Inglês",
+  fr: "Francês",
+  ga: "Irlandês",
+  hr: "Croata",
+  it: "Italiano",
+  lv: "Letão",
+  lt: "Lituano",
+  hu: "Húngaro",
+  mt: "Maltês",
+  nl: "Neerlandês",
+  pl: "Polaco",
+  pt: "Português",
+  ro: "Romeno",
+  sk: "Eslovaco",
+  sl: "Esloveno",
+  fi: "Finlandês",
+  sv: "Sueco",
+  "": "------",
+};
+
+const status = {
+  Released: "Lançado",
+  "Returning Series": "Renovada",
+  "": "----",
+};
+
+export function codeLanguage(cod: string | undefined): string {
+  if (cod === undefined) return "---";
+  //@ts-ignore
+  return Language[cod ?? ""];
+}
+export function statusTranslate(cod: string | undefined): string {
+  if (cod === undefined) return "---";
+  //@ts-ignore
+  return status[cod ?? ""];
+}
+
+export function convertScale(value: number): string {
+  return `${scale(value)}px`;
+}
+
+export const progressColor = (value: number): string => {
+  return value >= 7 ? "#21d07a" : value >= 4 ? "#d2d531" : "#db2360";
+};
+
+export const formatData = (
+  data: string,
+  dateFormat = "dd 'de' MMMM yyyy"
+): string => {
+  if (data.length < 10) {
+    return "00 de Janeiro de 0000";
+  }
+  let dateObj = new Date(data);
+  dateObj.setDate(dateObj.getDate() + 1);
+  if (!isValid(dateObj)) {
+    throw new Error("Invalid date format");
+  }
+  return format(dateObj, dateFormat, { locale: ptBR });
+};
+
+export function formatDataTvToCard(movies: TvProps[]): CardProps[] {
+  const data: CardProps[] = movies.map((movie) => {
+    return {
+      adult: false,
+      backdrop_path: `${BASE_IMAGE_URL}w780${movie.backdrop_path}`,
+      backdrop_path_small: `${BASE_IMAGE_URL}w300${movie.backdrop_path}`,
+      genre_ids: movie.genre_ids,
+      id: movie.id,
+      original_language: movie.original_language,
+      original_title: movie.original_name,
+      overview: movie.overview,
+      popularity: movie.popularity,
+      poster_path: `${BASE_IMAGE_URL}w500${movie.poster_path}`,
+      poster_path_small: `${BASE_IMAGE_URL}w92${movie.poster_path}`,
+      release_date: formatData(movie.first_air_date ?? "00"),
+      title: movie.original_name,
+      video: false,
+      vote_average: movie.vote_average,
+      vote_count: movie.vote_count,
+      media_type: "Série",
+      origin_country: movie.origin_country,
+    };
+  });
+  return data;
+}
+
+export function formatDataMovieToCard(movies: MovieProps[]): CardProps[] {
+  const data: CardProps[] = movies.map((movie: MovieProps) => {
+    return {
+      ...movie,
+      poster_path: `${BASE_IMAGE_URL}w780${movie.poster_path}`,
+      poster_path_small: `${BASE_IMAGE_URL}w92${movie.poster_path}`,
+      backdrop_path: `${BASE_IMAGE_URL}w500${movie.backdrop_path}`,
+      backdrop_path_small: `${BASE_IMAGE_URL}w300${movie.backdrop_path}`,
+      media_type: "Filme",
+      release_date: formatData(movie.release_date ?? "00"),
+      origin_country: [],
+    };
+  });
+
+  return data;
+}
+
+export async function formatDataMovieToCardPageDetail(
+  data: ResponseHttpDefaultDetailMovieProps
+): Promise<ResponseFormattedDetailMovieProps> {
+  //formatando a data
+  const newData = formatData(data.release_date);
+
+  //formatando a horas do filme
+  const hours = Math.floor(data.runtime / 60);
+  const min = data.runtime % 60;
+  const runtime = hours > 0 ? `${hours}h ${min}m` : `${min}m`;
+  //pegando os nomes das categorias
+  let genresStr = "•  ";
+  genresStr += data.genres.map(
+    (item, index) => (index == 0 ? "" : " ") + item.name
+  );
+
+  //filtrando só as pessoas com esses perfils de trabalhos
+  const jobs = ["Characters", "Director", "Writer"];
+  const crewFilter = data.credits.crew.filter((item) =>
+    jobs.includes(item.job)
+  );
+
+  //Somente traile do YouTube
+  const trailers = data.videos.results.filter(
+    (item) => item.site === "YouTube"
+  );
+
+  const recommendations = await formatDataMovieToCard(
+    data.recommendations.results
+  );
+
+  var belongs_to_collection =
+    data.belongs_to_collection !== null
+      ? {
+          id: data.belongs_to_collection.id,
+          backdrop_path: `${BASE_IMAGE_URL}w780${data.belongs_to_collection.backdrop_path}`,
+          backdrop_path_small: `${BASE_IMAGE_URL}w300${data.belongs_to_collection.backdrop_path_small}`,
+          name: data.belongs_to_collection.name,
+          poster_path: `${BASE_IMAGE_URL}w500${data.belongs_to_collection.poster_path}`,
+          poster_path_small: `${BASE_IMAGE_URL}w92${data.belongs_to_collection.poster_path_small}`,
+        }
+      : null;
+
+  return {
+    ...data,
+    original_language: codeLanguage(data.original_language),
+    release_date: newData,
+    runtimeStr: runtime,
+    genresStr: genresStr,
+    status: statusTranslate(data.status),
+    vote_average: Number(data.vote_average.toFixed(1)),
+    credits: {
+      crew: crewFilter,
+      cast: data.credits.cast,
+    },
+    videos: {
+      results: trailers,
+    },
+    recommendations: {
+      ...data.recommendations,
+      results: recommendations,
+    },
+    belongs_to_collection: belongs_to_collection,
+  };
+}
+
+export async function formatDataTvToCardPageDetail(
+  data: ResponseHttpDefaultDetailTvProps
+): Promise<ResponseFormattedDetailMovieProps> {
+  //formatando a data
+  const newDate = formatData(data.first_air_date ?? "00");
+  //formatando a horas do filme
+  const hours = Math.floor(data.episode_run_time[0] / 60);
+  const min = data.episode_run_time[0] % 60;
+  const runtime = hours > 0 ? `${hours}h ${min}m` : `${min}m`;
+  //pegando os nomes das categorias
+  let genresStr = "•  ";
+  genresStr += data.genres.map(
+    (item, index) => (index == 0 ? "" : " ") + item.name
+  );
+  //filtrando só as pessoas com esses perfils de trabalhos
+  const jobs = ["Characters", "Director", "Writer"];
+  //const crewFilter = data.credits.crew.filter(({ job }) => jobs.includes(job));
+  const castFilter = data.created_by.map((item) => {
+    return {
+      adult: false,
+      gender: item.gender,
+      id: item.id,
+      known_for_department: "",
+      name: item.name,
+      original_name: item.name,
+      popularity: 0,
+      profile_path: item.profile_path,
+      credit_id: item.credit_id,
+      department: "Writing",
+      job: "Criação",
+      cast_id: item.id,
+      character: "",
+      order: 0,
+    };
+  });
+  //Somente traile do YouTube
+  const trailers = data.videos.results.filter(
+    (item) => item.site === "YouTube"
+  );
+
+  const recommendations = await formatDataTvToCard(
+    data.recommendations.results
+  );
+
+  const seasons = data.seasons.map((item) => ({
+    ...item,
+    air_date: item.air_date?.split("-")?.[0] ?? "----",
+  }));
+
+  const newData: ResponseFormattedDetailMovieProps = {
+    adult: data.adult,
+    backdrop_path: data.backdrop_path,
+    belongs_to_collection: null,
+    budget: 0,
+    genres: data.genres,
+    homepage: data.homepage,
+    id: data.id,
+    imdb_id: "",
+    original_language: codeLanguage(data.original_language),
+    original_title: data.original_name,
+    overview: data.overview,
+    popularity: data.popularity,
+    poster_path: data.poster_path,
+    production_companies: data.production_companies,
+    production_countries: data.production_countries,
+    release_date: newDate,
+    revenue: 0,
+    runtime: data.episode_run_time[0],
+    runtimeStr: runtime,
+    spoken_languages: data.spoken_languages,
+    status: statusTranslate(data.status),
+    tagline: data.tagline,
+    title: data.name,
+    vote_average: Number(data.vote_average.toFixed(1)),
+    vote_count: data.vote_count,
+    video: false,
+    videos: {
+      results: trailers,
+    },
+    images: {
+      backdrops: [],
+      logos: [],
+      posters: [],
+    },
+    credits: {
+      crew: castFilter,
+      cast: data.credits.cast,
+    },
+    created_by: data.created_by,
+    episode_run_time: data.episode_run_time,
+    seasons: seasons,
+
+    recommendations: {
+      ...data.recommendations,
+      results: recommendations,
+    },
+    genresStr: genresStr,
+  };
+
+  return newData;
+}
