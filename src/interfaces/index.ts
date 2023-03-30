@@ -8,8 +8,8 @@ export type UserProps = {
 
 export type CardProps = MovieProps & {
   origin_country: string[];
-  backdrop_path_small: string;
-  poster_path_small: string;
+  backdrop_path_small?: string;
+  poster_path_small?: string;
 };
 
 export type MovieProps = {

@@ -8,6 +8,7 @@ import { useTheme } from "styled-components";
 
 import { Home } from "@src/screens/home";
 import Search from "@src/screens/Search";
+import Favorites from "@src/screens/Favorites";
 
 const Tab = createBottomTabNavigator();
 
@@ -52,7 +53,7 @@ export function TabRoutes() {
       />
       <Tab.Screen
         name="Favorites"
-        component={Home}
+        component={Favorites}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
