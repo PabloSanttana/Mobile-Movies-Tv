@@ -98,7 +98,7 @@ export function formatDataTvToCard(movies: TvProps[]): CardProps[] {
       video: false,
       vote_average: movie.vote_average,
       vote_count: movie.vote_count,
-      media_type: "Série",
+      media_type: "tv",
       origin_country: movie.origin_country,
     };
   });
@@ -113,7 +113,7 @@ export function formatDataMovieToCard(movies: MovieProps[]): CardProps[] {
       poster_path_small: `${BASE_IMAGE_URL}w92${movie.poster_path}`,
       backdrop_path: `${BASE_IMAGE_URL}w500${movie.backdrop_path}`,
       backdrop_path_small: `${BASE_IMAGE_URL}w300${movie.backdrop_path}`,
-      media_type: "Filme",
+      media_type: "movie",
       release_date: formatData(movie.release_date ?? "00"),
       origin_country: [],
     };
@@ -158,10 +158,10 @@ export async function formatDataMovieToCardPageDetail(
       ? {
           id: data.belongs_to_collection.id,
           backdrop_path: `${BASE_IMAGE_URL}w780${data.belongs_to_collection.backdrop_path}`,
-          backdrop_path_small: `${BASE_IMAGE_URL}w300${data.belongs_to_collection.backdrop_path_small}`,
+          backdrop_path_small: `${BASE_IMAGE_URL}w300${data.belongs_to_collection.backdrop_path}`,
           name: data.belongs_to_collection.name,
           poster_path: `${BASE_IMAGE_URL}w500${data.belongs_to_collection.poster_path}`,
-          poster_path_small: `${BASE_IMAGE_URL}w92${data.belongs_to_collection.poster_path_small}`,
+          poster_path_small: `${BASE_IMAGE_URL}w92${data.belongs_to_collection.poster_path}`,
         }
       : null;
 
@@ -173,6 +173,10 @@ export async function formatDataMovieToCardPageDetail(
     genresStr: genresStr,
     status: statusTranslate(data.status),
     vote_average: Number(data.vote_average.toFixed(1)),
+    backdrop_path: `${BASE_IMAGE_URL}original${data.backdrop_path}`,
+    backdrop_path_small: `${BASE_IMAGE_URL}w300${data.backdrop_path}`,
+    poster_path: `${BASE_IMAGE_URL}original${data.poster_path}`,
+    poster_path_small: `${BASE_IMAGE_URL}w92${data.poster_path}`,
     credits: {
       crew: crewFilter,
       cast: data.credits.cast,
@@ -239,7 +243,10 @@ export async function formatDataTvToCardPageDetail(
 
   const newData: ResponseFormattedDetailMovieProps = {
     adult: data.adult,
-    backdrop_path: data.backdrop_path,
+    backdrop_path: `${BASE_IMAGE_URL}original${data.backdrop_path}`,
+    backdrop_path_small: `${BASE_IMAGE_URL}w300${data.backdrop_path}`,
+    poster_path: `${BASE_IMAGE_URL}original${data.poster_path}`,
+    poster_path_small: `${BASE_IMAGE_URL}w92${data.poster_path}`,
     belongs_to_collection: null,
     budget: 0,
     genres: data.genres,
@@ -250,7 +257,6 @@ export async function formatDataTvToCardPageDetail(
     original_title: data.original_name,
     overview: data.overview,
     popularity: data.popularity,
-    poster_path: data.poster_path,
     production_companies: data.production_companies,
     production_countries: data.production_countries,
     release_date: newDate,

@@ -20,12 +20,7 @@ function ListCardTvHorizontal(data: ListCardTvProps) {
       <CardPrimaryMovie
         data={item}
         deviceType={data.deviceType}
-        onPress={() =>
-          data.onPressDetail(
-            item.id,
-            item.media_type === "Filme" ? "movie" : "tv"
-          )
-        }
+        onPress={() => data.onPressDetail(item.id, item.media_type)}
         doubleSize={true}
       />
     ),

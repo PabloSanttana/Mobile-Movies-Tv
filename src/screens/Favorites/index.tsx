@@ -36,7 +36,7 @@ const itemsPerPage = 10;
 const { height, width } = Dimensions.get("screen");
 export default function Favorites() {
   const navigation = useNavigation();
-  const { deviceType, favorites } = useSettings();
+  const { deviceType, favorites, language } = useSettings();
   const [genres, setGenres] = useState<ObjectGenresProps>({});
   const [search, setSearch] = useState<string>("");
   const [data, setData] = useState<CardProps[]>([]);
@@ -52,19 +52,21 @@ export default function Favorites() {
     totalPages = Math.ceil(favorites.length / 10);
     console.log("totalPages", totalPages);
     fetchListGenres();
-    pagination();
     return () => {
       page = 1;
       count = 0;
       isHeaderHider = false;
       totalPages = 0;
     };
-  }, []);
+  }, [favorites]);
 
   async function fetchListGenres() {
     setIsLoading(true);
-    const responseMovie = await apiFetchGenres({ type: "movie" });
-    const responseTv = await apiFetchGenres({ type: "tv" });
+    const responseMovie = await apiFetchGenres({
+      type: "movie",
+      language: language,
+    });
+    const responseTv = await apiFetchGenres({ type: "tv", language: language });
     if (responseMovie && responseTv) {
       var objectGenres: ObjectGenresProps = {};
       responseMovie?.genres.forEach((item) => {
@@ -76,6 +78,7 @@ export default function Favorites() {
       setGenres(objectGenres);
     }
     setIsLoading(false);
+    pagination();
   }
 
   function pagination(_page = page) {
@@ -138,9 +141,7 @@ export default function Favorites() {
         deviceType={deviceType}
         data={item}
         dictionary={genres}
-        onPress={() =>
-          handleDetail(item.id, item.media_type === "Filme" ? "movie" : "tv")
-        }
+        onPress={() => handleDetail(item.id, item.media_type)}
       />
     ),
     [deviceType, genres]

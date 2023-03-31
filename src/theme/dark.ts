@@ -3,7 +3,7 @@ export const dark = {
     backgroundPrimary: "#0F0F0F",
     backgroundSecondary: "#242425",
     star: "#F2A33A",
-    red: "#CF353F",
+    red: "#e9140a",
     textPrimary: "#fff",
     textSecondary: "#c5c5c5",
 

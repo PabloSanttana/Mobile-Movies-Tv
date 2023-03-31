@@ -6,10 +6,12 @@ import { Initial } from "@src/screens/Initial";
 
 import { TabRoutes } from "./tab.routes";
 import SeeMore from "@src/screens/SeeMore";
+import { useSettings } from "@src/hooks/settings";
 
 const Stack = createNativeStackNavigator();
 
 export function StackRoutes() {
+  const { user } = useSettings();
   return (
     <Stack.Navigator
       initialRouteName="Initial"
@@ -17,7 +19,7 @@ export function StackRoutes() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Initial" component={Initial} />
+      {!user.firstName && <Stack.Screen name="Initial" component={Initial} />}
       <Stack.Screen name="HomePage" component={TabRoutes} />
       <Stack.Screen name="Detail" component={Detail} />
       <Stack.Screen name="SeeMore" component={SeeMore} />

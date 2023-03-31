@@ -42,7 +42,7 @@ var genre: string = "";
 const { height, width } = Dimensions.get("screen");
 export default function SeeMore() {
   const navigation = useNavigation();
-  const { deviceType } = useSettings();
+  const { deviceType, language, adult, region } = useSettings();
   const router = useRoute().params as ParamsProps;
   const [genres, setGenres] = useState<ObjectGenresProps>({});
   const [genreSelected, setGenreSelected] = useState<string>("");
@@ -76,7 +76,10 @@ export default function SeeMore() {
     const mediaType: TypeGenreProps = router.path.includes("movie")
       ? "movie"
       : "tv";
-    const response = await apiFetchGenres({ type: mediaType });
+    const response = await apiFetchGenres({
+      type: mediaType,
+      language: language,
+    });
     if (response) {
       var objectGenres: ObjectGenresProps = {};
       response?.genres.forEach((item) => {
@@ -95,6 +98,9 @@ export default function SeeMore() {
         apiUrl: router.path,
         page: NumPage,
         genre: ValueGenre,
+        language: language,
+        adult: adult,
+        region: region,
       });
 
       if (response) {
@@ -162,9 +168,7 @@ export default function SeeMore() {
         deviceType={deviceType}
         data={item}
         dictionary={genres}
-        onPress={() =>
-          handleDetail(item.id, item.media_type === "Filme" ? "movie" : "tv")
-        }
+        onPress={() => handleDetail(item.id, item.media_type)}
       />
     ),
     [deviceType, genres]

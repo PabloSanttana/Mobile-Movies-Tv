@@ -19,6 +19,9 @@ import {
   CardProps,
 } from "@src/interfaces";
 
+type LanguageProps = "en-US" | "pt-BR";
+type RegionProps = "US" | "BR";
+
 interface SettingsContextData {
   user: UserProps;
   changeTheme: (value: ThemeProps) => void;
@@ -26,6 +29,14 @@ interface SettingsContextData {
   deviceType: DeviceTypeProps;
   themeText: ThemeProps;
   favorites: CardProps[];
+  changeFavorite: (value: CardProps) => void;
+  favoritesIds: number[];
+  adult: boolean;
+  language: LanguageProps;
+  region: RegionProps;
+  changeLanguage: (value: LanguageProps) => void;
+  changeRegion: (value: RegionProps) => void;
+  changeAdult: (value: boolean) => void;
 }
 
 interface SettingsContextProvider {
@@ -84,6 +95,9 @@ function SettingsProvider({ children }: SettingsContextProvider) {
   const [user, setUser] = useState<UserProps>({} as UserProps);
   const [deviceType, setDeviceType] = useState<DeviceTypeProps>("phone");
   const [favorites, setFavorites] = useState<CardProps[]>([]);
+  const [language, setLanguage] = useState<LanguageProps>("pt-BR");
+  const [region, setRegion] = useState<RegionProps>("US");
+  const [adult, setAdult] = useState<boolean>(false);
 
   const getDeviceType = useCallback(async () => {
     const deviceTypeMap = {
@@ -105,19 +119,6 @@ function SettingsProvider({ children }: SettingsContextProvider) {
 
   useEffect(() => {
     getDeviceType();
-    for (let index = 3; index < 100; index++) {
-      if (index % 2 === 0) {
-        data.push({
-          ...data[0],
-          id: data[0].id + index,
-        });
-      } else {
-        data.push({
-          ...data[1],
-          id: data[1].id + index,
-        });
-      }
-    }
     setFavorites(data);
   }, []);
 
@@ -143,10 +144,31 @@ function SettingsProvider({ children }: SettingsContextProvider) {
   const changeTheme = useCallback((value: ThemeProps) => {
     setTheme(value);
   }, []);
+  const changeLanguage = useCallback((value: LanguageProps) => {
+    setLanguage(value);
+  }, []);
+  const changeAdult = useCallback((value: boolean) => {
+    setAdult(value);
+  }, []);
+  const changeRegion = useCallback((value: RegionProps) => {
+    setRegion(value);
+  }, []);
+
   const saveUser = useCallback((value: UserProps) => {
     setUser(value);
   }, []);
 
+  const changeFavorite = useCallback(
+    (value: CardProps) => {
+      const index = favorites.findIndex((favorite) => favorite.id === value.id);
+      setFavorites(
+        index >= 0 ? favorites.slice(0, index) : [...favorites, value]
+      );
+    },
+    [favorites]
+  );
+
+  const favoritesIds = favorites.map(({ id }) => id);
   const themeText = theme;
   return (
     <SettingsContext.Provider
@@ -157,6 +179,14 @@ function SettingsProvider({ children }: SettingsContextProvider) {
         deviceType,
         themeText,
         favorites,
+        changeFavorite,
+        favoritesIds,
+        changeLanguage,
+        adult,
+        changeRegion,
+        language,
+        region,
+        changeAdult,
       }}
     >
       <ThemeProvider theme={() => selectedTheme(theme)}>

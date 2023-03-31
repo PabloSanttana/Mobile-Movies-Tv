@@ -45,6 +45,9 @@ type ApiFetch = {
   apiUrl: ApiUrl;
   page?: number;
   genre?: string;
+  language: string;
+  region: string;
+  adult: boolean;
   callback?: () => void;
 };
 
@@ -52,21 +55,29 @@ export async function apiFetchMovieAndTv({
   apiUrl,
   page = 1,
   genre = "",
+  language,
+  region,
+  adult,
   callback = () => {},
 }: ApiFetch): Promise<PromiseProps | null> {
   try {
-    const response = await api.get<ResponseHttp>(
-      `${apiUrl}?api_key=${API_KEY}&language=${LANGUAGE}&page=${page}&region=${REGION}&with_genres=${genre}`
-    );
+    const params = {
+      api_key: API_KEY,
+      language: language,
+      page,
+      region: region,
+      with_genres: genre,
+      adult: adult,
+    };
+    const response = await api.get<ResponseHttp>(`${apiUrl}`, { params });
 
     if (apiUrl.includes("tv")) {
       const movie = await formatDataTvToCard(response.data.results);
-
       return {
         ...response.data,
         results: movie,
       };
-    } else if (apiUrl.includes("movie") || apiUrl.includes("trending")) {
+    } else if (apiUrl.includes("movie")) {
       const movie = await formatDataMovieToCard(response.data.results);
       return {
         ...response.data,
@@ -85,29 +96,41 @@ export async function apiFetchMovieAndTv({
 type ApiFetchSearch = {
   page?: number;
   search?: string;
+  language: string;
+  region: string;
+  adult: boolean;
   callback?: () => void;
 };
 
 export async function apiFetchSearchAll({
   page = 1,
   search = "",
+  language,
+  region,
+  adult,
   callback = () => {},
 }: ApiFetchSearch): Promise<PromiseProps | null> {
   try {
-    const response = await api.get<ResponseHttp>(
-      `/search/multi?api_key=${API_KEY}&language=${LANGUAGE}&page=${page}&region=${REGION}&query=${search}`
-    );
-
+    const params = {
+      api_key: API_KEY,
+      language: language,
+      page,
+      region: region,
+      query: search,
+      adult: adult,
+    };
+    const response = await api.get<ResponseHttp>("/search/multi", { params });
     if (response) {
-      const tvFilter = response.data.results.filter(
-        (item: any) => item.media_type === "tv"
+      const results = response.data.results.filter(
+        (item: any) => item.media_type === "tv" || item.media_type === "movie"
       );
 
-      const movieFilter = response.data.results.filter(
-        (item: any) => item.media_type === "movie"
+      const tv = await formatDataTvToCard(
+        results.filter((item: any) => item.media_type === "tv")
       );
-      const tv = await formatDataTvToCard(tvFilter);
-      const movie = await formatDataMovieToCard(movieFilter);
+      const movie = await formatDataMovieToCard(
+        results.filter((item: any) => item.media_type === "movie")
+      );
 
       return {
         ...response.data,
@@ -130,17 +153,24 @@ type ResponseGenreHttp = {
 export type TypeGenreProps = "movie" | "tv";
 type ApiFetchGenreProps = {
   type: TypeGenreProps;
+  language: string;
+
   callback?: () => void;
 };
 
 export async function apiFetchGenres({
   type,
+  language,
+
   callback = () => {},
 }: ApiFetchGenreProps): Promise<ResponseGenreHttp | null> {
   try {
-    const response = await api.get<ResponseGenreHttp>(
-      `genre/${type}/list?api_key=${API_KEY}&language=${LANGUAGE}`
-    );
+    const response = await api.get<ResponseGenreHttp>(`genre/${type}/list`, {
+      params: {
+        api_key: API_KEY,
+        language: language,
+      },
+    });
     return response.data;
   } catch (error) {
     return null;
@@ -153,37 +183,44 @@ export type TypeDetailProps = "movie" | "tv";
 type ApiFetchDetailProps = {
   type: TypeDetailProps;
   id: number;
+  language: string;
+  region: string;
+  adult: boolean;
   callback?: () => void;
 };
 
 export async function apiFetchDetail({
   type,
   id,
+  language,
+  region,
+  adult,
   callback = () => {},
 }: ApiFetchDetailProps): Promise<ResponseFormattedDetailMovieProps | null> {
   try {
-    if (type === "movie") {
-      const response = await api.get<ResponseHttpDefaultDetailMovieProps>(
-        `${type}/${id}?api_key=${API_KEY}&language=${LANGUAGE}&region=${REGION}&append_to_response=videos,watch/providers,credits,recommendations`
-      );
+    const response = await api.get(`${type}/${id}`, {
+      params: {
+        api_key: API_KEY,
+        language: language,
+        region: region,
+        adult: adult,
+        append_to_response: "videos,watch/providers,credits,recommendations",
+      },
+    });
+    if (response.data) {
+      const data =
+        type === "movie"
+          ? await formatDataMovieToCardPageDetail(
+              response.data as ResponseHttpDefaultDetailMovieProps
+            )
+          : await formatDataTvToCardPageDetail(
+              response.data as ResponseHttpDefaultDetailTvProps
+            );
 
-      if (response.data) {
-        const data = await formatDataMovieToCardPageDetail(response.data);
-
-        return data;
-      }
-    } else if (type === "tv") {
-      const response = await api.get<ResponseHttpDefaultDetailTvProps>(
-        `${type}/${id}?api_key=${API_KEY}&language=${LANGUAGE}&region=${REGION}&append_to_response=videos,watch/providers,credits,recommendations`
-      );
-
-      if (response.data) {
-        const data = await formatDataTvToCardPageDetail(response.data);
-        return data;
-      }
+      return data as ResponseFormattedDetailMovieProps;
+    } else {
+      return null;
     }
-
-    return null;
   } catch (error) {
     return null;
   } finally {

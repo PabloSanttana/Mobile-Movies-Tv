@@ -17,9 +17,7 @@ function ListCarousel({ data, onPress = () => {} }: ListCarouselProps) {
       <CardCarousel
         key={item.id}
         movie={item}
-        onPress={() =>
-          onPress(item.id, item.media_type === "Filme" ? "movie" : "tv")
-        }
+        onPress={() => onPress(item.id, item.media_type)}
         activeOpacity={0.7}
       />
     ),

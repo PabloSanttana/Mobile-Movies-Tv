@@ -36,7 +36,7 @@ var totalPages = 0;
 const { height, width } = Dimensions.get("screen");
 export default function Search() {
   const navigation = useNavigation();
-  const { deviceType } = useSettings();
+  const { deviceType, language, region, adult } = useSettings();
   const [genres, setGenres] = useState<ObjectGenresProps>({});
   const [search, setSearch] = useState<string>("");
   const [data, setData] = useState<CardProps[]>([]);
@@ -59,8 +59,11 @@ export default function Search() {
   }, []);
 
   async function fetchListGenres() {
-    const responseMovie = await apiFetchGenres({ type: "movie" });
-    const responseTv = await apiFetchGenres({ type: "tv" });
+    const responseMovie = await apiFetchGenres({
+      type: "movie",
+      language: language,
+    });
+    const responseTv = await apiFetchGenres({ type: "tv", language: language });
     if (responseMovie && responseTv) {
       var objectGenres: ObjectGenresProps = {};
       responseMovie?.genres.forEach((item) => {
@@ -80,6 +83,9 @@ export default function Search() {
       const response = await apiFetchSearchAll({
         page: NumPage,
         search: searchValue,
+        language: language,
+        region: region,
+        adult: adult,
       });
 
       if (response) {
@@ -135,9 +141,7 @@ export default function Search() {
         deviceType={deviceType}
         data={item}
         dictionary={genres}
-        onPress={() =>
-          handleDetail(item.id, item.media_type === "Filme" ? "movie" : "tv")
-        }
+        onPress={() => handleDetail(item.id, item.media_type)}
       />
     ),
     [deviceType, genres]

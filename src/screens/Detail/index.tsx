@@ -1,4 +1,10 @@
-import { FlatList, View, LogBox, Dimensions } from "react-native";
+import {
+  FlatList,
+  View,
+  LogBox,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { WebView } from "react-native-webview";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -40,7 +46,8 @@ import { useSettings } from "@src/hooks/settings";
 import SectionCollection from "@src/components/SectionCollection";
 import SectionSeasons from "@src/components/SectionSeasons";
 import LoadPage from "@src/components/LoadPage";
-import HeaderDetail from "@src/components/HeaderDetail/index";
+import HeaderDetail from "@src/components/HeaderDetail";
+import FavoriteAnimation from "@src/components/FavoriteAnimation";
 
 type ParamsProps = {
   params: {
@@ -75,12 +82,15 @@ export function Detail() {
     "Task orphaned for request <NSMutableURLRequest",
   ]);
   const navigation = useNavigation();
-  const { deviceType } = useSettings();
+  const { deviceType, favoritesIds, changeFavorite, language, region, adult } =
+    useSettings();
   const router = useRoute() as ParamsProps;
   const { id, type } = router.params;
   const webViewRef = useRef<WebView[]>([]);
   const flatListRef = useRef<FlatList>(null);
+  const [heartAnimation, setHeartAnimation] = useState(false);
   const theme = useTheme();
+
   const [data, setData] = useState<ResponseFormattedDetailMovieProps | null>();
   console.log(id);
   useEffect(() => {
@@ -92,7 +102,13 @@ export function Detail() {
 
   async function fetchDetail(typeName = type, ValueId = id) {
     try {
-      const response = await apiFetchDetail({ type: typeName, id: ValueId });
+      const response = await apiFetchDetail({
+        type: typeName,
+        id: ValueId,
+        language: language,
+        region: region,
+        adult: adult,
+      });
       setData(response);
     } catch (error) {
       console.log(error);
@@ -105,6 +121,37 @@ export function Detail() {
       true
     }, 50);`;
     webViewRef.current[0].injectJavaScript(run);
+  }
+
+  function toggleFavorite(value: ResponseFormattedDetailMovieProps) {
+    const genre_ids = value.genres.map((item) => item.id);
+    const newDate = {
+      adult: value.adult,
+      backdrop_path: value.backdrop_path,
+      genre_ids: genre_ids,
+      id: value.id,
+      original_language: value.original_language,
+      original_title: value.original_title,
+      overview: "",
+      popularity: 0,
+      poster_path: value.poster_path,
+      release_date: value.release_date,
+      title: value.title,
+      video: false,
+      vote_average: value.vote_average,
+      vote_count: 0,
+      media_type: type,
+      origin_country: [],
+      backdrop_path_small: "",
+      poster_path_small: "",
+    };
+    changeFavorite(newDate);
+    if (!favoritesIds.includes(id)) {
+      setHeartAnimation(true);
+      setTimeout(() => {
+        setHeartAnimation(false);
+      }, 1000);
+    }
   }
 
   function nextTrailer(length: number) {
@@ -129,6 +176,7 @@ export function Detail() {
       title: title,
     });
   }
+  console.log("favoritesIds", favoritesIds);
 
   if (!data) return <LoadPage />;
 
@@ -136,12 +184,12 @@ export function Detail() {
     <Container showsVerticalScrollIndicator={false} bounces={false}>
       <BackgroundImage
         source={{
-          uri: process.env.BASE_IMAGE_URL + "w92" + data.poster_path,
+          uri: data.poster_path_small,
         }}
       >
         <BackgroundImage
           source={{
-            uri: process.env.BASE_IMAGE_URL + "original" + data.poster_path,
+            uri: data.poster_path,
           }}
         >
           <HeaderDetail
@@ -156,6 +204,7 @@ export function Detail() {
               theme.colors.backgroundPrimary,
             ]}
           >
+            {heartAnimation && <FavoriteAnimation />}
             {data.videos.results.length > 0 && (
               <ButtonTrailer onPress={play}>
                 <FontAwesome
@@ -169,12 +218,17 @@ export function Detail() {
 
             <ContainerTitle>
               <Title deviceType="phone">{data.title}</Title>
-              <Fontisto
-                name="favorite"
-                size={24}
-                color={theme.colors.red}
-                style={{ transform: [{ translateY: 6 }] }}
-              />
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => toggleFavorite(data)}
+              >
+                <Fontisto
+                  name="favorite"
+                  size={24}
+                  color={favoritesIds.includes(id) ? theme.colors.red : "gray"}
+                  style={{ transform: [{ translateY: 6 }] }}
+                />
+              </TouchableOpacity>
             </ContainerTitle>
             <DivRow style={{ marginBottom: 10, flexWrap: "wrap" }}>
               <Text deviceType="phone">{data.release_date}</Text>

@@ -24,11 +24,11 @@ export function Home() {
   const [upcomingMovie, setUpcomingMovie] = useState<CardProps[]>([]);
   const [onLoad, setOnLoad] = useState(true);
   const theme = useTheme();
-  const { deviceType, themeText } = useSettings();
+  const { deviceType, themeText, language, adult, region } = useSettings();
 
   useEffect(() => {
     getAll();
-  }, []);
+  }, [language]);
 
   async function getAll() {
     try {
@@ -48,6 +48,9 @@ export function Home() {
     const response = await apiFetchMovieAndTv({
       apiUrl: "movie/now_playing",
       page: 1,
+      language: language,
+      adult: adult,
+      region: region,
       callback: () => {},
     });
     if (response) {
@@ -59,6 +62,9 @@ export function Home() {
     const response = await apiFetchMovieAndTv({
       apiUrl: "movie/popular",
       page: 1,
+      language: language,
+      adult: adult,
+      region: region,
       callback: () => {},
     });
     if (response) {
@@ -69,6 +75,9 @@ export function Home() {
     const response = await apiFetchMovieAndTv({
       apiUrl: "movie/upcoming",
       page: 1,
+      language: language,
+      adult: adult,
+      region: region,
       callback: () => {},
     });
     if (response) {
@@ -79,6 +88,9 @@ export function Home() {
     const response = await apiFetchMovieAndTv({
       apiUrl: "trending/movie/day",
       page: 1,
+      language: language,
+      adult: adult,
+      region: region,
       callback: () => {},
     });
     if (response) {
@@ -89,6 +101,9 @@ export function Home() {
     const response = await apiFetchMovieAndTv({
       apiUrl: "tv/popular",
       page: 1,
+      language: language,
+      adult: adult,
+      region: region,
       callback: () => {},
     });
     if (response) {
@@ -99,6 +114,9 @@ export function Home() {
     const response = await apiFetchMovieAndTv({
       apiUrl: "trending/tv/day",
       page: 1,
+      language: language,
+      adult: adult,
+      region: region,
       callback: () => {},
     });
     if (response) {

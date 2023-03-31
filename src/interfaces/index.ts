@@ -1,8 +1,8 @@
 export type ThemeProps = "dark" | "light";
 export type DeviceTypeProps = "unknown" | "phone" | "tablet" | "desktop" | "tv";
 export type UserProps = {
-  FirstName: string;
-  lastName: string;
+  firstName: string;
+  lastName?: string;
   image?: string;
 };
 
@@ -27,7 +27,7 @@ export type MovieProps = {
   video: boolean;
   vote_average: number;
   vote_count: number;
-  media_type?: string;
+  media_type: "tv" | "movie";
 };
 
 export type TvProps = {
@@ -181,6 +181,8 @@ export type ResponseFormattedDetailMovieProps = ResponseHttpDetailBase & {
   };
   genresStr?: string;
   runtimeStr?: string;
+  backdrop_path_small?: string;
+  poster_path_small?: string;
 };
 
 export type CreatedByProps = {
