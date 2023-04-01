@@ -27,7 +27,7 @@ export const Container = styled.ImageBackground`
   align-items: center;
   padding-top: ${height * 0.3 + "px"};
 `;
-export const Content = styled.View`
+export const Content = styled.ScrollView`
   background-color: ${(props) =>
     hexToRgba(props.theme.colors.backgroundPrimary, 0.8)};
   padding: ${convertScale(25)};
@@ -86,6 +86,7 @@ export const ButtonAccess = styled.TouchableOpacity`
   padding: ${convertScale(10)} ${convertScale(10)};
   width: 100%;
   margin: 0 auto;
+  margin-bottom: 40px;
 `;
 
 export const ButtonTitle = styled.Text<DeviceType>`

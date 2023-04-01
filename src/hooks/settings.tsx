@@ -1,15 +1,17 @@
 import React, {
   useEffect,
   useState,
+  useRef,
   createContext,
   useContext,
   useCallback,
 } from "react";
+
 import { Platform } from "react-native";
 import { ThemeProvider } from "styled-components";
 import { DeviceType, getDeviceTypeAsync } from "expo-device";
 import * as NavigationBar from "expo-navigation-bar";
-const { BASE_IMAGE_URL } = process.env;
+
 import { dark } from "../theme/dark";
 import { light } from "../theme/light";
 import {
@@ -17,10 +19,15 @@ import {
   DeviceTypeProps,
   UserProps,
   CardProps,
+  LanguageProps,
+  RegionProps,
 } from "@src/interfaces";
-
-type LanguageProps = "en-US" | "pt-BR";
-type RegionProps = "US" | "BR";
+import {
+  saveDataToStorage,
+  getData,
+  setDataProps,
+} from "@src/services/storage";
+import LoadPage from "@src/components/LoadPage";
 
 interface SettingsContextData {
   user: UserProps;
@@ -43,50 +50,7 @@ interface SettingsContextProvider {
   children: JSX.Element;
 }
 
-var data: CardProps[] = [
-  {
-    adult: false,
-    backdrop_path: `${BASE_IMAGE_URL}w780/ouB7hwclG7QI3INoYJHaZL4vOaa.jpg`,
-    id: 315162,
-    title: "Gato de Botas 2: O Último Pedido",
-    original_language: "en",
-    original_title: "Puss in Boots: The Last Wish",
-    overview:
-      "O Gato de Botas descobre que sua paixão pela aventura cobrou seu preço: ele queimou oito de suas nove vidas, deixando-o com apenas uma vida restante. Gato parte em uma jornada épica para encontrar o mítico Último Desejo e restaurar suas nove vidas.",
-    poster_path: `${BASE_IMAGE_URL}w500/atJxZfCaQ7kXRFSfbm8cqAKkns7.jpg`,
-    media_type: "movie",
-    genre_ids: [16, 12, 35, 10751],
-    popularity: 1556.815,
-    release_date: "2023-01-05",
-    video: false,
-    vote_average: 8.316,
-    vote_count: 4880,
-    origin_country: [""],
-    backdrop_path_small: `${BASE_IMAGE_URL}w300/ouB7hwclG7QI3INoYJHaZL4vOaa.jpg`,
-    poster_path_small: `${BASE_IMAGE_URL}w92/atJxZfCaQ7kXRFSfbm8cqAKkns7.jpg`,
-  },
-  {
-    adult: false,
-    backdrop_path: `${BASE_IMAGE_URL}w780/muu7SpWpMpObzccAgaRcuB4RHbk.jpg`,
-    id: 65733,
-    title: "Doraemon: O Gato do Futuro",
-    original_language: "en",
-    original_title: "Puss in Boots: The Last Wish",
-    overview:
-      "A série é sobre um gato robótico chamado Doraemon que voltou dois séculos no passado para ajudar um estudante: Nobita Nobi.",
-    poster_path: `${BASE_IMAGE_URL}w500/aL9BRFZuLzbuvhtrlTYs1ix1apu.jpg`,
-    media_type: "tv",
-    genre_ids: [10759, 16, 35, 10765],
-    popularity: 273.438,
-    release_date: "2005-04-22",
-    video: false,
-    vote_average: 7.882,
-    vote_count: 55,
-    origin_country: [""],
-    backdrop_path_small: `${BASE_IMAGE_URL}w300/muu7SpWpMpObzccAgaRcuB4RHbk.jpg`,
-    poster_path_small: `${BASE_IMAGE_URL}w92/aL9BRFZuLzbuvhtrlTYs1ix1apu.jpg`,
-  },
-];
+var initial = true;
 
 const SettingsContext = createContext({} as SettingsContextData);
 
@@ -98,6 +62,7 @@ function SettingsProvider({ children }: SettingsContextProvider) {
   const [language, setLanguage] = useState<LanguageProps>("pt-BR");
   const [region, setRegion] = useState<RegionProps>("US");
   const [adult, setAdult] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getDeviceType = useCallback(async () => {
     const deviceTypeMap = {
@@ -119,7 +84,7 @@ function SettingsProvider({ children }: SettingsContextProvider) {
 
   useEffect(() => {
     getDeviceType();
-    setFavorites(data);
+    getSettingStorage();
   }, []);
 
   useEffect(() => {
@@ -127,6 +92,46 @@ function SettingsProvider({ children }: SettingsContextProvider) {
       setBackgroundColorAsync(theme);
     }
   }, [theme]);
+
+  useEffect(() => {
+    setSettingStorage();
+  }, [user, favorites, adult, language, region, theme]);
+
+  async function getSettingStorage() {
+    try {
+      setIsLoading(true);
+      const response = await getData();
+      if (!response) {
+        return;
+      }
+      setTheme(response.theme);
+      setUser(response.user);
+      setFavorites(response.favorites);
+      setLanguage(response.language);
+      setRegion(response.region);
+      setAdult(response.adult);
+      console.log(response);
+    } catch (error) {
+      // Handle error here
+    } finally {
+      setIsLoading(false);
+      initial = false;
+    }
+  }
+
+  const setSettingStorage = async () => {
+    if (!initial) {
+      const data = {
+        user: user,
+        favorites: favorites,
+        theme: theme,
+        adult: adult,
+        language: language,
+        region: region,
+      };
+      await saveDataToStorage({ data });
+    }
+  };
 
   const setBackgroundColorAsync = useCallback(async (value: ThemeProps) => {
     const backgroundColor = selectedTheme(value).colors.backgroundSecondary;
@@ -170,6 +175,7 @@ function SettingsProvider({ children }: SettingsContextProvider) {
 
   const favoritesIds = favorites.map(({ id }) => id);
   const themeText = theme;
+
   return (
     <SettingsContext.Provider
       value={{
@@ -190,7 +196,7 @@ function SettingsProvider({ children }: SettingsContextProvider) {
       }}
     >
       <ThemeProvider theme={() => selectedTheme(theme)}>
-        {children}
+        {isLoading ? <LoadPage /> : children}
       </ThemeProvider>
     </SettingsContext.Provider>
   );

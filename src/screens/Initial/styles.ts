@@ -13,7 +13,8 @@ export const Container = styled.ImageBackground`
   flex: 1;
   width: ${width + "px"};
   align-items: center;
-  padding-top: ${height * 0.2 + "px"};
+  justify-content: center;
+  //padding-top: ${height * 0.2 + "px"};
 `;
 export const Content = styled.View`
   align-items: center;

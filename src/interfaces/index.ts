@@ -1,9 +1,13 @@
 export type ThemeProps = "dark" | "light";
 export type DeviceTypeProps = "unknown" | "phone" | "tablet" | "desktop" | "tv";
+export type LanguageProps = "en-US" | "pt-BR";
+export type RegionProps = "US" | "BR";
+
 export type UserProps = {
   firstName: string;
   lastName?: string;
   image?: string;
+  birthDate: string;
 };
 
 export type CardProps = MovieProps & {

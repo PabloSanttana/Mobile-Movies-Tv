@@ -12,6 +12,7 @@ const Stack = createNativeStackNavigator();
 
 export function StackRoutes() {
   const { user } = useSettings();
+  console.log("useSettings", user);
   return (
     <Stack.Navigator
       initialRouteName="Initial"
