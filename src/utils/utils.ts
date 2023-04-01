@@ -8,6 +8,9 @@ import {
   ResponseFormattedDetailMovieProps,
   TvProps,
   ResponseHttpDefaultDetailTvProps,
+  ResponseHttpCollectionProps,
+  ResponseFormattedCollectionProps,
+  GenreProps,
 } from "@src/interfaces";
 import { CardProps } from "@src/interfaces";
 
@@ -133,10 +136,8 @@ export async function formatDataMovieToCardPageDetail(
   const min = data.runtime % 60;
   const runtime = hours > 0 ? `${hours}h ${min}m` : `${min}m`;
   //pegando os nomes das categorias
-  let genresStr = "•  ";
-  genresStr += data.genres.map(
-    (item, index) => (index == 0 ? "" : " ") + item.name
-  );
+  let genresStr: string[] = [];
+  genresStr = data.genres.map((item) => item.name);
 
   //filtrando só as pessoas com esses perfils de trabalhos
   const jobs = ["Characters", "Director", "Writer"];
@@ -170,7 +171,7 @@ export async function formatDataMovieToCardPageDetail(
     original_language: codeLanguage(data.original_language),
     release_date: newData,
     runtimeStr: runtime,
-    genresStr: genresStr,
+    genresStr: genresStr.join(", "),
     status: statusTranslate(data.status),
     vote_average: Number(data.vote_average.toFixed(1)),
     backdrop_path: `${BASE_IMAGE_URL}original${data.backdrop_path}`,
@@ -294,4 +295,40 @@ export async function formatDataTvToCardPageDetail(
   };
 
   return newData;
+}
+
+export function formatDataCollectionToCard(
+  data: ResponseHttpCollectionProps,
+  genres: GenreProps[]
+): ResponseFormattedCollectionProps {
+  const parts = formatDataMovieToCard(data.parts);
+
+  let vote_average_vector = parts.map(({ vote_average }) => vote_average);
+  let soma = vote_average_vector.reduce((a, b) => a + b, 0);
+
+  let media = soma / vote_average_vector.length;
+
+  let genresSet: Set<Number> = new Set();
+
+  parts.forEach(({ genre_ids }) => {
+    genre_ids.forEach((id) => {
+      genresSet.add(id);
+    });
+  });
+
+  let genresStr: String[] = Array.from(
+    genresSet,
+    (id) => genres.find((item) => item.id === id)?.name ?? ""
+  );
+
+  return {
+    ...data,
+    poster_path: `${BASE_IMAGE_URL}w500${data.poster_path}`,
+    poster_path_small: `${BASE_IMAGE_URL}w92${data.poster_path}`,
+    backdrop_path: `${BASE_IMAGE_URL}w780${data.backdrop_path}`,
+    backdrop_path_small: `${BASE_IMAGE_URL}w300${data.backdrop_path}`,
+    parts,
+    genresStr: genresStr.join(", "),
+    vote_average: media,
+  };
 }

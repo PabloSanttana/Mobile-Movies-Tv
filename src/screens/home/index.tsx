@@ -6,7 +6,7 @@ import { StatusBar } from "expo-status-bar";
 
 import { useSettings } from "@src/hooks/settings";
 import { CardProps, UrlsIsValidProps } from "@src/interfaces";
-import ListCardMovieHorizontal from "@src/components/ListCardMovieHorizontal";
+import ListCardMovieHorizontal from "@src/components/ListCardTvHorizontal/ListCardMovieHorizontal";
 import ListCardTvHorizontal from "@src/components/ListCardTvHorizontal";
 import ListCarousel from "@src/components/ListCarousel";
 import { apiFetchMovieAndTv, TypeDetailProps } from "@src/services/services";

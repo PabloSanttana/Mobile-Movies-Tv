@@ -15,6 +15,7 @@ import {
   Span,
   ContentLabel,
   Label,
+  Overview,
 } from "./styles";
 import { ObjectGenresProps } from "@src/screens/SeeMore";
 import Logo from "@src/assets/logo.png";
@@ -22,18 +23,21 @@ import Logo from "@src/assets/logo.png";
 type CardGenericProps = TouchableOpacityProps & {
   data: CardProps;
   deviceType: DeviceTypeProps;
-  dictionary: ObjectGenresProps;
+  dictionary?: ObjectGenresProps;
+  isOverview?: boolean;
 };
 
 function CardGeneric({
   data,
   deviceType,
   dictionary,
+  isOverview = false,
   ...rest
 }: CardGenericProps) {
-  var genre = data.genre_ids.map(
-    (id, index) => (index == 0 ? "" : ", ") + dictionary[id]
-  );
+  var genre: string[] = [];
+  if (dictionary && !isOverview) {
+    genre = data.genre_ids.map((id) => dictionary[id]);
+  }
 
   return (
     <Container>
@@ -49,16 +53,31 @@ function CardGeneric({
         <Button {...rest}>
           <Title deviceType={deviceType}>{data.title}</Title>
         </Button>
+        {isOverview ? (
+          <>
+            <SubTitle
+              style={{ marginTop: -5, marginBottom: 5 }}
+              deviceType={deviceType}
+            >
+              {data.release_date}
+            </SubTitle>
+            <Overview style={{}} numberOfLines={5}>
+              {data.overview}
+            </Overview>
+          </>
+        ) : (
+          <>
+            <StarRating value={data.vote_average} />
 
-        <StarRating value={data.vote_average} />
-        <SubTitle deviceType={deviceType}>Gênero</SubTitle>
-        <ContainerGenre>
-          <Text numberOfLines={2}>{genre}</Text>
-        </ContainerGenre>
-        <Span>{data.release_date}</Span>
-        <ContentLabel>
-          <Label>{data.media_type}</Label>
-        </ContentLabel>
+            <ContainerGenre>
+              <Text numberOfLines={2}>{genre.join(", ")}</Text>
+            </ContainerGenre>
+            <Span>{data.release_date}</Span>
+            <ContentLabel>
+              <Label>{data.media_type}</Label>
+            </ContentLabel>
+          </>
+        )}
       </Content>
     </Container>
   );

@@ -65,6 +65,12 @@ export const Text = styled.Text`
   font-size: ${(props) => convertScale(props.theme.size.small)};
 `;
 
+export const Overview = styled.Text`
+  color: ${(props) => props.theme.colors.textPrimary};
+  font-family: ${(props) => props.theme.fonts.text};
+  font-size: ${(props) => convertScale(props.theme.size.small)};
+`;
+
 export const Span = styled.Text`
   color: ${(props) => props.theme.colors.textSecondary};
   font-family: ${(props) => props.theme.fonts.text};

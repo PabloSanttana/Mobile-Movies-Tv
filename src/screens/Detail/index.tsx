@@ -40,7 +40,7 @@ import { apiFetchDetail, TypeDetailProps } from "@src/services/services";
 import ListCardCastHorizontal from "@src/components/ListCardCastHorizontal";
 import { scale } from "react-native-size-matters";
 import HeaderList from "@src/components/HeaderList";
-import ListCardMovieHorizontal from "@src/components/ListCardMovieHorizontal";
+import ListCardMovieHorizontal from "@src/components/ListCardTvHorizontal/ListCardMovieHorizontal";
 import { useSettings } from "@src/hooks/settings";
 
 import SectionCollection from "@src/components/SectionCollection";
@@ -162,21 +162,26 @@ export function Detail() {
       });
     indexNextTrailer++;
   }
-  async function handleDetail(id: Number) {
+  function handleDetail(id: Number) {
     //@ts-ignore
     navigation.push("Detail", {
       id: id,
       type: type,
     });
   }
-  async function handleSeeMore(path: UrlsIsValidProps, title: string) {
+  function handleSeeMore(path: UrlsIsValidProps, title: string) {
     //@ts-ignore
     navigation.push("SeeMore", {
       path: path,
       title: title,
     });
   }
-  console.log("favoritesIds", favoritesIds);
+  function handleCollection(id: number) {
+    //@ts-ignore
+    navigation.push("Collection", {
+      id: id,
+    });
+  }
 
   if (!data) return <LoadPage />;
 
@@ -244,7 +249,7 @@ export function Detail() {
               <Text deviceType="phone" style={{ marginHorizontal: 5 }}>
                 {data.runtimeStr}
               </Text>
-              <Text deviceType="phone">{data.genresStr}</Text>
+              <Text deviceType="phone">• {data.genresStr}</Text>
             </DivRow>
           </Gradient>
         </BackgroundImage>
@@ -340,6 +345,7 @@ export function Detail() {
         <SectionCollection
           data={data.belongs_to_collection}
           deviceType={deviceType}
+          onPress={handleCollection}
         />
       )}
 

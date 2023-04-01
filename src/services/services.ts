@@ -6,12 +6,15 @@ import {
   ResponseHttpDefaultDetailMovieProps,
   ResponseFormattedDetailMovieProps,
   ResponseHttpDefaultDetailTvProps,
+  ResponseFormattedCollectionProps,
+  ResponseHttpCollectionProps,
 } from "@src/interfaces";
 import {
   formatDataMovieToCard,
   formatDataTvToCard,
   formatDataMovieToCardPageDetail,
   formatDataTvToCardPageDetail,
+  formatDataCollectionToCard,
 } from "@src/utils/utils";
 const { API_KEY } = process.env;
 const { LANGUAGE } = process.env;
@@ -218,6 +221,49 @@ export async function apiFetchDetail({
             );
 
       return data as ResponseFormattedDetailMovieProps;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return null;
+  } finally {
+    callback();
+  }
+}
+type ApiFetchCollectionProps = {
+  id: number;
+  language: string;
+  region: string;
+  adult: boolean;
+  callback?: () => void;
+};
+
+export async function apiFetchCollection({
+  id,
+  language,
+  region,
+  adult,
+  callback = () => {},
+}: ApiFetchCollectionProps): Promise<ResponseFormattedCollectionProps | null> {
+  try {
+    const response = await api.get<ResponseHttpCollectionProps>(
+      `collection/${id}`,
+      {
+        params: {
+          api_key: API_KEY,
+          language: language,
+          region: region,
+          adult: adult,
+        },
+      }
+    );
+    const genres = await apiFetchGenres({
+      type: "movie",
+      language: language,
+    });
+
+    if (response.data && genres) {
+      return await formatDataCollectionToCard(response.data, genres.genres);
     } else {
       return null;
     }

@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Detail } from "@src/screens/Detail";
 import { Initial } from "@src/screens/Initial";
+import { Collection } from "@src/screens/Collection";
 
 import { TabRoutes } from "./tab.routes";
 import SeeMore from "@src/screens/SeeMore";
@@ -24,6 +25,7 @@ export function StackRoutes() {
       <Stack.Screen name="HomePage" component={TabRoutes} />
       <Stack.Screen name="Detail" component={Detail} />
       <Stack.Screen name="SeeMore" component={SeeMore} />
+      <Stack.Screen name="Collection" component={Collection} />
     </Stack.Navigator>
   );
 }

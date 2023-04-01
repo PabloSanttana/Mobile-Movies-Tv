@@ -14,9 +14,14 @@ import {
 type SectionCollectionProps = {
   data: BelongsToCollectionProps;
   deviceType: DeviceTypeProps;
+  onPress: (id: number) => void;
 };
 
-function SectionCollection({ data, deviceType }: SectionCollectionProps) {
+function SectionCollection({
+  data,
+  deviceType,
+  onPress,
+}: SectionCollectionProps) {
   return (
     <>
       <HeaderList title={data.name} isMore={false} onPress={() => {}} />
@@ -34,7 +39,10 @@ function SectionCollection({ data, deviceType }: SectionCollectionProps) {
               doubleSize={false}
               source={{ uri: data?.poster_path }}
             />
-            <ButtonCollection activeOpacity={0.7}>
+            <ButtonCollection
+              activeOpacity={0.7}
+              onPress={() => onPress(data.id)}
+            >
               <ButtonCollectionTitle deviceType={deviceType}>
                 Mostrar Coletânea
               </ButtonCollectionTitle>

@@ -279,3 +279,24 @@ export type ResponseHttpDefaultDetailTvProps = ResponseHttpDetailBaseTv & {
     total_results: number;
   };
 };
+
+export type ResponseFormattedCollectionProps = {
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  poster_path_small: string;
+  backdrop_path_small: string;
+  vote_average: number;
+  genresStr?: string;
+  parts: CardProps[];
+};
+export type ResponseHttpCollectionProps = {
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  backdrop_path: string;
+  parts: MovieProps[];
+};
