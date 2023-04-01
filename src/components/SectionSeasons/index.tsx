@@ -16,12 +16,13 @@ import {
 
 type SectionSeasonsProps = {
   data: SeasonsProps;
+  onPress: () => void;
 };
 
-function SectionSeasons({ data }: SectionSeasonsProps) {
+function SectionSeasons({ data, onPress }: SectionSeasonsProps) {
   return (
     <>
-      <HeaderList title="Temporada atual" isMore={false} onPress={() => {}} />
+      <HeaderList title="1º Temporada" isMore={false} onPress={() => {}} />
       <ContainerCard>
         <ImageCard
           source={{
@@ -36,7 +37,7 @@ function SectionSeasons({ data }: SectionSeasonsProps) {
           <CardOverview>{data.overview}</CardOverview>
         </ContentCard>
       </ContainerCard>
-      <Button activeOpacity={0.7}>
+      <Button activeOpacity={0.7} onPress={() => onPress()}>
         <ButtonText>Mostrar todas as temporadas</ButtonText>
       </Button>
     </>

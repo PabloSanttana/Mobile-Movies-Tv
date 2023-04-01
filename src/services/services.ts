@@ -8,6 +8,7 @@ import {
   ResponseHttpDefaultDetailTvProps,
   ResponseFormattedCollectionProps,
   ResponseHttpCollectionProps,
+  ResponseDetailSeasonProps,
 } from "@src/interfaces";
 import {
   formatDataMovieToCard,
@@ -15,6 +16,7 @@ import {
   formatDataMovieToCardPageDetail,
   formatDataTvToCardPageDetail,
   formatDataCollectionToCard,
+  formatDataDetailSeason,
 } from "@src/utils/utils";
 const { API_KEY } = process.env;
 const { LANGUAGE } = process.env;
@@ -264,6 +266,45 @@ export async function apiFetchCollection({
 
     if (response.data && genres) {
       return await formatDataCollectionToCard(response.data, genres.genres);
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return null;
+  } finally {
+    callback();
+  }
+}
+
+type ApiFetchDetailSeasonProps = {
+  id: number;
+  seasonId: number;
+  language: string;
+  region: string;
+  adult: boolean;
+  callback?: () => void;
+};
+
+export async function apiFetchDetailSeason({
+  id,
+  seasonId,
+  language,
+  region,
+  adult,
+  callback = () => {},
+}: ApiFetchDetailSeasonProps): Promise<ResponseDetailSeasonProps | null> {
+  try {
+    const response = await api.get(`tv/${id}/season/${seasonId}`, {
+      params: {
+        api_key: API_KEY,
+        language: language,
+        region: region,
+        adult: adult,
+        append_to_response: "videos,watch/providers,credits",
+      },
+    });
+    if (response.data) {
+      return formatDataDetailSeason(response.data);
     } else {
       return null;
     }

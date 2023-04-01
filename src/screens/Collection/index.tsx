@@ -36,6 +36,7 @@ type ParamsProps = {
   params: {
     id: number;
     type: TypeDetailProps;
+    context: ResponseFormattedCollectionProps;
   };
 };
 
@@ -65,14 +66,18 @@ export function Collection() {
   const navigation = useNavigation();
   const { language, region, adult, deviceType } = useSettings();
   const router = useRoute() as ParamsProps;
-  const { id } = router.params;
+  const { id, context } = router.params;
   const theme = useTheme();
 
-  const [data, setData] = useState<ResponseFormattedCollectionProps | null>();
+  const [data, setData] = useState<ResponseFormattedCollectionProps | null>(
+    context
+  );
 
   useEffect(() => {
-    fetchCollection();
-  }, [id]);
+    if (!context) {
+      fetchCollection();
+    }
+  }, [id, context]);
 
   async function fetchCollection(ValueId = id) {
     try {
@@ -88,12 +93,28 @@ export function Collection() {
     }
   }
 
-  async function handleDetail(id: Number, type: "movie" | "tv") {
-    //@ts-ignore
-    navigation.push("Detail", {
-      id: id,
-      type: type,
-    });
+  function handleDetail(
+    cadId: Number,
+    type: "movie" | "tv",
+    season_number?: number
+  ) {
+    //Serie
+    if (context) {
+      //@ts-ignore
+      navigation.push("DetailSeason", {
+        id: id,
+        title: data?.name,
+        seasonId: season_number,
+        genresStr: data?.genresStr,
+      });
+      //filmes
+    } else {
+      //@ts-ignore
+      navigation.push("Detail", {
+        id: cadId,
+        type: type,
+      });
+    }
   }
 
   const renderItem = useCallback(
@@ -103,13 +124,19 @@ export function Collection() {
         deviceType={deviceType}
         data={item}
         isOverview
-        onPress={() => handleDetail(item.id, item.media_type)}
+        onPress={() =>
+          handleDetail(item.id, item.media_type, item.season_number)
+        }
       />
     ),
     [deviceType]
   );
 
   if (!data) return <LoadPage />;
+
+  const title = context
+    ? `Números de Temporadas: ${data.parts.length}`
+    : `Números de Filmes: ${data.parts.length}`;
 
   return (
     <Container showsVerticalScrollIndicator={false} bounces={false}>
@@ -170,7 +197,7 @@ export function Collection() {
             marginBottom: 20,
           }}
         >
-          <GroupTitleDescription title="Número de Filmes: 4" description="" />
+          <GroupTitleDescription title={title} description="" />
         </View>
       </Content>
 

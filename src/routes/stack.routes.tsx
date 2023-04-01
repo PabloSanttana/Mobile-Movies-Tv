@@ -2,6 +2,7 @@ import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Detail } from "@src/screens/Detail";
+import { DetailSeason } from "@src/screens/DetailSeason";
 import { Initial } from "@src/screens/Initial";
 import { Collection } from "@src/screens/Collection";
 
@@ -26,6 +27,7 @@ export function StackRoutes() {
       <Stack.Screen name="Detail" component={Detail} />
       <Stack.Screen name="SeeMore" component={SeeMore} />
       <Stack.Screen name="Collection" component={Collection} />
+      <Stack.Screen name="DetailSeason" component={DetailSeason} />
     </Stack.Navigator>
   );
 }

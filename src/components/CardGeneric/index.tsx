@@ -61,6 +61,7 @@ function CardGeneric({
             >
               {data.release_date}
             </SubTitle>
+            <Text numberOfLines={2}>Resumo:</Text>
             <Overview style={{}} numberOfLines={5}>
               {data.overview}
             </Overview>

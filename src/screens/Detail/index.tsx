@@ -48,6 +48,7 @@ import SectionSeasons from "@src/components/SectionSeasons";
 import LoadPage from "@src/components/LoadPage";
 import HeaderDetail from "@src/components/HeaderDetail";
 import FavoriteAnimation from "@src/components/FavoriteAnimation";
+import { formatDataDetailToSessions } from "@src/utils/utils";
 
 type ParamsProps = {
   params: {
@@ -180,6 +181,15 @@ export function Detail() {
     //@ts-ignore
     navigation.push("Collection", {
       id: id,
+    });
+  }
+  function handleSessions() {
+    if (!data) return;
+    const context = formatDataDetailToSessions(data);
+    //@ts-ignore
+    navigation.push("Collection", {
+      id: id,
+      context: context,
     });
   }
 
@@ -339,7 +349,9 @@ export function Detail() {
         }
       />
 
-      {data.seasons && <SectionSeasons data={data.seasons[0]} />}
+      {data.seasons && (
+        <SectionSeasons data={data.seasons[0]} onPress={handleSessions} />
+      )}
 
       {data.belongs_to_collection !== null && (
         <SectionCollection

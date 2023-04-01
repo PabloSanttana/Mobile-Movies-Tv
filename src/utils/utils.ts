@@ -11,6 +11,8 @@ import {
   ResponseHttpCollectionProps,
   ResponseFormattedCollectionProps,
   GenreProps,
+  ResponseDetailSeasonProps,
+  ResponseHttpDetailSeasonProps,
 } from "@src/interfaces";
 import { CardProps } from "@src/interfaces";
 
@@ -203,14 +205,12 @@ export async function formatDataTvToCardPageDetail(
   const min = data.episode_run_time[0] % 60;
   const runtime = hours > 0 ? `${hours}h ${min}m` : `${min}m`;
   //pegando os nomes das categorias
-  let genresStr = "•  ";
-  genresStr += data.genres.map(
-    (item, index) => (index == 0 ? "" : " ") + item.name
-  );
+  let genresStr: string[] = [];
+  genresStr = data.genres.map((item) => item.name);
   //filtrando só as pessoas com esses perfils de trabalhos
   const jobs = ["Characters", "Director", "Writer"];
   //const crewFilter = data.credits.crew.filter(({ job }) => jobs.includes(job));
-  const castFilter = data.created_by.map((item) => {
+  const crewFilter = data.created_by.map((item) => {
     return {
       adult: false,
       gender: item.gender,
@@ -280,7 +280,7 @@ export async function formatDataTvToCardPageDetail(
       posters: [],
     },
     credits: {
-      crew: castFilter,
+      crew: crewFilter,
       cast: data.credits.cast,
     },
     created_by: data.created_by,
@@ -291,7 +291,7 @@ export async function formatDataTvToCardPageDetail(
       ...data.recommendations,
       results: recommendations,
     },
-    genresStr: genresStr,
+    genresStr: genresStr.join(", "),
   };
 
   return newData;
@@ -329,6 +329,103 @@ export function formatDataCollectionToCard(
     backdrop_path_small: `${BASE_IMAGE_URL}w300${data.backdrop_path}`,
     parts,
     genresStr: genresStr.join(", "),
+    vote_average: media,
+  };
+}
+
+export function formatDataDetailToSessions(
+  data: ResponseFormattedDetailMovieProps
+): ResponseFormattedCollectionProps {
+  //@ts-ignore
+  const parts: CardProps[] = data.seasons?.map((item) => {
+    return {
+      adult: false,
+      backdrop_path: "",
+      genre_ids: [],
+      id: item.id,
+      original_language: "pt-BR",
+      original_title: item.name,
+      overview: item.overview,
+      popularity: 0,
+      poster_path: `${BASE_IMAGE_URL}w500${item.poster_path}`,
+      release_date: `${item.episode_count} episódios`,
+      title: `${item.name} (${item.air_date})`,
+      video: false,
+      vote_average: 0,
+      vote_count: 0,
+      media_type: "tv",
+      origin_country: [],
+      season_number: item.season_number,
+    };
+  });
+
+  return {
+    id: data.id,
+    name: data.title,
+    overview: data.overview,
+    poster_path: data.poster_path,
+    poster_path_small: data.poster_path_small ?? "",
+    backdrop_path: data.backdrop_path,
+    backdrop_path_small: data.backdrop_path_small ?? "",
+    vote_average: data.vote_average,
+    genresStr: data.genresStr,
+    parts: parts,
+  };
+}
+export function formatDataDetailSeason(
+  data: ResponseHttpDetailSeasonProps
+): ResponseDetailSeasonProps {
+  const newDate = formatData(data.air_date ?? "00");
+  const jobs = ["Characters", "Director", "Writer"];
+  const crewFilter = data.credits.crew.filter((item) =>
+    jobs.includes(item.job)
+  );
+  const trailers = data.videos.results.filter(
+    (item) => item.site === "YouTube"
+  );
+
+  const episodes: CardProps[] = data.episodes.map((item) => {
+    return {
+      adult: false,
+      backdrop_path: "",
+      genre_ids: [],
+      id: item.id,
+      original_language: "pt-BR",
+      original_title: item.name,
+      overview: item.overview,
+      popularity: 0,
+      poster_path: `${BASE_IMAGE_URL}w500${item.still_path}`,
+      release_date: `${item.episode_number}º  Episódio`,
+      title: item.name,
+      video: false,
+      vote_average: item.vote_average,
+      vote_count: item.vote_count,
+      media_type: "tv",
+      origin_country: [],
+      season_number: item.season_number,
+    };
+  });
+
+  let vote_average_vector = data.episodes.map(
+    ({ vote_average }) => vote_average
+  );
+  let soma = vote_average_vector.reduce((a, b) => a + b, 0);
+
+  let media = soma / vote_average_vector.length;
+
+  return {
+    ...data,
+    air_date: newDate,
+    poster_path: `${BASE_IMAGE_URL}w500${data.poster_path}`,
+    poster_path_small: `${BASE_IMAGE_URL}w92${data.poster_path}`,
+    videos: {
+      results: trailers,
+    },
+    credits: {
+      crew: crewFilter,
+      cast: data.credits.cast,
+    },
+    episodes: episodes,
     vote_average: media,
   };
 }

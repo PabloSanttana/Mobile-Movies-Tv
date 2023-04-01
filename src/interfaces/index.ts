@@ -32,6 +32,7 @@ export type MovieProps = {
   vote_average: number;
   vote_count: number;
   media_type: "tv" | "movie";
+  season_number?: number;
 };
 
 export type TvProps = {
@@ -299,4 +300,45 @@ export type ResponseHttpCollectionProps = {
   poster_path: string;
   backdrop_path: string;
   parts: MovieProps[];
+};
+
+export type episodeProps = {
+  air_date: string;
+  episode_number: number;
+  id: number;
+  name: string;
+  overview: string;
+  production_code: string;
+  runtime: number;
+  season_number: number;
+  show_id: number;
+  still_path: string;
+  vote_average: number;
+  vote_count: number;
+};
+
+export type ResponseDetailSeasonPropsBase = {
+  id: number;
+  name: string;
+  overview: string;
+  air_date: string;
+  poster_path: string;
+  poster_path_small: string;
+  season_number: number;
+  videos: {
+    results: VideoProps[];
+  };
+  credits: {
+    crew: crewProps[];
+    cast: crewProps[];
+  };
+};
+
+export type ResponseHttpDetailSeasonProps = ResponseDetailSeasonPropsBase & {
+  episodes: episodeProps[];
+};
+
+export type ResponseDetailSeasonProps = ResponseDetailSeasonPropsBase & {
+  episodes: CardProps[];
+  vote_average: number;
 };
