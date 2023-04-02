@@ -142,6 +142,8 @@ export default function Search() {
         data={item}
         dictionary={genres}
         onPress={() => handleDetail(item.id, item.media_type)}
+        sizeStar={deviceType === "tablet" ? 8 : 15}
+        sizeText={deviceType === "tablet" ? 8 : 15}
       />
     ),
     [deviceType, genres]
@@ -164,7 +166,7 @@ export default function Search() {
     <Container>
       <StatusBar />
 
-      <Header title="Search" />
+      <Header deviceType={deviceType} title="Search" />
       <Animated.View
         style={{
           width,
@@ -176,6 +178,7 @@ export default function Search() {
           value={search}
           setValue={setSearch}
           onPress={() => handleSearch()}
+          deviceType={deviceType}
         />
         {isLoading ? (
           <LoadItem />
@@ -186,6 +189,7 @@ export default function Search() {
             renderItem={({ item }) => renderItem(item)}
             onScroll={(e) => handleToggleHeader(e.nativeEvent.contentOffset.y)}
             bounces={false}
+            numColumns={deviceType === "tablet" ? 2 : 1}
             contentContainerStyle={{
               paddingBottom: scale(170),
             }}

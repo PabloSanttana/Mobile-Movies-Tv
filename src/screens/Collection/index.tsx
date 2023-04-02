@@ -13,13 +13,11 @@ import {
   DivRow,
   ContainerTitle,
   Content,
-  Tagline,
   SubTitle,
   TitleH6,
   TextSmall,
-  ButtonTrailer,
-  ButtonTrailerText,
-} from "./styles";
+  BackgroundContainer,
+} from "@src/screens/Detail/styles";
 
 import { useTheme } from "styled-components";
 import StarRating from "@src/components/StarRating";
@@ -64,7 +62,7 @@ export function Collection() {
     "Task orphaned for request <NSMutableURLRequest",
   ]);
   const navigation = useNavigation();
-  const { language, region, adult, deviceType } = useSettings();
+  const { language, region, adult, deviceType, orientation } = useSettings();
   const router = useRoute() as ParamsProps;
   const { id, context } = router.params;
   const theme = useTheme();
@@ -119,15 +117,17 @@ export function Collection() {
 
   const renderItem = useCallback(
     (item: CardProps) => (
-      <CardGeneric
-        key={item.id}
-        deviceType={deviceType}
-        data={item}
-        isOverview
-        onPress={() =>
-          handleDetail(item.id, item.media_type, item.season_number)
-        }
-      />
+      <View key={item.id} style={{ marginHorizontal: 10 }}>
+        <CardGeneric
+          key={item.id}
+          deviceType={deviceType}
+          data={item}
+          isOverview
+          onPress={() =>
+            handleDetail(item.id, item.media_type, item.season_number)
+          }
+        />
+      </View>
     ),
     [deviceType]
   );
@@ -138,57 +138,78 @@ export function Collection() {
     ? `Números de Temporadas: ${data.parts.length}`
     : `Números de Filmes: ${data.parts.length}`;
 
+  const isTablet = deviceType === "tablet";
   return (
     <Container showsVerticalScrollIndicator={false} bounces={false}>
-      <BackgroundImage
-        source={{
-          uri: data.backdrop_path_small,
-        }}
-      >
+      <BackgroundContainer deviceType={deviceType} orientation={orientation}>
         <BackgroundImage
           source={{
-            uri: data.backdrop_path,
+            uri: data.backdrop_path_small,
           }}
         >
-          <HeaderDetail
-            onPressLeft={() => navigation.goBack()}
-            //@ts-ignore
-            onPressRight={() => navigation.navigate("Home")}
-          />
-          <Gradient
-            colors={[
-              "transparent",
-              "transparent",
-              theme.colors.backgroundPrimary,
-            ]}
+          <BackgroundImage
+            source={{
+              uri: data.backdrop_path,
+            }}
           >
-            <View style={{ marginBottom: scale(45) }}>
-              <Image
-                source={{ uri: data.poster_path }}
-                deviceType="phone"
-                doubleSize={false}
-              />
-            </View>
+            <HeaderDetail
+              deviceType={deviceType}
+              onPressLeft={() => navigation.goBack()}
+              //@ts-ignore
+              onPressRight={() => navigation.navigate("Home")}
+            />
+            <Gradient
+              colors={[
+                "transparent",
+                "transparent",
+                theme.colors.backgroundPrimary,
+              ]}
+            >
+              <View
+                style={{
+                  marginBottom:
+                    orientation === 1
+                      ? isTablet
+                        ? scale(30)
+                        : scale(60)
+                      : isTablet
+                      ? scale(30)
+                      : scale(2),
 
-            <ContainerTitle>
-              <Title deviceType="phone">{data.name}</Title>
-            </ContainerTitle>
-            <DivRow style={{ marginBottom: 10, flexWrap: "wrap" }}>
-              <Text deviceType="phone">{data.genresStr}</Text>
-            </DivRow>
-          </Gradient>
+                  marginLeft: orientation !== 1 && !isTablet ? "5%" : 0,
+                }}
+              >
+                <Image
+                  source={{ uri: data.poster_path }}
+                  deviceType={deviceType}
+                  doubleSize={false}
+                />
+              </View>
+
+              <ContainerTitle>
+                <Title deviceType={deviceType}>{data.name}</Title>
+              </ContainerTitle>
+              <DivRow style={{ marginBottom: 10, flexWrap: "wrap" }}>
+                <Text deviceType={deviceType}>{data.genresStr}</Text>
+              </DivRow>
+            </Gradient>
+          </BackgroundImage>
         </BackgroundImage>
-      </BackgroundImage>
+      </BackgroundContainer>
       <Content>
         <DivRow style={{ marginVertical: 10 }}>
-          <StarRating value={data.vote_average} />
-          <Text deviceType="phone"> (Avaliação dos usuários)</Text>
+          <StarRating
+            sizeStar={deviceType === "tablet" ? 12 : 15}
+            sizeText={deviceType === "tablet" ? 12 : 15}
+            value={data.vote_average}
+          />
+          <Text deviceType={deviceType}> (Avaliação dos usuários)</Text>
         </DivRow>
       </Content>
       <Content>
         <View style={{ marginBottom: 20 }}>
-          <SubTitle deviceType="phone">Sinopse</SubTitle>
-          <Text deviceType="phone">{data.overview}</Text>
+          <SubTitle deviceType={deviceType}>Sinopse</SubTitle>
+          <Text deviceType={deviceType}>{data.overview}</Text>
         </View>
         <View
           style={{

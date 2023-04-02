@@ -8,13 +8,15 @@ type StarNameProps = "star-o" | "star" | "star-half-o";
 
 type StarRatingProps = {
   value: number;
+  sizeStar?: number;
+  sizeText?: number;
 };
 type ListProps = {
   id: number;
   name: StarNameProps;
 };
 
-function StarRating({ value }: StarRatingProps) {
+function StarRating({ value, sizeText = 15, sizeStar = 15 }: StarRatingProps) {
   const list: ListProps[] = Array.from({ length: 5 }, (_, i) => ({
     id: i + 1,
     name: i < Math.floor(Math.round(value) / 2) ? "star" : "star-o",
@@ -27,9 +29,13 @@ function StarRating({ value }: StarRatingProps) {
   return (
     <Container>
       {list.map((item) => (
-        <IconFontAwesome key={item.id} name={item.name} size={scale(15)} />
+        <IconFontAwesome
+          key={item.id}
+          name={item.name}
+          size={scale(sizeStar)}
+        />
       ))}
-      <Text>{value.toFixed(1)}</Text>
+      <Text size={sizeText}>{value.toFixed(1)}</Text>
     </Container>
   );
 }

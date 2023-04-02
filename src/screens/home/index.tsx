@@ -6,13 +6,13 @@ import { StatusBar } from "expo-status-bar";
 
 import { useSettings } from "@src/hooks/settings";
 import { CardProps, UrlsIsValidProps } from "@src/interfaces";
-import ListCardMovieHorizontal from "@src/components/ListCardTvHorizontal/ListCardMovieHorizontal";
-import ListCardTvHorizontal from "@src/components/ListCardTvHorizontal";
+import ListCardHorizontal from "@src/components/ListCardHorizontal";
 import ListCarousel from "@src/components/ListCarousel";
 import { apiFetchMovieAndTv, TypeDetailProps } from "@src/services/services";
 
 import { Container } from "./styles";
 import LoadPage from "@src/components/LoadPage";
+import { scale } from "react-native-size-matters";
 
 export function Home() {
   const navigation = useNavigation();
@@ -149,11 +149,16 @@ export function Home() {
     <Container showsVerticalScrollIndicator={false}>
       <StatusBar translucent style={themeText == "light" ? "dark" : "light"} />
       {listCarousel.length > 0 && (
-        <ListCarousel data={listCarousel} onPress={handleDetail} />
+        <ListCarousel
+          deviceType={deviceType}
+          data={listCarousel}
+          onPress={handleDetail}
+        />
       )}
-      <ListCardMovieHorizontal
+      <ListCardHorizontal
         movies={nowPlaying}
         deviceType={deviceType}
+        doubleSize={false}
         title="Filmes laçamentos"
         onPressSeeMore={() =>
           handleSeeMore("movie/now_playing", "Filmes Laçamentos")
@@ -161,9 +166,10 @@ export function Home() {
         onPressDetail={(item) => handleDetail(item, "movie")}
         marginHorizontal={theme.space.marginHorizontal}
       />
-      <ListCardMovieHorizontal
+      <ListCardHorizontal
         movies={trendingMovie}
         deviceType={deviceType}
+        doubleSize={false}
         title="Tendências filmes"
         marginHorizontal={theme.space.marginHorizontal}
         onPressSeeMore={() =>
@@ -171,35 +177,39 @@ export function Home() {
         }
         onPressDetail={(id) => handleDetail(id, "movie")}
       />
-      <ListCardTvHorizontal
+      <ListCardHorizontal
         movies={trendingTv}
         deviceType={deviceType}
         title="Tendências séries"
+        doubleSize={true}
         marginHorizontal={theme.space.marginHorizontal}
         onPressSeeMore={() =>
           handleSeeMore("trending/tv/day", "Tendências séries")
         }
         onPressDetail={(id) => handleDetail(id, "tv")}
       />
-      <ListCardTvHorizontal
+      <ListCardHorizontal
         movies={popularTv}
+        doubleSize={true}
         deviceType={deviceType}
         title="Popular tv series"
         marginHorizontal={theme.space.marginHorizontal}
         onPressSeeMore={() => handleSeeMore("tv/popular", "Popular tv series")}
         onPressDetail={(id) => handleDetail(id, "tv")}
       />
-      <ListCardMovieHorizontal
+      <ListCardHorizontal
         movies={popularMovie}
         deviceType={deviceType}
+        doubleSize={false}
         title="Filmes Popular"
         marginHorizontal={theme.space.marginHorizontal}
         onPressSeeMore={() => handleSeeMore("movie/popular", "Filmes Popular")}
         onPressDetail={(id) => handleDetail(id, "movie")}
       />
-      <ListCardMovieHorizontal
+      <ListCardHorizontal
         movies={upcomingMovie}
         deviceType={deviceType}
+        doubleSize={false}
         title="Em breve nos cinemas"
         marginHorizontal={theme.space.marginHorizontal}
         onPressSeeMore={() =>
@@ -208,7 +218,7 @@ export function Home() {
         onPressDetail={(id) => handleDetail(id, "movie")}
       />
 
-      <View style={{ height: 40 }}></View>
+      <View style={{ height: scale(60) }}></View>
     </Container>
   );
 }

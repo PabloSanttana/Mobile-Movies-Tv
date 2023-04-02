@@ -54,7 +54,6 @@ export function Initial() {
       const imagesArray = response?.results.map((item) => item.poster_path);
 
       const index = Math.ceil(Math.random() * (imagesArray.length - 1 - 0) + 0);
-      console.log(index);
       setImage(imagesArray[index]);
     }
   }

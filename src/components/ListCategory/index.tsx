@@ -4,14 +4,21 @@ import ButtonSmall from "@src/components/ButtonSmall";
 
 import { Title, Container } from "./styles";
 import { ObjectGenresProps } from "@src/screens/SeeMore";
+import { DeviceTypeProps } from "@src/interfaces";
 
 type ListCategoryProps = {
   data: ObjectGenresProps;
   genreSelected: string;
   selectGenre: (value: string) => void;
+  deviceType: DeviceTypeProps;
 };
 
-function ListCategory({ data, genreSelected, selectGenre }: ListCategoryProps) {
+function ListCategory({
+  data,
+  genreSelected,
+  selectGenre,
+  deviceType,
+}: ListCategoryProps) {
   const genres = Object.entries(data);
   return (
     <Container
@@ -24,7 +31,7 @@ function ListCategory({ data, genreSelected, selectGenre }: ListCategoryProps) {
         zIndex: 1,
       }}
     >
-      <Title>Categorias</Title>
+      <Title deviceType={deviceType}>Categorias</Title>
       <FlatList
         data={genres}
         keyExtractor={(item) => String(item[0])}
@@ -33,6 +40,7 @@ function ListCategory({ data, genreSelected, selectGenre }: ListCategoryProps) {
             data={item}
             isActive={item[0] === genreSelected}
             onPress={() => selectGenre(item[0])}
+            deviceType={deviceType}
           />
         )}
         horizontal

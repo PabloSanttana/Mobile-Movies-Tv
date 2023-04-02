@@ -5,6 +5,7 @@ import {
   StatusBar,
   Dimensions,
   FlatList,
+  View,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
@@ -169,6 +170,8 @@ export default function SeeMore() {
         data={item}
         dictionary={genres}
         onPress={() => handleDetail(item.id, item.media_type)}
+        sizeStar={deviceType === "tablet" ? 8 : 15}
+        sizeText={deviceType === "tablet" ? 8 : 15}
       />
     ),
     [deviceType, genres]
@@ -182,16 +185,17 @@ export default function SeeMore() {
     <Container>
       <StatusBar />
 
-      <Header title={router.title} />
+      <Header deviceType={deviceType} title={router.title} />
       <Animated.View
         style={{
-          width,
+          width: "100%",
           height: height + 40,
           transform: [{ translateY: toggleHeader }],
         }}
       >
         {genres && (
           <ListCategory
+            deviceType={deviceType}
             data={genres}
             genreSelected={genreSelected}
             selectGenre={handleSelectGenre}
@@ -206,8 +210,10 @@ export default function SeeMore() {
             renderItem={({ item }) => renderItem(item)}
             onScroll={(e) => handleToggleHeader(e.nativeEvent.contentOffset.y)}
             bounces={false}
+            numColumns={deviceType === "tablet" ? 2 : 1}
             contentContainerStyle={{
               paddingBottom: scale(60),
+              paddingHorizontal: 10,
             }}
             ListFooterComponent={
               isLoadingMore ? (

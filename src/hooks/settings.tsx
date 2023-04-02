@@ -1,12 +1,11 @@
 import React, {
   useEffect,
   useState,
-  useRef,
   createContext,
   useContext,
   useCallback,
 } from "react";
-
+import * as ScreenOrientation from "expo-screen-orientation";
 import { Platform } from "react-native";
 import { ThemeProvider } from "styled-components";
 import { DeviceType, getDeviceTypeAsync } from "expo-device";
@@ -22,11 +21,7 @@ import {
   LanguageProps,
   RegionProps,
 } from "@src/interfaces";
-import {
-  saveDataToStorage,
-  getData,
-  setDataProps,
-} from "@src/services/storage";
+import { saveDataToStorage, getData } from "@src/services/storage";
 import LoadPage from "@src/components/LoadPage";
 
 interface SettingsContextData {
@@ -44,6 +39,7 @@ interface SettingsContextData {
   changeLanguage: (value: LanguageProps) => void;
   changeRegion: (value: RegionProps) => void;
   changeAdult: (value: boolean) => void;
+  orientation: number;
 }
 
 interface SettingsContextProvider {
@@ -63,6 +59,7 @@ function SettingsProvider({ children }: SettingsContextProvider) {
   const [region, setRegion] = useState<RegionProps>("US");
   const [adult, setAdult] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [orientation, setOrientation] = useState<number>(0);
 
   const getDeviceType = useCallback(async () => {
     const deviceTypeMap = {
@@ -83,8 +80,31 @@ function SettingsProvider({ children }: SettingsContextProvider) {
   }, []);
 
   useEffect(() => {
+    changeAutomaticRotate();
     getDeviceType();
     getSettingStorage();
+    getOrientationAsync();
+
+    const subscription = ScreenOrientation.addOrientationChangeListener(
+      (evt) => {
+        console.log(evt.orientationInfo.orientation);
+        setOrientation(evt.orientationInfo.orientation);
+      }
+    );
+    // return a clean up function to unsubscribe from notifications
+    return () => {
+      ScreenOrientation.removeOrientationChangeListener(subscription);
+    };
+  }, []);
+
+  const changeAutomaticRotate = useCallback(async () => {
+    await ScreenOrientation.unlockAsync();
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.OTHER);
+  }, []);
+
+  const getOrientationAsync = useCallback(async () => {
+    const response = await ScreenOrientation.getOrientationAsync();
+    setOrientation(response);
   }, []);
 
   useEffect(() => {
@@ -110,7 +130,6 @@ function SettingsProvider({ children }: SettingsContextProvider) {
       setLanguage(response.language);
       setRegion(response.region);
       setAdult(response.adult);
-      console.log(response);
     } catch (error) {
       // Handle error here
     } finally {
@@ -193,6 +212,7 @@ function SettingsProvider({ children }: SettingsContextProvider) {
         language,
         region,
         changeAdult,
+        orientation,
       }}
     >
       <ThemeProvider theme={() => selectedTheme(theme)}>

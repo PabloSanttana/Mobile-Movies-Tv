@@ -4,20 +4,27 @@ import { FlatList } from "react-native";
 type ListCardCastHorizontalProps = {
   data: crewProps[];
   title: string;
+  deviceType: DeviceTypeProps;
 };
 
 import CardCast from "@src/components/CardCast";
-import { crewProps } from "@src/interfaces";
+import { crewProps, DeviceTypeProps } from "@src/interfaces";
 import { Container, Title } from "./styles";
 
-function ListCardCastHorizontal({ data, title }: ListCardCastHorizontalProps) {
+function ListCardCastHorizontal({
+  data,
+  title,
+  deviceType,
+}: ListCardCastHorizontalProps) {
   return (
     <Container>
-      <Title deviceType="phone">{title}</Title>
+      <Title deviceType={deviceType}>{title}</Title>
       <FlatList
         data={data}
         keyExtractor={(item) => String(item.credit_id)}
-        renderItem={({ item }) => <CardCast data={item} />}
+        renderItem={({ item }) => (
+          <CardCast data={item} deviceType={deviceType} />
+        )}
         horizontal
         contentContainerStyle={{ paddingLeft: 20 }}
         maxToRenderPerBatch={10}

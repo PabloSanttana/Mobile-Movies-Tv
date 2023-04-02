@@ -25,6 +25,8 @@ type CardGenericProps = TouchableOpacityProps & {
   deviceType: DeviceTypeProps;
   dictionary?: ObjectGenresProps;
   isOverview?: boolean;
+  sizeStar?: number;
+  sizeText?: number;
 };
 
 function CardGeneric({
@@ -32,6 +34,8 @@ function CardGeneric({
   deviceType,
   dictionary,
   isOverview = false,
+  sizeStar = 15,
+  sizeText = 15,
   ...rest
 }: CardGenericProps) {
   var genre: string[] = [];
@@ -40,8 +44,8 @@ function CardGeneric({
   }
 
   return (
-    <Container>
-      <Button {...rest}>
+    <Container deviceType={deviceType}>
+      <Button activeOpacity={0.7} {...rest}>
         <Image
           defaultSource={Logo}
           deviceType={deviceType}
@@ -50,8 +54,10 @@ function CardGeneric({
         />
       </Button>
       <Content>
-        <Button {...rest}>
-          <Title deviceType={deviceType}>{data.title}</Title>
+        <Button activeOpacity={0.7} {...rest}>
+          <Title numberOfLines={2} deviceType={deviceType}>
+            {data.title}
+          </Title>
         </Button>
         {isOverview ? (
           <>
@@ -61,21 +67,29 @@ function CardGeneric({
             >
               {data.release_date}
             </SubTitle>
-            <Text numberOfLines={2}>Resumo:</Text>
-            <Overview style={{}} numberOfLines={5}>
+            <Text deviceType={deviceType} numberOfLines={1}>
+              Resumo:
+            </Text>
+            <Overview deviceType={deviceType} numberOfLines={4}>
               {data.overview}
             </Overview>
           </>
         ) : (
           <>
-            <StarRating value={data.vote_average} />
-
+            <StarRating
+              sizeStar={sizeStar}
+              sizeText={sizeText}
+              value={data.vote_average}
+            />
+            <SubTitle deviceType={deviceType}>Gênero:</SubTitle>
             <ContainerGenre>
-              <Text numberOfLines={2}>{genre.join(", ")}</Text>
+              <Text deviceType={deviceType} numberOfLines={2}>
+                {genre.join(", ")}
+              </Text>
             </ContainerGenre>
-            <Span>{data.release_date}</Span>
-            <ContentLabel>
-              <Label>{data.media_type}</Label>
+            <Span deviceType={deviceType}>{data.release_date}</Span>
+            <ContentLabel deviceType={deviceType}>
+              <Label deviceType={deviceType}>{data.media_type}</Label>
             </ContentLabel>
           </>
         )}
@@ -89,8 +103,9 @@ function arePropsEqual(
   nextProps: CardGenericProps
 ) {
   if (
-    prevProps.data.id === nextProps.data.id ||
-    nextProps.dictionary === prevProps.dictionary
+    prevProps.data.id === nextProps.data.id &&
+    nextProps.dictionary === prevProps.dictionary &&
+    nextProps.deviceType === prevProps.deviceType
   ) {
     return true;
   }

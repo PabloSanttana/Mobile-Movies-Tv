@@ -24,7 +24,12 @@ function SectionCollection({
 }: SectionCollectionProps) {
   return (
     <>
-      <HeaderList title={data.name} isMore={false} onPress={() => {}} />
+      <HeaderList
+        title={data.name}
+        deviceType={deviceType}
+        isMore={false}
+        onPress={() => {}}
+      />
       <BackgroundImageCollection
         deviceType={deviceType}
         source={{ uri: data?.backdrop_path_small }}

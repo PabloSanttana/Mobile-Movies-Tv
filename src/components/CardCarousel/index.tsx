@@ -1,14 +1,15 @@
 import React from "react";
 import { TouchableOpacityProps } from "react-native";
-import { CardProps } from "@src/interfaces";
+import { CardProps, DeviceTypeProps } from "@src/interfaces";
 import { Container, Card, CardWrapper, ContentLabel, Label } from "./styles";
 import { Logo } from "@src/assets/logo.png";
 
 type CardCarouselProps = TouchableOpacityProps & {
   movie: CardProps;
+  deviceType: DeviceTypeProps;
 };
 
-function CardCarousel({ movie, ...rest }: CardCarouselProps) {
+function CardCarousel({ movie, deviceType, ...rest }: CardCarouselProps) {
   return (
     <Container key={movie.id}>
       <CardWrapper {...rest}>
@@ -20,7 +21,7 @@ function CardCarousel({ movie, ...rest }: CardCarouselProps) {
           resizeMode="cover"
         />
         <ContentLabel>
-          <Label>{movie.title}</Label>
+          <Label deviceType={deviceType}>{movie.title}</Label>
         </ContentLabel>
       </CardWrapper>
     </Container>

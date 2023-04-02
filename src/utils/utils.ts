@@ -13,6 +13,7 @@ import {
   GenreProps,
   ResponseDetailSeasonProps,
   ResponseHttpDetailSeasonProps,
+  DeviceTypeProps,
 } from "@src/interfaces";
 import { CardProps } from "@src/interfaces";
 
@@ -68,6 +69,19 @@ export function convertScale(value: number): string {
 export const progressColor = (value: number): string => {
   return value >= 7 ? "#21d07a" : value >= 4 ? "#d2d531" : "#db2360";
 };
+
+export function sizeDeviceTypeScale(
+  type: DeviceTypeProps,
+  lengthTablet: number,
+  lengthIphone: number
+): string {
+  if (type === "tablet") {
+    return convertScale(lengthTablet);
+  } else if (type === "phone") {
+    return convertScale(lengthIphone);
+  }
+  return "40px";
+}
 
 export const formatData = (
   data: string,

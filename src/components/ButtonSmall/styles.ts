@@ -1,9 +1,11 @@
 import styled from "styled-components/native";
-import { convertScale } from "@src/utils/utils";
+import { convertScale, sizeDeviceTypeScale } from "@src/utils/utils";
+import { DeviceTypeProps } from "@src/interfaces";
 //Category
 
 type selected = {
   active?: boolean;
+  deviceType: DeviceTypeProps;
 };
 
 export const CategoryButton = styled.TouchableOpacity<selected>`
@@ -23,7 +25,8 @@ export const CategoryButton = styled.TouchableOpacity<selected>`
 export const CategoryTitle = styled.Text<selected>`
   text-align: center;
   font-family: ${(props) => props.theme.fonts.subtitle};
-  font-size: ${(props) => convertScale(props.theme.size.average)};
+  font-size: ${(props) =>
+    sizeDeviceTypeScale(props.deviceType, 8, props.theme.size.average)};
   color: ${(props) =>
     props.active
       ? props.theme.colors.textCategory

@@ -3,25 +3,10 @@ import { convertScale } from "@src/utils/utils";
 import { DeviceTypeProps } from "@src/interfaces";
 import { scale } from "react-native-size-matters";
 
-export const Container = styled.View<DeviceType>`
-  margin-right: 20px;
-  width: ${(props) =>
-    props.deviceType === "tablet"
-      ? convertScale(100)
-      : createLength(140, props.doubleSize)};
-  margin-top: 5px;
-`;
-export const ContainerButton = styled.TouchableOpacity``;
-
 type DeviceType = {
   deviceType: DeviceTypeProps;
   doubleSize: boolean;
 };
-
-export const ContainerImage = styled.View`
-  position: relative;
-  border-radius: ${convertScale(5)};
-`;
 
 function createLength(lengthDefault: number, doubleSize: boolean): string {
   if (doubleSize) {
@@ -31,10 +16,25 @@ function createLength(lengthDefault: number, doubleSize: boolean): string {
   }
 }
 
+export const Container = styled.View<DeviceType>`
+  margin-right: 20px;
+  width: ${(props) =>
+    props.deviceType === "tablet"
+      ? createLength(100, props.doubleSize)
+      : createLength(140, props.doubleSize)};
+  margin-top: 5px;
+`;
+export const ContainerButton = styled.TouchableOpacity``;
+
+export const ContainerImage = styled.View`
+  position: relative;
+  border-radius: ${convertScale(5)};
+`;
+
 export const Image = styled.Image<DeviceType>`
   width: ${(props) =>
     props.deviceType === "tablet"
-      ? convertScale(100)
+      ? createLength(100, props.doubleSize)
       : createLength(140, props.doubleSize)};
   height: ${(props) =>
     props.deviceType === "tablet" ? convertScale(150) : convertScale(210)};

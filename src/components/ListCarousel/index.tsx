@@ -2,26 +2,32 @@ import React, { useCallback } from "react";
 import CardCarousel from "@src/components/CardCarousel";
 //@ts-ignore
 import Carousel, { PaginationLight } from "react-native-x-carousel";
-import { CardProps } from "@src/interfaces";
+import { CardProps, DeviceTypeProps } from "@src/interfaces";
 import { Title, Container } from "./styled";
 import { TypeDetailProps } from "@src/services/services";
 
 type ListCarouselProps = {
   data: CardProps[];
   onPress?: (id: number, type: TypeDetailProps) => void;
+  deviceType: DeviceTypeProps;
 };
 
-function ListCarousel({ data, onPress = () => {} }: ListCarouselProps) {
+function ListCarousel({
+  data,
+  onPress = () => {},
+  deviceType,
+}: ListCarouselProps) {
   const renderItem = useCallback(
     (item: CardProps) => (
       <CardCarousel
+        deviceType={deviceType}
         key={item.id}
         movie={item}
         onPress={() => onPress(item.id, item.media_type)}
         activeOpacity={0.7}
       />
     ),
-    []
+    [deviceType]
   );
 
   return (

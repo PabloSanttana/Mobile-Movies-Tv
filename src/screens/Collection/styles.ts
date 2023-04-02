@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { convertScale } from "@src/utils/utils";
+import { convertScale, sizeDeviceTypeScale } from "@src/utils/utils";
 import { DeviceTypeProps } from "@src/interfaces";
 
 type DeviceType = {

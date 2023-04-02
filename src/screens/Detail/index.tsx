@@ -9,6 +9,7 @@ import { WebView } from "react-native-webview";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
+  DeviceTypeProps,
   ResponseFormattedDetailMovieProps,
   UrlsIsValidProps,
 } from "@src/interfaces";
@@ -31,6 +32,7 @@ import {
   TextSmall,
   ButtonTrailer,
   ButtonTrailerText,
+  BackgroundContainer,
 } from "./styles";
 
 import { useTheme } from "styled-components";
@@ -40,7 +42,7 @@ import { apiFetchDetail, TypeDetailProps } from "@src/services/services";
 import ListCardCastHorizontal from "@src/components/ListCardCastHorizontal";
 import { scale } from "react-native-size-matters";
 import HeaderList from "@src/components/HeaderList";
-import ListCardMovieHorizontal from "@src/components/ListCardTvHorizontal/ListCardMovieHorizontal";
+import ListCardHorizontal from "@src/components/ListCardHorizontal";
 import { useSettings } from "@src/hooks/settings";
 
 import SectionCollection from "@src/components/SectionCollection";
@@ -60,22 +62,24 @@ type ParamsProps = {
 type GroupTitleDescriptionProps = {
   title: string;
   description: string;
+  deviceType: DeviceTypeProps;
 };
 
 const GroupTitleDescription = ({
   title,
   description,
+  deviceType,
 }: GroupTitleDescriptionProps) => {
   return (
     <View>
-      <TitleH6 deviceType="phone">{title}</TitleH6>
-      <TextSmall deviceType="phone">{description}</TextSmall>
+      <TitleH6 deviceType={deviceType}>{title}</TitleH6>
+      <TextSmall deviceType={deviceType}>{description}</TextSmall>
     </View>
   );
 };
 
 var indexNextTrailer = 1;
-const { width } = Dimensions.get("screen");
+const { width, height } = Dimensions.get("screen");
 export function Detail() {
   LogBox.ignoreLogs([
     "Did not receive response to shouldStartLoad in time, defaulting to YES",
@@ -83,8 +87,15 @@ export function Detail() {
     "Task orphaned for request <NSMutableURLRequest",
   ]);
   const navigation = useNavigation();
-  const { deviceType, favoritesIds, changeFavorite, language, region, adult } =
-    useSettings();
+  const {
+    deviceType,
+    favoritesIds,
+    changeFavorite,
+    language,
+    region,
+    adult,
+    orientation,
+  } = useSettings();
   const router = useRoute() as ParamsProps;
   const { id, type } = router.params;
   const webViewRef = useRef<WebView[]>([]);
@@ -93,7 +104,7 @@ export function Detail() {
   const theme = useTheme();
 
   const [data, setData] = useState<ResponseFormattedDetailMovieProps | null>();
-  console.log(id);
+
   useEffect(() => {
     fetchDetail();
     return () => {
@@ -117,6 +128,7 @@ export function Detail() {
   }
 
   function play() {
+    console.log("oi");
     const run = `setTimeout(() => {
       document.querySelector(".ytp-play-button").click();
       true
@@ -195,162 +207,223 @@ export function Detail() {
 
   if (!data) return <LoadPage />;
 
+  const trailerWidth =
+    orientation === 1
+      ? deviceType === "tablet"
+        ? width
+        : width
+      : deviceType === "tablet"
+      ? height
+      : width;
+  // const trailerHeight = orientation === 1 ? width * 0.56 : height * 0.56;
+
   return (
     <Container showsVerticalScrollIndicator={false} bounces={false}>
-      <BackgroundImage
-        source={{
-          uri: data.poster_path_small,
-        }}
-      >
+      <BackgroundContainer deviceType={deviceType} orientation={orientation}>
         <BackgroundImage
           source={{
-            uri: data.poster_path,
+            uri: data.poster_path_small,
           }}
+          blurRadius={1}
         >
-          <HeaderDetail
-            onPressLeft={() => navigation.goBack()}
-            //@ts-ignore
-            onPressRight={() => navigation.navigate("Home")}
-          />
-          <Gradient
-            colors={[
-              "transparent",
-              "transparent",
-              theme.colors.backgroundPrimary,
-            ]}
+          <BackgroundImage
+            source={{
+              uri: data.poster_path,
+            }}
+            resizeMode="contain"
           >
-            {heartAnimation && <FavoriteAnimation />}
-            {data.videos.results.length > 0 && (
-              <ButtonTrailer onPress={play}>
-                <FontAwesome
-                  name="youtube-play"
-                  size={scale(50)}
-                  color={theme.colors.red}
-                />
-                <ButtonTrailerText>Trailer</ButtonTrailerText>
-              </ButtonTrailer>
-            )}
+            <HeaderDetail
+              deviceType={deviceType}
+              onPressLeft={() => navigation.goBack()}
+              //@ts-ignore
+              onPressRight={() => navigation.navigate("Home")}
+            />
+            <Gradient
+              colors={[
+                "transparent",
+                "transparent",
+                theme.colors.backgroundPrimary,
+              ]}
+            >
+              {heartAnimation && <FavoriteAnimation />}
+              {data.videos.results.length > 0 && (
+                <ButtonTrailer onPress={() => play()}>
+                  <FontAwesome
+                    name="youtube-play"
+                    size={deviceType === "tablet" ? scale(35) : scale(50)}
+                    color={theme.colors.red}
+                  />
+                  <ButtonTrailerText deviceType={deviceType}>
+                    Trailer
+                  </ButtonTrailerText>
+                </ButtonTrailer>
+              )}
 
-            <ContainerTitle>
-              <Title deviceType="phone">{data.title}</Title>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => toggleFavorite(data)}
-              >
+              <ContainerTitle>
+                <Title deviceType={deviceType}>{data.title}</Title>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => toggleFavorite(data)}
+                >
+                  <Fontisto
+                    name="favorite"
+                    size={deviceType === "tablet" ? scale(18) : scale(24)}
+                    color={
+                      favoritesIds.includes(id) ? theme.colors.red : "gray"
+                    }
+                    style={{ transform: [{ translateY: 6 }] }}
+                  />
+                </TouchableOpacity>
+              </ContainerTitle>
+              <DivRow style={{ marginBottom: scale(10), flexWrap: "wrap" }}>
+                <Text deviceType={deviceType}>{data.release_date}</Text>
+                <Text
+                  deviceType={deviceType}
+                  style={{ marginHorizontal: scale(10) }}
+                >
+                  •
+                </Text>
                 <Fontisto
-                  name="favorite"
-                  size={24}
-                  color={favoritesIds.includes(id) ? theme.colors.red : "gray"}
-                  style={{ transform: [{ translateY: 6 }] }}
+                  name="clock"
+                  size={deviceType === "tablet" ? scale(10) : scale(13)}
+                  color={theme.colors.textPrimary}
+                  style={{ marginBottom: 7 }}
                 />
-              </TouchableOpacity>
-            </ContainerTitle>
-            <DivRow style={{ marginBottom: 10, flexWrap: "wrap" }}>
-              <Text deviceType="phone">{data.release_date}</Text>
-              <Text deviceType="phone" style={{ marginHorizontal: 10 }}>
-                •
-              </Text>
-              <Fontisto
-                name="clock"
-                size={20}
-                color={theme.colors.textPrimary}
-                style={{ marginBottom: 7 }}
-              />
-              <Text deviceType="phone" style={{ marginHorizontal: 5 }}>
-                {data.runtimeStr}
-              </Text>
-              <Text deviceType="phone">• {data.genresStr}</Text>
-            </DivRow>
-          </Gradient>
+                <Text
+                  deviceType={deviceType}
+                  style={{ marginHorizontal: scale(5) }}
+                >
+                  {data.runtimeStr}
+                </Text>
+                <Text deviceType={deviceType}>• {data.genresStr}</Text>
+              </DivRow>
+            </Gradient>
+          </BackgroundImage>
         </BackgroundImage>
-      </BackgroundImage>
+      </BackgroundContainer>
       <Content>
         <DivRow style={{ marginVertical: 10 }}>
-          <StarRating value={data.vote_average} />
-          <Text deviceType="phone"> (Avaliação dos usuários)</Text>
+          <StarRating
+            sizeStar={deviceType === "tablet" ? 12 : 15}
+            sizeText={deviceType === "tablet" ? 12 : 15}
+            value={data.vote_average}
+          />
+          <Text deviceType={deviceType}> (Avaliação dos usuários)</Text>
         </DivRow>
       </Content>
       <Content>
         {data.tagline.length > 0 && (
-          <Tagline deviceType="phone"> {data.tagline}</Tagline>
+          <Tagline deviceType={deviceType}> {data.tagline}</Tagline>
         )}
-        <View style={{ marginBottom: 20 }}>
-          <SubTitle deviceType="phone">Sinopse</SubTitle>
-          <Text deviceType="phone">{data.overview}</Text>
+        <View style={{ marginBottom: scale(17) }}>
+          <SubTitle deviceType={deviceType}>Sinopse</SubTitle>
+          <Text deviceType={deviceType}>{data.overview}</Text>
         </View>
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            marginBottom: 20,
+            marginBottom: scale(17),
           }}
         >
           <GroupTitleDescription
             title="Título original"
             description={data.original_title}
+            deviceType={deviceType}
           />
           <GroupTitleDescription
             title="Idioma original"
             description={data.original_language}
+            deviceType={deviceType}
           />
         </View>
 
-        <SubTitle deviceType="phone">Informações</SubTitle>
+        <SubTitle deviceType={deviceType}>Informações</SubTitle>
         <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            marginBottom: 20,
+            marginBottom: scale(17),
           }}
         >
-          <GroupTitleDescription title="Situação" description={data.status} />
+          <GroupTitleDescription
+            title="Situação"
+            description={data.status}
+            deviceType={deviceType}
+          />
           <GroupTitleDescription
             title="Orcamento"
             description={new Intl.NumberFormat("de-DE").format(data.budget)}
+            deviceType={deviceType}
           />
           <GroupTitleDescription
             title="Receita"
             description={new Intl.NumberFormat("de-DE").format(data.revenue)}
+            deviceType={deviceType}
           />
         </View>
       </Content>
 
-      <ListCardCastHorizontal data={data.credits.cast} title="Elenco" />
-      <ListCardCastHorizontal data={data.credits.crew} title="Produção" />
+      <ListCardCastHorizontal
+        deviceType={deviceType}
+        data={data.credits.cast}
+        title="Elenco"
+      />
+      <ListCardCastHorizontal
+        deviceType={deviceType}
+        data={data.credits.crew}
+        title="Produção"
+      />
 
-      <HeaderList
-        title="Trailers"
-        isMore={data.videos.results.length > 1}
-        onPress={() => nextTrailer(data.videos.results.length)}
-      />
-      <FlatList
-        ref={flatListRef}
-        style={{ height: width * 0.56, flex: 1 }}
-        data={data.videos.results}
-        horizontal
-        keyExtractor={(item) => item.key}
-        renderItem={({ item, index }) => (
-          <WebView
-            key={item.key}
-            style={{ width: width, height: width * 0.56 }}
-            //@ts-ignore
-            ref={(r) => (webViewRef.current[index] = r)}
-            javaScriptEnabled={true}
-            source={{
-              uri: `https://www.youtube.com/embed/${item.key}?rel=0&autoplay=1&showinfo=0&controls=1`,
-            }}
-            startInLoadingState={true}
-            onShouldStartLoadWithRequest={() => true}
+      {data.videos.results.length > 0 && (
+        <>
+          <HeaderList
+            title="Trailers"
+            isMore={data.videos.results.length > 1}
+            onPress={() => nextTrailer(data.videos.results.length)}
+            deviceType={deviceType}
           />
-        )}
-        contentContainerStyle={{ paddingHorizontal: 20 }}
-        ListEmptyComponent={
-          <SubTitle deviceType="phone">Trailers não encontrados</SubTitle>
-        }
-      />
+          <FlatList
+            ref={flatListRef}
+            style={{
+              height: deviceType === "tablet" ? scale(220) : scale(250),
+              flex: 1,
+            }}
+            data={data.videos.results}
+            horizontal
+            keyExtractor={(item) => item.key}
+            renderItem={({ item, index }) => (
+              <WebView
+                key={item.key}
+                style={{
+                  width: trailerWidth,
+                }}
+                //@ts-ignore
+                ref={(r) => (webViewRef.current[index] = r)}
+                javaScriptEnabled={true}
+                source={{
+                  uri: `https://www.youtube.com/embed/${item.key}?rel=0&autoplay=0&showinfo=0&controls=1`,
+                }}
+                startInLoadingState={true}
+                onShouldStartLoadWithRequest={() => true}
+              />
+            )}
+            contentContainerStyle={{ paddingHorizontal: 20 }}
+            ListEmptyComponent={
+              <SubTitle deviceType={deviceType}>
+                Trailers não encontrados
+              </SubTitle>
+            }
+          />
+        </>
+      )}
 
       {data.seasons && (
-        <SectionSeasons data={data.seasons[0]} onPress={handleSessions} />
+        <SectionSeasons
+          data={data.seasons[0]}
+          deviceType={deviceType}
+          onPress={handleSessions}
+        />
       )}
 
       {data.belongs_to_collection !== null && (
@@ -363,9 +436,10 @@ export function Detail() {
 
       {data.recommendations.results.length > 0 && (
         <>
-          <ListCardMovieHorizontal
+          <ListCardHorizontal
             movies={data.recommendations.results}
             deviceType={deviceType}
+            doubleSize={type === "tv" ? true : false}
             title="Recomendação"
             onPressSeeMore={() =>
               handleSeeMore(`${type}/${id}/recommendations`, "Recomendação")

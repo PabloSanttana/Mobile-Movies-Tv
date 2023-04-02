@@ -1,14 +1,14 @@
 import styled from "styled-components/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { DeviceTypeProps } from "@src/interfaces";
-import { convertScale } from "@src/utils/utils";
+import { convertScale, sizeDeviceTypeScale } from "@src/utils/utils";
 
 type DeviceType = {
   deviceType: DeviceTypeProps;
 };
 
 export const Gradient = styled(LinearGradient)`
-  padding: 0px 20px;
+  padding: ${convertScale(15)};
   align-items: center;
   flex-direction: row;
   flex: 1;
@@ -16,9 +16,7 @@ export const Gradient = styled(LinearGradient)`
 
 export const BackgroundImageCollection = styled.ImageBackground<DeviceType>`
   flex: 1;
-  height: 300px;
-  height: ${(props) =>
-    props.deviceType === "tablet" ? convertScale(150) : convertScale(260)};
+  height: ${(props) => sizeDeviceTypeScale(props.deviceType, 180, 260)};
 `;
 
 export const ButtonCollection = styled.TouchableOpacity`
@@ -30,5 +28,6 @@ export const ButtonCollection = styled.TouchableOpacity`
 `;
 export const ButtonCollectionTitle = styled.Text<DeviceType>`
   font-family: ${(props) => props.theme.fonts.title};
+  font-size: ${(props) => sizeDeviceTypeScale(props.deviceType, 11, 12)};
   color: black;
 `;

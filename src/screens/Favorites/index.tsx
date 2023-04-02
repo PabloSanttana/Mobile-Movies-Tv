@@ -50,7 +50,7 @@ export default function Favorites() {
     count = 0;
     isHeaderHider = false;
     totalPages = Math.ceil(favorites.length / 10);
-    console.log("totalPages", totalPages);
+
     fetchListGenres();
     return () => {
       page = 1;
@@ -142,6 +142,8 @@ export default function Favorites() {
         data={item}
         dictionary={genres}
         onPress={() => handleDetail(item.id, item.media_type)}
+        sizeStar={deviceType === "tablet" ? 8 : 15}
+        sizeText={deviceType === "tablet" ? 8 : 15}
       />
     ),
     [deviceType, genres]
@@ -178,7 +180,7 @@ export default function Favorites() {
     <Container>
       <StatusBar />
 
-      <Header title="Favoritos" />
+      <Header deviceType={deviceType} title="Favoritos" />
       <Animated.View
         style={{
           width,
@@ -190,6 +192,7 @@ export default function Favorites() {
           value={search}
           setValue={changeSearch}
           onPress={() => console.log("")}
+          deviceType={deviceType}
         />
 
         {isLoading ? (
@@ -202,6 +205,7 @@ export default function Favorites() {
             renderItem={({ item }) => renderItem(item)}
             onScroll={(e) => handleToggleHeader(e.nativeEvent.contentOffset.y)}
             bounces={false}
+            numColumns={deviceType === "tablet" ? 2 : 1}
             contentContainerStyle={{
               paddingBottom: scale(170),
             }}

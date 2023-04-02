@@ -1,8 +1,13 @@
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
-import { convertScale } from "@src/utils/utils";
+import { convertScale, sizeDeviceTypeScale } from "@src/utils/utils";
+import { DeviceTypeProps } from "@src/interfaces";
 
 const { width } = Dimensions.get("window");
+
+type DeviceType = {
+  deviceType: DeviceTypeProps;
+};
 
 export const Container = styled.View`
   align-items: center;
@@ -28,8 +33,13 @@ export const ContentLabel = styled.View`
   background-color: ${(props) => props.theme.colors.backgroundPrimary};
 `;
 
-export const Label = styled.Text`
+export const Label = styled.Text<DeviceType>`
   font-family: ${(props) => props.theme.fonts.title};
-  font-size: ${(props) => convertScale(props.theme.size.average)};
+  font-size: ${(props) =>
+    sizeDeviceTypeScale(
+      props.deviceType,
+      props.theme.size.small,
+      props.theme.size.average
+    )};
   color: ${(props) => props.theme.colors.textSession};
 `;

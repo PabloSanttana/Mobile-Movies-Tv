@@ -2,26 +2,29 @@ import styled from "styled-components/native";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { scale } from "react-native-size-matters";
 import { AntDesign, Octicons } from "@expo/vector-icons";
-import { Dimensions } from "react-native";
 
-import { convertScale } from "@src/utils/utils";
+import { convertScale, sizeDeviceTypeScale } from "@src/utils/utils";
+import { DeviceTypeProps } from "@src/interfaces";
 
-const { width } = Dimensions.get("screen");
+type DeviceType = {
+  deviceType: DeviceTypeProps;
+};
+
 export const Container = styled.View`
   z-index: 1;
   position: absolute;
-  width: ${width + "px"};
+  width: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  top: ${(getStatusBarHeight() || scale(20)) + scale(20) + "px"};
+  top: ${(getStatusBarHeight() || scale(20)) + scale(15) + "px"};
   padding: 0px 20px;
 `;
 
-export const ButtonIcon = styled.TouchableOpacity`
+export const ButtonIcon = styled.TouchableOpacity<DeviceType>`
   background-color: ${(props) => props.theme.colors.backgroundPrimary};
-  width: ${convertScale(30)};
-  height: ${convertScale(30)};
+  width: ${(props) => sizeDeviceTypeScale(props.deviceType, 23, 30)};
+  height: ${(props) => sizeDeviceTypeScale(props.deviceType, 23, 30)};
   border-radius: ${convertScale(20)};
   align-items: center;
   justify-content: center;

@@ -19,8 +19,6 @@ import {
   formatDataDetailSeason,
 } from "@src/utils/utils";
 const { API_KEY } = process.env;
-const { LANGUAGE } = process.env;
-const { REGION } = process.env;
 
 type datesProps = {
   maximum: string;

@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { convertScale } from "@src/utils/utils";
+import { convertScale, sizeDeviceTypeScale } from "@src/utils/utils";
 import { DeviceTypeProps } from "@src/interfaces";
 
 type DeviceType = {
@@ -9,9 +9,8 @@ type DeviceType = {
 export const Container = styled.View``;
 export const Title = styled.Text<DeviceType>`
   font-family: ${(props) => props.theme.fonts.subtitle};
-  font-size: ${(props) =>
-    props.deviceType === "tablet" ? convertScale(9) : convertScale(16)};
+  font-size: ${(props) => sizeDeviceTypeScale(props.deviceType, 14, 16)};
   color: ${(props) => props.theme.colors.textSession};
-  line-height: 22px;
-  margin: 10px 20px;
+  line-height: ${convertScale(22)};
+  margin: ${convertScale(10)} 20px;
 `;

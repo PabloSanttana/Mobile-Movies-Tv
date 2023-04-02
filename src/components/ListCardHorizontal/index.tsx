@@ -12,16 +12,17 @@ export type ListCardTvProps = {
   marginHorizontal: number;
   onPressSeeMore: () => void;
   onPressDetail: (id: Number, type: TypeDetailProps) => void;
+  doubleSize: boolean;
 };
 
-function ListCardTvHorizontal(data: ListCardTvProps) {
+function ListCardHorizontal(data: ListCardTvProps) {
   const renderItem = useCallback(
     (item: CardProps) => (
       <CardPrimaryMovie
         data={item}
         deviceType={data.deviceType}
         onPress={() => data.onPressDetail(item.id, item.media_type)}
-        doubleSize={true}
+        doubleSize={data.doubleSize}
       />
     ),
     []
@@ -29,7 +30,11 @@ function ListCardTvHorizontal(data: ListCardTvProps) {
 
   return (
     <View style={{ flex: 1 }}>
-      <HeaderList title={data.title} onPress={data.onPressSeeMore} />
+      <HeaderList
+        deviceType={data.deviceType}
+        title={data.title}
+        onPress={data.onPressSeeMore}
+      />
       <FlatList
         data={data.movies}
         keyExtractor={(item) => item.id.toLocaleString()}
@@ -51,10 +56,13 @@ function ListCardTvHorizontal(data: ListCardTvProps) {
 }
 
 function arePropsEqual(prevProps: ListCardTvProps, nextProps: ListCardTvProps) {
-  if (prevProps.movies === nextProps.movies) {
+  if (
+    prevProps.movies === nextProps.movies &&
+    prevProps.doubleSize === nextProps.doubleSize
+  ) {
     return true;
   }
   return false;
 }
 
-export default React.memo(ListCardTvHorizontal, arePropsEqual);
+export default React.memo(ListCardHorizontal, arePropsEqual);
