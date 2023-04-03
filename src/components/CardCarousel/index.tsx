@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacityProps } from "react-native";
 import { CardProps, DeviceTypeProps } from "@src/interfaces";
 import { Container, Card, CardWrapper, ContentLabel, Label } from "./styles";
-import { Logo } from "@src/assets/logo.png";
+import Logo from "@src/assets/logo.png";
 
 type CardCarouselProps = TouchableOpacityProps & {
   movie: CardProps;

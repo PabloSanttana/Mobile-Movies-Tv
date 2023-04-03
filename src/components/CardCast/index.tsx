@@ -15,7 +15,12 @@ function CardCast({ data, deviceType }: CardCastProps) {
 
   return (
     <Container deviceType={deviceType}>
-      <Image deviceType={deviceType} source={image} resizeMode="cover" />
+      <Image
+        defaultSource={Logo}
+        deviceType={deviceType}
+        source={image}
+        resizeMode="cover"
+      />
       <Title deviceType={deviceType}>{data.name}</Title>
       <Text deviceType={deviceType}>
         {data.job ? data.job : data.character}

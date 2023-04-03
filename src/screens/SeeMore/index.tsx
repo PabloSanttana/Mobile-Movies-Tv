@@ -66,11 +66,11 @@ export default function SeeMore() {
       totalPages = 0;
       genre = "";
     };
-  }, []);
+  }, [language]);
 
   useEffect(() => {
     ApiFetchData();
-  }, [genreSelected]);
+  }, [genreSelected, language]);
 
   async function fetchListGenres() {
     setIsLoadingGenre(true);

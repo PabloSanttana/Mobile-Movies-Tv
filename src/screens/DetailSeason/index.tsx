@@ -44,7 +44,7 @@ import ListCardCastHorizontal from "@src/components/ListCardCastHorizontal";
 import StarRating from "@src/components/StarRating";
 import { DivRow } from "../Collection/styles";
 import CardGeneric from "@src/components/CardGeneric";
-import { Logo } from "@src/assets/logo.png";
+import Logo from "@src/assets/logo.png";
 
 type ParamsProps = {
   params: {

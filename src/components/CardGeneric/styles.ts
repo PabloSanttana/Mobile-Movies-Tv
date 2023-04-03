@@ -1,5 +1,5 @@
 import { DeviceTypeProps } from "@src/interfaces";
-import { convertScale, sizeDeviceTypeScale } from "@src/utils/utils";
+import { sizeDeviceTypeScale } from "@src/utils/utils";
 import styled from "styled-components/native";
 
 type DeviceType = {

@@ -51,7 +51,7 @@ import LoadPage from "@src/components/LoadPage";
 import HeaderDetail from "@src/components/HeaderDetail";
 import FavoriteAnimation from "@src/components/FavoriteAnimation";
 import { formatDataDetailToSessions } from "@src/utils/utils";
-import { Logo } from "@src/assets/logo.png";
+import Logo from "@src/assets/logo.png";
 
 type ParamsProps = {
   params: {

@@ -1,13 +1,10 @@
 import { DeviceTypeProps } from "@src/interfaces";
 import { convertScale, sizeDeviceTypeScale } from "@src/utils/utils";
-import { Dimensions } from "react-native";
 import styled from "styled-components/native";
 
 type DeviceType = {
   deviceType: DeviceTypeProps;
 };
-
-const { width, height } = Dimensions.get("screen");
 
 export const Container = styled.View<DeviceType>`
   margin: 10px 0px;

@@ -29,7 +29,7 @@ import { useSettings } from "@src/hooks/settings";
 import { scale } from "react-native-size-matters";
 import CardGeneric from "@src/components/CardGeneric";
 import { Image } from "@src/components/CardPrimaryMovie/styles";
-import { Logo } from "@src/assets/logo.png";
+import Logo from "@src/assets/logo.png";
 
 type ParamsProps = {
   params: {
@@ -140,6 +140,7 @@ export function Collection() {
     : `Números de Filmes: ${data.parts.length}`;
 
   const isTablet = deviceType === "tablet";
+
   return (
     <Container showsVerticalScrollIndicator={false} bounces={false}>
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
@@ -183,6 +184,7 @@ export function Collection() {
                 }}
               >
                 <Image
+                  defaultSource={Logo}
                   source={{ uri: data.poster_path }}
                   deviceType={deviceType}
                   doubleSize={false}

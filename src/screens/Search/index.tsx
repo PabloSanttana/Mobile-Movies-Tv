@@ -56,7 +56,7 @@ export default function Search() {
       isHeaderHider = false;
       totalPages = 0;
     };
-  }, []);
+  }, [language]);
 
   async function fetchListGenres() {
     const promises = [

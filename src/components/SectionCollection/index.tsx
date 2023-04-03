@@ -38,6 +38,7 @@ function SectionCollection({
       >
         <BackgroundImageCollection
           deviceType={deviceType}
+          defaultSource={Logo}
           source={{ uri: data?.backdrop_path }}
         >
           <Gradient colors={["rgba(0, 0, 0,0.5)", "rgba(0, 0, 0,0.5)"]}>
