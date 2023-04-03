@@ -227,7 +227,7 @@ export function Collection() {
         </View>
       </Content>
 
-      {data.parts.map((movie) => renderItem(movie))}
+      {data.parts.map(renderItem)}
 
       <View style={{ height: 50 }}></View>
     </Container>

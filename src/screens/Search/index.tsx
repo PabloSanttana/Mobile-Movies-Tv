@@ -6,6 +6,8 @@ import {
   Dimensions,
   FlatList,
   View,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
 } from "react-native";
 
 import { Container } from "./styles";
@@ -14,7 +16,7 @@ import {
   apiFetchSearchAll,
   TypeDetailProps,
 } from "@src/services/services";
-import { CardProps } from "@src/interfaces";
+import { CardProps, RenderItemProps } from "@src/interfaces";
 import CardGeneric from "@src/components/CardGeneric";
 import Header from "@src/components/Header";
 import { useSettings } from "@src/hooks/settings";
@@ -118,7 +120,8 @@ export default function Search() {
       useNativeDriver: true,
     }).start();
   }, []);
-  function handleToggleHeader(value: number) {
+  function handleToggleHeader(event: NativeSyntheticEvent<NativeScrollEvent>) {
+    const value = event.nativeEvent.contentOffset.y;
     if (value < 0) return;
     if (value > count) {
       count = value;
@@ -136,7 +139,7 @@ export default function Search() {
   }
 
   const renderItem = useCallback(
-    (item: CardProps) => (
+    ({ item }: RenderItemProps) => (
       <CardGeneric
         deviceType={deviceType}
         data={item}
@@ -154,13 +157,14 @@ export default function Search() {
     ApiFetchData();
   }
 
-  async function handleDetail(id: Number, type: TypeDetailProps) {
+  function handleDetail(id: Number, type: TypeDetailProps) {
     //@ts-ignore
     navigation.navigate("Detail", {
       id: id,
       type: type,
     });
   }
+  const KeyExtractor = useCallback((item: CardProps) => item.id.toString(), []);
 
   return (
     <Container>
@@ -186,9 +190,9 @@ export default function Search() {
           <FlatList
             style={{ flex: 1, marginHorizontal: 10 }}
             data={data}
-            keyExtractor={(item) => String(item.id)}
-            renderItem={({ item }) => renderItem(item)}
-            onScroll={(e) => handleToggleHeader(e.nativeEvent.contentOffset.y)}
+            keyExtractor={KeyExtractor}
+            renderItem={renderItem}
+            onScroll={handleToggleHeader}
             bounces={false}
             numColumns={deviceType === "tablet" ? 2 : 1}
             contentContainerStyle={{

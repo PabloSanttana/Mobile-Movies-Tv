@@ -5,7 +5,6 @@ import Carousel, { PaginationLight } from "react-native-x-carousel";
 import { CardProps, DeviceTypeProps } from "@src/interfaces";
 import { Title, Container } from "./styled";
 import { TypeDetailProps } from "@src/services/services";
-import { View } from "react-native";
 
 type ListCarouselProps = {
   data: CardProps[];
@@ -36,7 +35,7 @@ function ListCarousel({
       <Title>Nos cinemas</Title>
       <Carousel
         pagination={PaginationLight}
-        renderItem={(data: CardProps) => renderItem(data)}
+        renderItem={renderItem}
         data={data}
         loop
         autoplay

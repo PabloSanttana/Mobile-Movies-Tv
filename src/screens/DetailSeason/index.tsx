@@ -2,12 +2,7 @@ import { FlatList, View, LogBox, Dimensions } from "react-native";
 import { WebView } from "react-native-webview";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-  CardProps,
-  ResponseDetailSeasonProps,
-  ResponseFormattedDetailMovieProps,
-  UrlsIsValidProps,
-} from "@src/interfaces";
+import { CardProps, ResponseDetailSeasonProps } from "@src/interfaces";
 
 import { FontAwesome } from "@expo/vector-icons";
 
@@ -27,11 +22,7 @@ import {
 
 import { useTheme } from "styled-components";
 
-import {
-  apiFetchDetail,
-  apiFetchDetailSeason,
-  TypeDetailProps,
-} from "@src/services/services";
+import { apiFetchDetailSeason } from "@src/services/services";
 
 import { scale } from "react-native-size-matters";
 import HeaderList from "@src/components/HeaderList";
@@ -269,7 +260,7 @@ export function DetailSeason() {
         isMore={false}
         onPress={() => {}}
       />
-      {data.episodes.map((ep) => renderItem(ep))}
+      {data.episodes.map(renderItem)}
 
       <View style={{ height: 50 }}></View>
     </Container>

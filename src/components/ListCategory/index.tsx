@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { FlatList } from "react-native";
 import ButtonSmall from "@src/components/ButtonSmall";
 
@@ -13,6 +13,10 @@ type ListCategoryProps = {
   deviceType: DeviceTypeProps;
 };
 
+type RenderItemButtonSmallProps = {
+  item: [string, string];
+};
+
 function ListCategory({
   data,
   genreSelected,
@@ -20,6 +24,22 @@ function ListCategory({
   deviceType,
 }: ListCategoryProps) {
   const genres = Object.entries(data);
+
+  const renderItem = useCallback(
+    ({ item }: RenderItemButtonSmallProps) => (
+      <ButtonSmall
+        data={item}
+        isActive={item[0] === genreSelected}
+        onPress={() => selectGenre(item[0])}
+        deviceType={deviceType}
+      />
+    ),
+    [deviceType, genreSelected]
+  );
+  const KeyExtractor = useCallback(
+    (item: [string, string]) => item[0].toString(),
+    []
+  );
   return (
     <Container
       style={{
@@ -34,15 +54,8 @@ function ListCategory({
       <Title deviceType={deviceType}>Categorias</Title>
       <FlatList
         data={genres}
-        keyExtractor={(item) => String(item[0])}
-        renderItem={({ item }) => (
-          <ButtonSmall
-            data={item}
-            isActive={item[0] === genreSelected}
-            onPress={() => selectGenre(item[0])}
-            deviceType={deviceType}
-          />
-        )}
+        keyExtractor={KeyExtractor}
+        renderItem={renderItem}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingLeft: 20, paddingRight: 10 }}

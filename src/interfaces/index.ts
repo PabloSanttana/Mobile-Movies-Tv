@@ -16,6 +16,10 @@ export type CardProps = MovieProps & {
   poster_path_small?: string;
 };
 
+export type RenderItemProps = {
+  item: CardProps;
+};
+
 export type MovieProps = {
   adult: boolean;
   backdrop_path: string;
@@ -108,7 +112,7 @@ export type VideoProps = {
   published_at: string;
   id: string;
 };
-export type crewProps = {
+export type CrewProps = {
   adult: boolean;
   gender: number;
   id: number;
@@ -160,8 +164,8 @@ export type ResponseHttpDetailBase = {
     posters: [];
   };
   credits: {
-    crew: crewProps[];
-    cast: crewProps[];
+    crew: CrewProps[];
+    cast: CrewProps[];
   };
   created_by?: CreatedByProps[];
   episode_run_time?: [number];
@@ -267,8 +271,8 @@ export type ResponseHttpDetailBaseTv = {
     results: VideoProps[];
   };
   credits: {
-    crew: crewProps[];
-    cast: crewProps[];
+    crew: CrewProps[];
+    cast: CrewProps[];
   };
 };
 
@@ -329,8 +333,8 @@ export type ResponseDetailSeasonPropsBase = {
     results: VideoProps[];
   };
   credits: {
-    crew: crewProps[];
-    cast: crewProps[];
+    crew: CrewProps[];
+    cast: CrewProps[];
   };
 };
 

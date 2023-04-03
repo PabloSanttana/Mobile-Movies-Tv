@@ -5,21 +5,17 @@ import {
   StatusBar,
   Dimensions,
   FlatList,
-  View,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
 } from "react-native";
 
 import { Container } from "./styles";
-import {
-  apiFetchGenres,
-  apiFetchSearchAll,
-  TypeDetailProps,
-} from "@src/services/services";
-import { CardProps } from "@src/interfaces";
+import { apiFetchGenres, TypeDetailProps } from "@src/services/services";
+import { CardProps, RenderItemProps } from "@src/interfaces";
 import CardGeneric from "@src/components/CardGeneric";
 import Header from "@src/components/Header";
 import { useSettings } from "@src/hooks/settings";
 import { scale } from "react-native-size-matters";
-import NotFound from "@src/components/NotFound";
 import SearchInput from "@src/components/SearchInput";
 
 import LoadItem from "@src/components/LoadItem";
@@ -119,7 +115,8 @@ export default function Favorites() {
       useNativeDriver: true,
     }).start();
   }, []);
-  function handleToggleHeader(value: number) {
+  function handleToggleHeader(event: NativeSyntheticEvent<NativeScrollEvent>) {
+    const value = event.nativeEvent.contentOffset.y;
     if (value < 0) return;
     if (value > count) {
       count = value;
@@ -137,7 +134,7 @@ export default function Favorites() {
   }
 
   const renderItem = useCallback(
-    (item: CardProps) => (
+    ({ item }: RenderItemProps) => (
       <CardGeneric
         deviceType={deviceType}
         data={item}
@@ -150,7 +147,7 @@ export default function Favorites() {
     [deviceType, genres]
   );
 
-  async function handleDetail(id: Number, type: TypeDetailProps) {
+  function handleDetail(id: Number, type: TypeDetailProps) {
     //@ts-ignore
     navigation.navigate("Detail", {
       id: id,
@@ -176,7 +173,7 @@ export default function Favorites() {
           title.toLocaleLowerCase().includes(search.toLocaleLowerCase())
         )
       : data;
-
+  const KeyExtractor = useCallback((item: CardProps) => item.id.toString(), []);
   return (
     <Container>
       <StatusBar />
@@ -202,9 +199,9 @@ export default function Favorites() {
           <FlatList
             ref={flatListRef}
             data={filter}
-            keyExtractor={(item) => String(item.id)}
-            renderItem={({ item }) => renderItem(item)}
-            onScroll={(e) => handleToggleHeader(e.nativeEvent.contentOffset.y)}
+            keyExtractor={KeyExtractor}
+            renderItem={renderItem}
+            onScroll={handleToggleHeader}
             bounces={false}
             numColumns={deviceType === "tablet" ? 2 : 1}
             contentContainerStyle={{

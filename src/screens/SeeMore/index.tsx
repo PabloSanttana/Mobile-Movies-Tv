@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
+import { NativeScrollEvent } from "react-native";
+import { scale } from "react-native-size-matters";
 import {
   Animated,
   ActivityIndicator,
@@ -6,6 +8,7 @@ import {
   Dimensions,
   FlatList,
   View,
+  NativeSyntheticEvent,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
@@ -17,12 +20,12 @@ import {
   apiFetchMovieAndTv,
   TypeDetailProps,
 } from "@src/services/services";
-import { CardProps, UrlsIsValidProps } from "@src/interfaces";
+import { CardProps, RenderItemProps, UrlsIsValidProps } from "@src/interfaces";
 import CardGeneric from "@src/components/CardGeneric";
 import Header from "@src/components/Header";
 import { useSettings } from "@src/hooks/settings";
-import { scale } from "react-native-size-matters";
-import NotFound from "../../components/NotFound/index";
+
+import NotFound from "@src/components/NotFound";
 import LoadItem from "@src/components/LoadItem";
 import LoadPage from "@src/components/LoadPage";
 
@@ -119,7 +122,7 @@ export default function SeeMore() {
     }
   }
 
-  async function handleSelectGenre(value: string) {
+  function handleSelectGenre(value: string) {
     page = 1;
     genre = genre === value ? "" : value;
     setGenreSelected((oldValue) => (oldValue === value ? "" : value));
@@ -140,7 +143,8 @@ export default function SeeMore() {
       useNativeDriver: true,
     }).start();
   }, []);
-  function handleToggleHeader(value: number) {
+  function handleToggleHeader(event: NativeSyntheticEvent<NativeScrollEvent>) {
+    const value = event.nativeEvent.contentOffset.y;
     if (value < 0) return;
     if (value > count) {
       count = value;
@@ -156,7 +160,7 @@ export default function SeeMore() {
       }
     }
   }
-  async function handleDetail(id: Number, type: TypeDetailProps) {
+  function handleDetail(id: Number, type: TypeDetailProps) {
     //@ts-ignore
     navigation.push("Detail", {
       id: id,
@@ -164,7 +168,7 @@ export default function SeeMore() {
     });
   }
   const renderItem = useCallback(
-    (item: CardProps) => (
+    ({ item }: RenderItemProps) => (
       <CardGeneric
         deviceType={deviceType}
         data={item}
@@ -176,6 +180,7 @@ export default function SeeMore() {
     ),
     [deviceType, genres]
   );
+  const KeyExtractor = useCallback((item: CardProps) => item.id.toString(), []);
 
   if (!data || isLoadingGenre) {
     return <LoadPage />;
@@ -206,9 +211,9 @@ export default function SeeMore() {
         ) : data.length > 0 ? (
           <FlatList
             data={data}
-            keyExtractor={(item) => String(item.id)}
-            renderItem={({ item }) => renderItem(item)}
-            onScroll={(e) => handleToggleHeader(e.nativeEvent.contentOffset.y)}
+            keyExtractor={KeyExtractor}
+            renderItem={renderItem}
+            onScroll={handleToggleHeader}
             bounces={false}
             numColumns={deviceType === "tablet" ? 2 : 1}
             contentContainerStyle={{
