@@ -29,6 +29,7 @@ import { useSettings } from "@src/hooks/settings";
 import { scale } from "react-native-size-matters";
 import CardGeneric from "@src/components/CardGeneric";
 import { Image } from "@src/components/CardPrimaryMovie/styles";
+import { Logo } from "@src/assets/logo.png";
 
 type ParamsProps = {
   params: {
@@ -143,11 +144,13 @@ export function Collection() {
     <Container showsVerticalScrollIndicator={false} bounces={false}>
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
         <BackgroundImage
+          defaultSource={Logo}
           source={{
             uri: data.backdrop_path_small,
           }}
         >
           <BackgroundImage
+            defaultSource={Logo}
             source={{
               uri: data.backdrop_path,
             }}

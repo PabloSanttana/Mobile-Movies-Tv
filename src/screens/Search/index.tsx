@@ -59,19 +59,19 @@ export default function Search() {
   }, []);
 
   async function fetchListGenres() {
-    const responseMovie = await apiFetchGenres({
-      type: "movie",
-      language: language,
-    });
-    const responseTv = await apiFetchGenres({ type: "tv", language: language });
+    const promises = [
+      apiFetchGenres({ type: "movie", language }),
+      apiFetchGenres({ type: "tv", language }),
+    ];
+
+    const [responseMovie, responseTv] = await Promise.all(promises);
+
     if (responseMovie && responseTv) {
-      var objectGenres: ObjectGenresProps = {};
-      responseMovie?.genres.forEach((item) => {
-        objectGenres[item.id] = item.name;
-      });
-      responseTv?.genres.forEach((item) => {
-        objectGenres[item.id] = item.name;
-      });
+      const combinedGenres = [...responseMovie.genres, ...responseTv.genres];
+      const objectGenres = combinedGenres.reduce((acc, curr) => {
+        acc[curr.id] = curr.name;
+        return acc;
+      }, {} as ObjectGenresProps);
       setGenres(objectGenres);
     }
   }
@@ -169,7 +169,7 @@ export default function Search() {
       <Header deviceType={deviceType} title="Search" />
       <Animated.View
         style={{
-          width,
+          width: "100%",
           height: height + 40,
           transform: [{ translateY: toggleHeader }],
         }}
@@ -184,6 +184,7 @@ export default function Search() {
           <LoadItem />
         ) : data.length > 0 ? (
           <FlatList
+            style={{ flex: 1, marginHorizontal: 10 }}
             data={data}
             keyExtractor={(item) => String(item.id)}
             renderItem={({ item }) => renderItem(item)}
@@ -206,8 +207,8 @@ export default function Search() {
             onEndReachedThreshold={0.2}
             showsVerticalScrollIndicator={false}
             removeClippedSubviews={true}
-            maxToRenderPerBatch={10}
-            initialNumToRender={10}
+            maxToRenderPerBatch={5}
+            initialNumToRender={5}
             viewabilityConfig={{
               waitForInteraction: true,
               itemVisiblePercentThreshold: 50,

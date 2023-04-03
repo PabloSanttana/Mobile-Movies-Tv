@@ -4,6 +4,8 @@ import { convertScale } from "@src/utils/utils";
 export const Container = styled.View`
   flex: 1;
   margin-bottom: ${convertScale(10)};
+  width: 100%;
+  align-items: center;
 `;
 
 export const Title = styled.Text`

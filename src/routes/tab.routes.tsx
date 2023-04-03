@@ -10,11 +10,14 @@ import { Home } from "@src/screens/home";
 import Search from "@src/screens/Search";
 import Favorites from "@src/screens/Favorites";
 import Setting from "@src/screens/Setting";
+import { useSettings } from "@src/hooks/settings";
 
 const Tab = createBottomTabNavigator();
 
 export function TabRoutes() {
   const theme = useTheme();
+  const { deviceType } = useSettings();
+  const isTablet = deviceType === "tablet";
   const isAndroid = Platform.OS === "android";
   return (
     <Tab.Navigator
@@ -38,7 +41,11 @@ export function TabRoutes() {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
-            <Octicons name="home" size={size} color={color} />
+            <Octicons
+              name="home"
+              size={isTablet ? scale(16) : size}
+              color={color}
+            />
           ),
         }}
       />
@@ -48,7 +55,11 @@ export function TabRoutes() {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
-            <Octicons name="search" size={size} color={color} />
+            <Octicons
+              name="search"
+              size={isTablet ? scale(16) : size}
+              color={color}
+            />
           ),
         }}
       />
@@ -58,7 +69,11 @@ export function TabRoutes() {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
-            <Octicons name="bookmark" size={size} color={color} />
+            <Octicons
+              name="bookmark"
+              size={isTablet ? scale(16) : size}
+              color={color}
+            />
           ),
         }}
       />
@@ -68,7 +83,11 @@ export function TabRoutes() {
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ size, color }) => (
-            <Feather name="settings" size={size} color={color} />
+            <Feather
+              name="settings"
+              size={isTablet ? scale(16) : size}
+              color={color}
+            />
           ),
         }}
       />

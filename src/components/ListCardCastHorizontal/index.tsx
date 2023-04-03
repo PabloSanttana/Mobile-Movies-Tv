@@ -27,8 +27,8 @@ function ListCardCastHorizontal({
         )}
         horizontal
         contentContainerStyle={{ paddingLeft: 20 }}
-        maxToRenderPerBatch={10}
-        initialNumToRender={10}
+        maxToRenderPerBatch={5}
+        initialNumToRender={5}
         viewabilityConfig={{
           waitForInteraction: true,
           itemVisiblePercentThreshold: 50,

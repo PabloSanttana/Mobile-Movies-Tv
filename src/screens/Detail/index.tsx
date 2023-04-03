@@ -51,6 +51,7 @@ import LoadPage from "@src/components/LoadPage";
 import HeaderDetail from "@src/components/HeaderDetail";
 import FavoriteAnimation from "@src/components/FavoriteAnimation";
 import { formatDataDetailToSessions } from "@src/utils/utils";
+import { Logo } from "@src/assets/logo.png";
 
 type ParamsProps = {
   params: {
@@ -221,12 +222,14 @@ export function Detail() {
     <Container showsVerticalScrollIndicator={false} bounces={false}>
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
         <BackgroundImage
+          defaultSource={Logo}
           source={{
             uri: data.poster_path_small,
           }}
           blurRadius={1}
         >
           <BackgroundImage
+            defaultSource={Logo}
             source={{
               uri: data.poster_path,
             }}

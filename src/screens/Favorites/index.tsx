@@ -5,6 +5,7 @@ import {
   StatusBar,
   Dimensions,
   FlatList,
+  View,
 } from "react-native";
 
 import { Container } from "./styles";
@@ -183,7 +184,7 @@ export default function Favorites() {
       <Header deviceType={deviceType} title="Favoritos" />
       <Animated.View
         style={{
-          width,
+          width: "100%",
           height: height + 40,
           transform: [{ translateY: toggleHeader }],
         }}
@@ -208,6 +209,7 @@ export default function Favorites() {
             numColumns={deviceType === "tablet" ? 2 : 1}
             contentContainerStyle={{
               paddingBottom: scale(170),
+              marginHorizontal: 10,
             }}
             ListFooterComponent={
               isLoadingMore ? (
@@ -222,8 +224,8 @@ export default function Favorites() {
             onEndReachedThreshold={0.2}
             showsVerticalScrollIndicator={false}
             removeClippedSubviews={true}
-            maxToRenderPerBatch={10}
-            initialNumToRender={10}
+            maxToRenderPerBatch={5}
+            initialNumToRender={5}
             viewabilityConfig={{
               waitForInteraction: true,
               itemVisiblePercentThreshold: 50,

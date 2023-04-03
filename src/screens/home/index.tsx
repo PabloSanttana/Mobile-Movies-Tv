@@ -24,7 +24,8 @@ export function Home() {
   const [upcomingMovie, setUpcomingMovie] = useState<CardProps[]>([]);
   const [onLoad, setOnLoad] = useState(true);
   const theme = useTheme();
-  const { deviceType, themeText, language, adult, region } = useSettings();
+  const { deviceType, themeText, language, adult, region, orientation } =
+    useSettings();
 
   useEffect(() => {
     getAll();

@@ -5,6 +5,7 @@ import Carousel, { PaginationLight } from "react-native-x-carousel";
 import { CardProps, DeviceTypeProps } from "@src/interfaces";
 import { Title, Container } from "./styled";
 import { TypeDetailProps } from "@src/services/services";
+import { View } from "react-native";
 
 type ListCarouselProps = {
   data: CardProps[];

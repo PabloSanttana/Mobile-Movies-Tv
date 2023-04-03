@@ -44,6 +44,7 @@ import ListCardCastHorizontal from "@src/components/ListCardCastHorizontal";
 import StarRating from "@src/components/StarRating";
 import { DivRow } from "../Collection/styles";
 import CardGeneric from "@src/components/CardGeneric";
+import { Logo } from "@src/assets/logo.png";
 
 type ParamsProps = {
   params: {
@@ -141,11 +142,13 @@ export function DetailSeason() {
     <Container showsVerticalScrollIndicator={false} bounces={false}>
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
         <BackgroundImage
+          defaultSource={Logo}
           source={{
             uri: data.poster_path_small,
           }}
         >
           <BackgroundImage
+            defaultSource={Logo}
             source={{
               uri: data.poster_path,
             }}

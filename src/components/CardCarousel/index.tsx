@@ -21,7 +21,9 @@ function CardCarousel({ movie, deviceType, ...rest }: CardCarouselProps) {
           resizeMode="cover"
         />
         <ContentLabel>
-          <Label deviceType={deviceType}>{movie.title}</Label>
+          <Label numberOfLines={1} deviceType={deviceType}>
+            {movie.title}
+          </Label>
         </ContentLabel>
       </CardWrapper>
     </Container>

@@ -22,7 +22,7 @@ export const Search = styled.TextInput<ContentProps>`
   flex: 1;
   height: ${(props) => sizeDeviceTypeScale(props.deviceType, 20, 35)};
   font-size: ${(props) => sizeDeviceTypeScale(props.deviceType, 10, 15)};
-
+  width: 100%;
   font-family: ${(props) => props.theme.fonts.subtitle};
   color: ${(props) => props.theme.colors.textPrimary};
   padding-left: 20px;

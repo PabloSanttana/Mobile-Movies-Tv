@@ -48,7 +48,7 @@ function ListCardHorizontal(data: ListCardTvProps) {
           minimumViewTime: 300,
         }}
         removeClippedSubviews={true}
-        maxToRenderPerBatch={10}
+        maxToRenderPerBatch={5}
         initialNumToRender={5}
       />
     </View>

@@ -43,7 +43,7 @@ var genre: string = "";
 const { height, width } = Dimensions.get("screen");
 export default function SeeMore() {
   const navigation = useNavigation();
-  const { deviceType, language, adult, region } = useSettings();
+  const { deviceType, language, adult, region, orientation } = useSettings();
   const router = useRoute().params as ParamsProps;
   const [genres, setGenres] = useState<ObjectGenresProps>({});
   const [genreSelected, setGenreSelected] = useState<string>("");
@@ -228,8 +228,8 @@ export default function SeeMore() {
             onEndReachedThreshold={0.2}
             showsVerticalScrollIndicator={false}
             removeClippedSubviews={true}
-            maxToRenderPerBatch={10}
-            initialNumToRender={10}
+            maxToRenderPerBatch={5}
+            initialNumToRender={5}
             viewabilityConfig={{
               waitForInteraction: true,
               itemVisiblePercentThreshold: 50,
