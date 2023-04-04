@@ -70,7 +70,7 @@ export function DetailSeason() {
     return () => {
       indexNextTrailer = 1;
     };
-  }, [id]);
+  }, [id, seasonId, language]);
 
   async function fetchDetail() {
     try {

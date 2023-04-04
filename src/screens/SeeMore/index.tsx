@@ -72,7 +72,9 @@ export default function SeeMore() {
 
   useEffect(() => {
     ApiFetchData();
-  }, [genreSelected, language]);
+  }, [genreSelected, language, router]);
+
+  console.log("seemore", router.path);
 
   async function fetchListGenres() {
     setIsLoadingGenre(true);

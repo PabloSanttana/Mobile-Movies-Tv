@@ -76,7 +76,7 @@ export function Collection() {
     if (!context) {
       fetchCollection();
     }
-  }, [id, context]);
+  }, [id, context, language]);
 
   async function fetchCollection(ValueId = id) {
     try {

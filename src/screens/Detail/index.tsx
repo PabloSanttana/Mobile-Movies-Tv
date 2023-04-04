@@ -4,6 +4,7 @@ import {
   LogBox,
   Dimensions,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { WebView } from "react-native-webview";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -50,7 +51,11 @@ import SectionSeasons from "@src/components/SectionSeasons";
 import LoadPage from "@src/components/LoadPage";
 import HeaderDetail from "@src/components/HeaderDetail";
 import FavoriteAnimation from "@src/components/FavoriteAnimation";
-import { formatDataDetailToSessions, imagePathIsValid } from "@src/utils/utils";
+import {
+  convertDataFavoriteToCard,
+  formatDataDetailToSessions,
+  imagePathIsValid,
+} from "@src/utils/utils";
 
 type ParamsProps = {
   params: {
@@ -99,10 +104,11 @@ export function Detail() {
   const router = useRoute() as ParamsProps;
   const { id, type } = router.params;
   const webViewRef = useRef<WebView[]>([]);
+  const scrollViewRef = useRef<ScrollView>(null);
   const flatListRef = useRef<FlatList>(null);
   const [heartAnimation, setHeartAnimation] = useState(false);
   const theme = useTheme();
-
+  console.log("Detail", id);
   const [data, setData] = useState<ResponseFormattedDetailMovieProps | null>();
 
   useEffect(() => {
@@ -117,18 +123,21 @@ export function Detail() {
       const response = await apiFetchDetail({
         type: typeName,
         id: ValueId,
-        language: language,
-        region: region,
-        adult: adult,
+        language,
+        region,
+        adult,
       });
       setData(response);
+      scrollViewRef?.current?.scrollTo({
+        animated: true,
+        y: 0,
+      });
     } catch (error) {
       console.log(error);
     }
   }
 
   function play() {
-    console.log("oi");
     const run = `setTimeout(() => {
       document.querySelector(".ytp-play-button").click();
       true
@@ -138,26 +147,7 @@ export function Detail() {
 
   function toggleFavorite(value: ResponseFormattedDetailMovieProps) {
     const genre_ids = value.genres.map((item) => item.id);
-    const newDate = {
-      adult: value.adult,
-      backdrop_path: value.backdrop_path,
-      genre_ids: genre_ids,
-      id: value.id,
-      original_language: value.original_language,
-      original_title: value.original_title,
-      overview: "",
-      popularity: 0,
-      poster_path: value.poster_path,
-      release_date: value.release_date,
-      title: value.title,
-      video: false,
-      vote_average: value.vote_average,
-      vote_count: 0,
-      media_type: type,
-      origin_country: [],
-      backdrop_path_small: "",
-      poster_path_small: "",
-    };
+    const newDate = convertDataFavoriteToCard(value, genre_ids, type);
     changeFavorite(newDate);
     if (!favoritesIds.includes(id)) {
       setHeartAnimation(true);
@@ -227,7 +217,11 @@ export function Detail() {
   const poster_path = imagePathIsValidMemorized(data.poster_path);
 
   return (
-    <Container showsVerticalScrollIndicator={false} bounces={false}>
+    <Container
+      ref={scrollViewRef}
+      showsVerticalScrollIndicator={false}
+      bounces={false}
+    >
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
         <BackgroundImage source={poster_path_small} blurRadius={1}>
           <BackgroundImage source={poster_path} resizeMode="contain">

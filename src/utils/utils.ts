@@ -17,6 +17,7 @@ import {
 } from "@src/interfaces";
 import { CardProps } from "@src/interfaces";
 import Logo from "@src/assets/logo.png";
+import { TypeDetailProps } from "@src/services/services";
 
 const Language = {
   bg: "Búlgaro",
@@ -451,5 +452,32 @@ export function formatDataDetailSeason(
     },
     episodes: episodes,
     vote_average: media,
+  };
+}
+
+export function convertDataFavoriteToCard(
+  value: ResponseFormattedDetailMovieProps,
+  genre_ids: number[],
+  type: TypeDetailProps
+): CardProps {
+  return {
+    adult: value.adult,
+    backdrop_path: value.backdrop_path,
+    genre_ids: genre_ids,
+    id: value.id,
+    original_language: value.original_language,
+    original_title: value.original_title,
+    overview: "",
+    popularity: 0,
+    poster_path: value.poster_path,
+    release_date: value.release_date,
+    title: value.title,
+    video: false,
+    vote_average: value.vote_average,
+    vote_count: 0,
+    media_type: type,
+    origin_country: [],
+    backdrop_path_small: "",
+    poster_path_small: "",
   };
 }
