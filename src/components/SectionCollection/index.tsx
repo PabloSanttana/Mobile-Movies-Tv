@@ -10,6 +10,7 @@ import {
   ButtonCollectionTitle,
   Gradient,
 } from "./styles";
+import { imagePathIsValid } from "@src/utils/utils";
 
 type SectionCollectionProps = {
   data: BelongsToCollectionProps;
@@ -22,6 +23,8 @@ function SectionCollection({
   deviceType,
   onPress,
 }: SectionCollectionProps) {
+  const backdrop_path_small = imagePathIsValid(data.backdrop_path);
+  const backdrop_path = imagePathIsValid(data.backdrop_path);
   return (
     <>
       <HeaderList
@@ -32,17 +35,17 @@ function SectionCollection({
       />
       <BackgroundImageCollection
         deviceType={deviceType}
-        source={{ uri: data?.backdrop_path_small }}
+        source={backdrop_path_small}
       >
         <BackgroundImageCollection
           deviceType={deviceType}
-          source={{ uri: data?.backdrop_path }}
+          source={backdrop_path}
         >
           <Gradient colors={["rgba(0, 0, 0,0.5)", "rgba(0, 0, 0,0.5)"]}>
             <Image
               deviceType={deviceType}
               doubleSize={false}
-              source={{ uri: data?.poster_path }}
+              source={backdrop_path}
             />
             <ButtonCollection
               activeOpacity={0.7}

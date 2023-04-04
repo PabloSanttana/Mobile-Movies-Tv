@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { WebView } from "react-native-webview";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   DeviceTypeProps,
@@ -50,7 +50,7 @@ import SectionSeasons from "@src/components/SectionSeasons";
 import LoadPage from "@src/components/LoadPage";
 import HeaderDetail from "@src/components/HeaderDetail";
 import FavoriteAnimation from "@src/components/FavoriteAnimation";
-import { formatDataDetailToSessions } from "@src/utils/utils";
+import { formatDataDetailToSessions, imagePathIsValid } from "@src/utils/utils";
 
 type ParamsProps = {
   params: {
@@ -204,6 +204,10 @@ export function Detail() {
       context: context,
     });
   }
+  const imagePathIsValidMemorized = useCallback(
+    (path: string) => imagePathIsValid(path),
+    []
+  );
 
   if (!data) return <LoadPage />;
 
@@ -217,21 +221,16 @@ export function Detail() {
       : width;
   // const trailerHeight = orientation === 1 ? width * 0.56 : height * 0.56;
 
+  const poster_path_small = imagePathIsValidMemorized(
+    data.poster_path_small ?? ""
+  );
+  const poster_path = imagePathIsValidMemorized(data.poster_path);
+
   return (
     <Container showsVerticalScrollIndicator={false} bounces={false}>
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
-        <BackgroundImage
-          source={{
-            uri: data.poster_path_small,
-          }}
-          blurRadius={1}
-        >
-          <BackgroundImage
-            source={{
-              uri: data.poster_path,
-            }}
-            resizeMode="contain"
-          >
+        <BackgroundImage source={poster_path_small} blurRadius={1}>
+          <BackgroundImage source={poster_path} resizeMode="contain">
             <HeaderDetail
               deviceType={deviceType}
               onPressLeft={() => navigation.goBack()}

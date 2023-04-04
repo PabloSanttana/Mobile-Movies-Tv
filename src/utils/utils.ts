@@ -16,6 +16,7 @@ import {
   DeviceTypeProps,
 } from "@src/interfaces";
 import { CardProps } from "@src/interfaces";
+import Logo from "@src/assets/logo.png";
 
 const Language = {
   bg: "Búlgaro",
@@ -60,6 +61,15 @@ export function statusTranslate(cod: string | undefined): string {
   if (cod === undefined) return "---";
   //@ts-ignore
   return status[cod ?? ""];
+}
+
+export function imagePathIsValid(path: string) {
+  const isValid = /\.(jpe?g|png|svg)$/i.test(path);
+  if (isValid) {
+    return { uri: path };
+  } else {
+    return Logo;
+  }
 }
 
 export function convertScale(value: number): string {

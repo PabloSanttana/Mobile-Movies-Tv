@@ -14,6 +14,7 @@ import {
   ButtonText,
   Container,
 } from "./styles";
+import { imagePathIsValid } from "@src/utils/utils";
 
 type SectionSeasonsProps = {
   data: SeasonsProps;
@@ -22,6 +23,9 @@ type SectionSeasonsProps = {
 };
 
 function SectionSeasons({ data, onPress, deviceType }: SectionSeasonsProps) {
+  const image = imagePathIsValid(
+    process.env.BASE_IMAGE_URL + "w300" + data.poster_path
+  );
   return (
     <>
       <HeaderList
@@ -32,11 +36,7 @@ function SectionSeasons({ data, onPress, deviceType }: SectionSeasonsProps) {
       />
       <Container>
         <ContainerCard>
-          <ImageCard
-            source={{
-              uri: process.env.BASE_IMAGE_URL + "w300" + data.poster_path,
-            }}
-          />
+          <ImageCard source={image} />
           <ContentCard>
             <CardTitle deviceType={deviceType}>
               {data.name} ({data.air_date})

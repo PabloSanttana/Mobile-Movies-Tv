@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
 import { useTheme } from "styled-components";
@@ -34,19 +34,46 @@ export function Home() {
   async function getAll() {
     try {
       setOnLoad(true);
-      await fetchNowPlaying();
-      await fetchMoviesPopular();
-      await fetchMoviesTrending();
-      await fetchTvTrending();
-      await fetchTvPopular();
-      await fetchMoviesUpcoming();
+      const [
+        nowPlayingData,
+        popularMovieData,
+        upcomingMovieData,
+        trendingMovieData,
+        popularTvData,
+        trendingTvData,
+      ] = await Promise.all([
+        fetchNowPlaying(),
+        fetchMoviesPopular(),
+        fetchMoviesUpcoming(),
+        fetchMoviesTrending(),
+        fetchTvPopular(),
+        fetchTvTrending(),
+      ]);
+      if (nowPlayingData) {
+        setNowPlaying(nowPlayingData?.results);
+      }
+      if (popularMovieData) {
+        setPopularMovie(popularMovieData?.results);
+      }
+      if (upcomingMovieData) {
+        setUpcomingMovie(upcomingMovieData?.results);
+      }
+      if (trendingMovieData) {
+        setTrendingMovie(trendingMovieData?.results);
+      }
+      if (popularTvData) {
+        setPopularTv(popularTvData?.results);
+      }
+      if (trendingTvData) {
+        seTrendingTv(trendingTvData?.results);
+      }
     } finally {
       setOnLoad(false);
     }
   }
 
   async function fetchNowPlaying() {
-    const response = await apiFetchMovieAndTv({
+    return await apiFetchMovieAndTv({
       apiUrl: "movie/now_playing",
       page: 1,
       language: language,
@@ -54,13 +81,10 @@ export function Home() {
       region: region,
       callback: () => {},
     });
-    if (response) {
-      setNowPlaying(response?.results);
-    }
   }
 
   async function fetchMoviesPopular() {
-    const response = await apiFetchMovieAndTv({
+    return await apiFetchMovieAndTv({
       apiUrl: "movie/popular",
       page: 1,
       language: language,
@@ -68,12 +92,9 @@ export function Home() {
       region: region,
       callback: () => {},
     });
-    if (response) {
-      setPopularMovie(response?.results);
-    }
   }
   async function fetchMoviesUpcoming() {
-    const response = await apiFetchMovieAndTv({
+    return await apiFetchMovieAndTv({
       apiUrl: "movie/upcoming",
       page: 1,
       language: language,
@@ -81,12 +102,9 @@ export function Home() {
       region: region,
       callback: () => {},
     });
-    if (response) {
-      setUpcomingMovie(response?.results);
-    }
   }
   async function fetchMoviesTrending() {
-    const response = await apiFetchMovieAndTv({
+    return await apiFetchMovieAndTv({
       apiUrl: "trending/movie/day",
       page: 1,
       language: language,
@@ -94,12 +112,9 @@ export function Home() {
       region: region,
       callback: () => {},
     });
-    if (response) {
-      setTrendingMovie(response?.results);
-    }
   }
   async function fetchTvPopular() {
-    const response = await apiFetchMovieAndTv({
+    return await apiFetchMovieAndTv({
       apiUrl: "tv/popular",
       page: 1,
       language: language,
@@ -107,12 +122,9 @@ export function Home() {
       region: region,
       callback: () => {},
     });
-    if (response) {
-      setPopularTv(response?.results);
-    }
   }
   async function fetchTvTrending() {
-    const response = await apiFetchMovieAndTv({
+    return await apiFetchMovieAndTv({
       apiUrl: "trending/tv/day",
       page: 1,
       language: language,
@@ -120,25 +132,29 @@ export function Home() {
       region: region,
       callback: () => {},
     });
-    if (response) {
-      seTrendingTv(response?.results);
-    }
   }
 
-  async function handleSeeMore(type: UrlsIsValidProps, title: string) {
-    //@ts-ignore
-    navigation.navigate("SeeMore", {
-      path: type,
-      title,
-    });
-  }
-  async function handleDetail(id: Number, type: TypeDetailProps) {
-    //@ts-ignore
-    navigation.navigate("Detail", {
-      id: id,
-      type: type,
-    });
-  }
+  const handleSeeMore = useCallback(
+    (type: UrlsIsValidProps, title: string) => {
+      //@ts-ignore
+      navigation.navigate("SeeMore", {
+        path: type,
+        title,
+      });
+    },
+    [navigation]
+  );
+
+  const handleDetail = useCallback(
+    (id: Number, type: TypeDetailProps) => {
+      //@ts-ignore
+      navigation.navigate("Detail", {
+        id: id,
+        type: type,
+      });
+    },
+    [navigation]
+  );
 
   if (onLoad) {
     return <LoadPage />;

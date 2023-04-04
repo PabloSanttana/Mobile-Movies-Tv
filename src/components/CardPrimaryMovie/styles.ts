@@ -8,7 +8,7 @@ type DeviceType = {
   doubleSize: boolean;
 };
 
-function createLength(lengthDefault: number, doubleSize: boolean): string {
+function LengthCardMovie(lengthDefault: number, doubleSize: boolean): string {
   if (doubleSize) {
     return scale(lengthDefault * 2) + 20 + "px";
   } else {
@@ -20,8 +20,8 @@ export const Container = styled.View<DeviceType>`
   margin-right: 20px;
   width: ${(props) =>
     props.deviceType === "tablet"
-      ? createLength(100, props.doubleSize)
-      : createLength(140, props.doubleSize)};
+      ? LengthCardMovie(100, props.doubleSize)
+      : LengthCardMovie(140, props.doubleSize)};
   margin-top: 5px;
 `;
 export const ContainerButton = styled.TouchableOpacity``;
@@ -34,8 +34,8 @@ export const ContainerImage = styled.View`
 export const Image = styled.Image<DeviceType>`
   width: ${(props) =>
     props.deviceType === "tablet"
-      ? createLength(100, props.doubleSize)
-      : createLength(140, props.doubleSize)};
+      ? LengthCardMovie(100, props.doubleSize)
+      : LengthCardMovie(140, props.doubleSize)};
   height: ${(props) =>
     props.deviceType === "tablet" ? convertScale(150) : convertScale(210)};
   border-radius: ${convertScale(5)};

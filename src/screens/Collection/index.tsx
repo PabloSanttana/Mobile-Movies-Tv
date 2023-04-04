@@ -29,6 +29,7 @@ import { useSettings } from "@src/hooks/settings";
 import { scale } from "react-native-size-matters";
 import CardGeneric from "@src/components/CardGeneric";
 import { Image } from "@src/components/CardPrimaryMovie/styles";
+import { imagePathIsValid } from "@src/utils/utils";
 
 type ParamsProps = {
   params: {
@@ -132,6 +133,11 @@ export function Collection() {
     [deviceType]
   );
 
+  const imagePathIsValidMemorized = useCallback(
+    (path: string) => imagePathIsValid(path),
+    []
+  );
+
   if (!data) return <LoadPage />;
 
   const title = context
@@ -140,19 +146,16 @@ export function Collection() {
 
   const isTablet = deviceType === "tablet";
 
+  const backdrop_path_small = imagePathIsValidMemorized(
+    data.backdrop_path_small
+  );
+  const backdrop_path = imagePathIsValidMemorized(data.backdrop_path);
+
   return (
     <Container showsVerticalScrollIndicator={false} bounces={false}>
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
-        <BackgroundImage
-          source={{
-            uri: data.backdrop_path_small,
-          }}
-        >
-          <BackgroundImage
-            source={{
-              uri: data.backdrop_path,
-            }}
-          >
+        <BackgroundImage source={backdrop_path_small}>
+          <BackgroundImage source={backdrop_path}>
             <HeaderDetail
               deviceType={deviceType}
               onPressLeft={() => navigation.goBack()}
@@ -181,7 +184,7 @@ export function Collection() {
                 }}
               >
                 <Image
-                  source={{ uri: data.poster_path }}
+                  source={backdrop_path}
                   deviceType={deviceType}
                   doubleSize={false}
                 />

@@ -18,6 +18,7 @@ import {
   Overview,
 } from "./styles";
 import { ObjectGenresProps } from "@src/screens/SeeMore";
+import { imagePathIsValid } from "@src/utils/utils";
 
 type CardGenericProps = TouchableOpacityProps & {
   data: CardProps;
@@ -41,15 +42,12 @@ function CardGeneric({
   if (dictionary && !isOverview) {
     genre = data.genre_ids.map((id) => dictionary[id]);
   }
+  const postImage = imagePathIsValid(data.poster_path);
 
   return (
     <Container deviceType={deviceType}>
       <Button activeOpacity={0.7} {...rest}>
-        <Image
-          deviceType={deviceType}
-          resizeMode="cover"
-          source={{ uri: data.poster_path }}
-        />
+        <Image deviceType={deviceType} resizeMode="cover" source={postImage} />
       </Button>
       <Content>
         <Button activeOpacity={0.7} {...rest}>

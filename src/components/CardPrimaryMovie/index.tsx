@@ -13,7 +13,7 @@ import {
 import { CardProps, DeviceTypeProps } from "@src/interfaces";
 
 import VoteAverage from "@src/components/VoteAverage";
-import { progressColor } from "@src/utils/utils";
+import { imagePathIsValid, progressColor } from "@src/utils/utils";
 
 export type CardPrimaryMovieProps = TouchableOpacityProps & {
   data: CardProps;
@@ -33,9 +33,9 @@ function CardPrimaryMovie({
   //     .toString(16)
   //     .padStart(6, "0");
 
-  // const image = data.backdrop_path.includes("null")
-  //   ? { uri: process.env.BASE_IMAGE_URL + "w300" + data.profile_path }
-  //   : Logo;
+  const postImage = doubleSize
+    ? imagePathIsValid(data.backdrop_path)
+    : imagePathIsValid(data.poster_path);
 
   return (
     <Container deviceType={deviceType} doubleSize={doubleSize}>
@@ -44,10 +44,7 @@ function CardPrimaryMovie({
           <Image
             accessibilityLabel={data.title}
             deviceType={deviceType}
-            source={{
-              uri: doubleSize ? data.backdrop_path : data.poster_path,
-              cache: "force-cache",
-            }}
+            source={postImage}
             resizeMode="cover"
             //onLoad={() => console.log(data.title)}
             alt={data.title}

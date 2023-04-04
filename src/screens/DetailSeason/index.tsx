@@ -35,6 +35,7 @@ import ListCardCastHorizontal from "@src/components/ListCardCastHorizontal";
 import StarRating from "@src/components/StarRating";
 import { DivRow } from "../Collection/styles";
 import CardGeneric from "@src/components/CardGeneric";
+import { imagePathIsValid } from "@src/utils/utils";
 
 type ParamsProps = {
   params: {
@@ -117,6 +118,11 @@ export function DetailSeason() {
     [deviceType]
   );
 
+  const imagePathIsValidMemorized = useCallback(
+    (path: string) => imagePathIsValid(path),
+    []
+  );
+
   if (!data) return <LoadPage />;
 
   const trailerWidth =
@@ -128,20 +134,16 @@ export function DetailSeason() {
       ? height
       : width;
 
+  const poster_path_small = imagePathIsValidMemorized(
+    data.poster_path_small ?? ""
+  );
+  const poster_path = imagePathIsValidMemorized(data.poster_path);
+
   return (
     <Container showsVerticalScrollIndicator={false} bounces={false}>
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
-        <BackgroundImage
-          source={{
-            uri: data.poster_path_small,
-          }}
-        >
-          <BackgroundImage
-            source={{
-              uri: data.poster_path,
-            }}
-            resizeMode="contain"
-          >
+        <BackgroundImage source={poster_path_small}>
+          <BackgroundImage source={poster_path} resizeMode="contain">
             <HeaderDetail
               deviceType={deviceType}
               onPressLeft={() => navigation.goBack()}

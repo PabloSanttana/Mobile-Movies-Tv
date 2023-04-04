@@ -7,7 +7,6 @@ import {
   StatusBar,
   Dimensions,
   FlatList,
-  View,
   NativeSyntheticEvent,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -43,7 +42,7 @@ var isHeaderHider = false;
 var page = 1;
 var totalPages = 0;
 var genre: string = "";
-const { height, width } = Dimensions.get("screen");
+const { height } = Dimensions.get("screen");
 export default function SeeMore() {
   const navigation = useNavigation();
   const { deviceType, language, adult, region, orientation } = useSettings();
@@ -143,6 +142,7 @@ export default function SeeMore() {
       useNativeDriver: true,
     }).start();
   }, []);
+
   function handleToggleHeader(event: NativeSyntheticEvent<NativeScrollEvent>) {
     const value = event.nativeEvent.contentOffset.y;
     if (value < 0) return;
@@ -160,13 +160,17 @@ export default function SeeMore() {
       }
     }
   }
-  function handleDetail(id: Number, type: TypeDetailProps) {
-    //@ts-ignore
-    navigation.push("Detail", {
-      id: id,
-      type: type,
-    });
-  }
+  const handleDetail = useCallback(
+    (id: Number, type: TypeDetailProps) => {
+      //@ts-ignore
+      navigation.navigate("Detail", {
+        id: id,
+        type: type,
+      });
+    },
+    [navigation]
+  );
+
   const renderItem = useCallback(
     ({ item }: RenderItemProps) => (
       <CardGeneric

@@ -133,20 +133,6 @@ export default function Favorites() {
     }
   }
 
-  const renderItem = useCallback(
-    ({ item }: RenderItemProps) => (
-      <CardGeneric
-        deviceType={deviceType}
-        data={item}
-        dictionary={genres}
-        onPress={() => handleDetail(item.id, item.media_type)}
-        sizeStar={deviceType === "tablet" ? 8 : 15}
-        sizeText={deviceType === "tablet" ? 8 : 15}
-      />
-    ),
-    [deviceType, genres]
-  );
-
   function handleDetail(id: Number, type: TypeDetailProps) {
     //@ts-ignore
     navigation.navigate("Detail", {
@@ -167,13 +153,29 @@ export default function Favorites() {
     }
     setSearch(value);
   }
+
+  const renderItem = useCallback(
+    ({ item }: RenderItemProps) => (
+      <CardGeneric
+        deviceType={deviceType}
+        data={item}
+        dictionary={genres}
+        onPress={() => handleDetail(item.id, item.media_type)}
+        sizeStar={deviceType === "tablet" ? 8 : 15}
+        sizeText={deviceType === "tablet" ? 8 : 15}
+      />
+    ),
+    [deviceType, genres]
+  );
+  const KeyExtractor = useCallback((item: CardProps) => item.id.toString(), []);
+
   const filter =
     search.length > 2
       ? data.filter(({ title }) =>
           title.toLocaleLowerCase().includes(search.toLocaleLowerCase())
         )
       : data;
-  const KeyExtractor = useCallback((item: CardProps) => item.id.toString(), []);
+
   return (
     <Container>
       <StatusBar />
