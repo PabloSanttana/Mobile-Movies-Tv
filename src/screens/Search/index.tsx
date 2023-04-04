@@ -35,7 +35,7 @@ var count = 0;
 var isHeaderHider = false;
 var page = 1;
 var totalPages = 0;
-const { height, width } = Dimensions.get("screen");
+const { height } = Dimensions.get("screen");
 export default function Search() {
   const navigation = useNavigation();
   const { deviceType, language, region, adult } = useSettings();
@@ -45,6 +45,7 @@ export default function Search() {
   const toggleHeader = useRef(new Animated.Value(0)).current;
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const isTablet = deviceType === "tablet";
 
   useEffect(() => {
     page = 1;
@@ -107,7 +108,7 @@ export default function Search() {
 
   const closeHeader = useCallback(() => {
     Animated.timing(toggleHeader, {
-      toValue: scale(-45),
+      toValue: scale(isTablet ? -27 : -45),
       duration: 300,
       useNativeDriver: true,
     }).start();
@@ -139,8 +140,9 @@ export default function Search() {
   }
 
   const MARGIN_TOP = 20;
-  const ITEM_HEIGHT =
-    deviceType === "tablet" ? scale(90) + MARGIN_TOP : scale(140) + MARGIN_TOP;
+  const ITEM_HEIGHT = isTablet
+    ? scale(90) + MARGIN_TOP
+    : scale(140) + MARGIN_TOP;
 
   const getItemLayout = useCallback(
     (data: CardProps[] | null | undefined, index: number) => ({
@@ -158,8 +160,8 @@ export default function Search() {
         data={item}
         dictionary={genres}
         onPress={() => handleDetail(item.id, item.media_type)}
-        sizeStar={deviceType === "tablet" ? 8 : 15}
-        sizeText={deviceType === "tablet" ? 8 : 15}
+        sizeStar={isTablet ? 8 : 15}
+        sizeText={isTablet ? 8 : 15}
       />
     ),
     [deviceType, genres]
@@ -207,7 +209,7 @@ export default function Search() {
             renderItem={renderItem}
             onScroll={handleToggleHeader}
             bounces={false}
-            numColumns={deviceType === "tablet" ? 2 : 1}
+            numColumns={isTablet ? 2 : 1}
             contentContainerStyle={{
               paddingBottom: scale(170),
             }}

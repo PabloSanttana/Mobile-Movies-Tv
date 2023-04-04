@@ -54,6 +54,7 @@ export default function SeeMore() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingGenre, setIsLoadingGenre] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const isTablet = deviceType === "tablet";
 
   useEffect(() => {
     page = 1;
@@ -131,7 +132,7 @@ export default function SeeMore() {
 
   const closeHeader = useCallback(() => {
     Animated.timing(toggleHeader, {
-      toValue: scale(-75),
+      toValue: scale(isTablet ? -50 : -75),
       duration: 300,
       useNativeDriver: true,
     }).start();
@@ -174,8 +175,9 @@ export default function SeeMore() {
   );
 
   const MARGIN_TOP = 20;
-  const ITEM_HEIGHT =
-    deviceType === "tablet" ? scale(90) + MARGIN_TOP : scale(140) + MARGIN_TOP;
+  const ITEM_HEIGHT = isTablet
+    ? scale(90) + MARGIN_TOP
+    : scale(140) + MARGIN_TOP;
 
   const getItemLayout = useCallback(
     (data: CardProps[] | null | undefined, index: number) => ({
@@ -193,8 +195,8 @@ export default function SeeMore() {
         data={item}
         dictionary={genres}
         onPress={() => handleDetail(item.id, item.media_type)}
-        sizeStar={deviceType === "tablet" ? 8 : 15}
-        sizeText={deviceType === "tablet" ? 8 : 15}
+        sizeStar={isTablet ? 8 : 15}
+        sizeText={isTablet ? 8 : 15}
       />
     ),
     [deviceType, genres]
@@ -235,7 +237,7 @@ export default function SeeMore() {
             renderItem={renderItem}
             onScroll={handleToggleHeader}
             bounces={false}
-            numColumns={deviceType === "tablet" ? 2 : 1}
+            numColumns={isTablet ? 2 : 1}
             contentContainerStyle={{
               paddingBottom: scale(60),
               paddingHorizontal: 10,
