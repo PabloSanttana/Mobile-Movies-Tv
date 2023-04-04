@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { View, FlatList } from "react-native";
 import HeaderList from "@src/components/HeaderList";
-import { CardProps, DeviceTypeProps, RenderItemProps } from "@src/interfaces";
+import { CardProps, DeviceTypeProps } from "@src/interfaces";
 import CardPrimaryMovie from "@src/components/CardPrimaryMovie";
 import { TypeDetailProps } from "@src/services/services";
 
@@ -17,7 +17,7 @@ export type ListCardTvProps = {
 
 function ListCardHorizontal(data: ListCardTvProps) {
   const renderItem = useCallback(
-    ({ item }: RenderItemProps) => (
+    (item: CardProps) => (
       <CardPrimaryMovie
         data={item}
         deviceType={data.deviceType}
@@ -27,7 +27,6 @@ function ListCardHorizontal(data: ListCardTvProps) {
     ),
     []
   );
-  const KeyExtractor = useCallback((item: CardProps) => item.id.toString(), []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -38,8 +37,8 @@ function ListCardHorizontal(data: ListCardTvProps) {
       />
       <FlatList
         data={data.movies}
-        keyExtractor={KeyExtractor}
-        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toLocaleString()}
+        renderItem={({ item }) => renderItem(item)}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingLeft: data.marginHorizontal }}

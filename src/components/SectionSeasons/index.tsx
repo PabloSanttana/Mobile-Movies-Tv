@@ -2,7 +2,6 @@ import React from "react";
 
 import { DeviceTypeProps, SeasonsProps } from "@src/interfaces";
 import HeaderList from "@src/components/HeaderList";
-import Logo from "@src/assets/logo.png";
 
 import {
   CardOverview,
@@ -34,7 +33,6 @@ function SectionSeasons({ data, onPress, deviceType }: SectionSeasonsProps) {
       <Container>
         <ContainerCard>
           <ImageCard
-            defaultSource={Logo}
             source={{
               uri: process.env.BASE_IMAGE_URL + "w300" + data.poster_path,
             }}

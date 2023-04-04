@@ -3,7 +3,6 @@ import React from "react";
 import { BelongsToCollectionProps, DeviceTypeProps } from "@src/interfaces";
 import HeaderList from "@src/components/HeaderList";
 import { Image } from "@src/components/CardPrimaryMovie/styles";
-import Logo from "@src/assets/logo.png";
 
 import {
   BackgroundImageCollection,
@@ -33,17 +32,14 @@ function SectionCollection({
       />
       <BackgroundImageCollection
         deviceType={deviceType}
-        defaultSource={Logo}
         source={{ uri: data?.backdrop_path_small }}
       >
         <BackgroundImageCollection
           deviceType={deviceType}
-          defaultSource={Logo}
           source={{ uri: data?.backdrop_path }}
         >
           <Gradient colors={["rgba(0, 0, 0,0.5)", "rgba(0, 0, 0,0.5)"]}>
             <Image
-              defaultSource={Logo}
               deviceType={deviceType}
               doubleSize={false}
               source={{ uri: data?.poster_path }}

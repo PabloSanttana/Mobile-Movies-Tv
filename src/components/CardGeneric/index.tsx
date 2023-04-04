@@ -18,7 +18,6 @@ import {
   Overview,
 } from "./styles";
 import { ObjectGenresProps } from "@src/screens/SeeMore";
-import Logo from "@src/assets/logo.png";
 
 type CardGenericProps = TouchableOpacityProps & {
   data: CardProps;
@@ -47,7 +46,6 @@ function CardGeneric({
     <Container deviceType={deviceType}>
       <Button activeOpacity={0.7} {...rest}>
         <Image
-          defaultSource={Logo}
           deviceType={deviceType}
           resizeMode="cover"
           source={{ uri: data.poster_path }}

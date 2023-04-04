@@ -14,7 +14,6 @@ import { CardProps, DeviceTypeProps } from "@src/interfaces";
 
 import VoteAverage from "@src/components/VoteAverage";
 import { progressColor } from "@src/utils/utils";
-import Logo from "@src/assets/logo.png";
 
 export type CardPrimaryMovieProps = TouchableOpacityProps & {
   data: CardProps;
@@ -34,12 +33,15 @@ function CardPrimaryMovie({
   //     .toString(16)
   //     .padStart(6, "0");
 
+  // const image = data.backdrop_path.includes("null")
+  //   ? { uri: process.env.BASE_IMAGE_URL + "w300" + data.profile_path }
+  //   : Logo;
+
   return (
     <Container deviceType={deviceType} doubleSize={doubleSize}>
       <ContainerImage>
         <ContainerButton activeOpacity={0.7} {...rest}>
           <Image
-            defaultSource={Logo}
             accessibilityLabel={data.title}
             deviceType={deviceType}
             source={{

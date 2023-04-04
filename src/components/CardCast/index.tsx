@@ -1,11 +1,11 @@
 import React from "react";
 
-import { crewProps, DeviceTypeProps } from "@src/interfaces";
+import { CrewProps, DeviceTypeProps } from "@src/interfaces";
 import { Container, Title, Image, Text } from "./styles";
 import Logo from "@src/assets/logo.png";
 
 type CardCastProps = {
-  data: crewProps;
+  data: CrewProps;
   deviceType: DeviceTypeProps;
 };
 function CardCast({ data, deviceType }: CardCastProps) {
@@ -15,12 +15,7 @@ function CardCast({ data, deviceType }: CardCastProps) {
 
   return (
     <Container deviceType={deviceType}>
-      <Image
-        defaultSource={Logo}
-        deviceType={deviceType}
-        source={image}
-        resizeMode="cover"
-      />
+      <Image deviceType={deviceType} source={image} resizeMode="cover" />
       <Title deviceType={deviceType}>{data.name}</Title>
       <Text deviceType={deviceType}>
         {data.job ? data.job : data.character}
