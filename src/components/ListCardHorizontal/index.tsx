@@ -4,6 +4,7 @@ import HeaderList from "@src/components/HeaderList";
 import { CardProps, DeviceTypeProps } from "@src/interfaces";
 import CardPrimaryMovie from "@src/components/CardPrimaryMovie";
 import { TypeDetailProps } from "@src/services/services";
+import { scale } from "react-native-size-matters";
 
 export type ListCardTvProps = {
   movies: CardProps[];
@@ -16,6 +17,32 @@ export type ListCardTvProps = {
 };
 
 function ListCardHorizontal(data: ListCardTvProps) {
+  const LengthCardMovie = useCallback(
+    (lengthDefault: number, doubleSize: boolean) => {
+      const marginRight = 20;
+      if (doubleSize) {
+        return scale(lengthDefault * 2) + 2 * marginRight;
+      } else {
+        return scale(lengthDefault) + marginRight;
+      }
+    },
+    []
+  );
+
+  const ITEM_HEIGHT =
+    data.deviceType === "tablet"
+      ? LengthCardMovie(100, data.doubleSize)
+      : LengthCardMovie(140, data.doubleSize);
+
+  const getItemLayout = useCallback(
+    (data: CardProps[] | null | undefined, index: number) => ({
+      length: ITEM_HEIGHT,
+      offset: ITEM_HEIGHT * index,
+      index: index,
+    }),
+    []
+  );
+
   const renderItem = useCallback(
     (item: CardProps) => (
       <CardPrimaryMovie
@@ -50,6 +77,7 @@ function ListCardHorizontal(data: ListCardTvProps) {
         removeClippedSubviews={true}
         maxToRenderPerBatch={5}
         initialNumToRender={5}
+        getItemLayout={getItemLayout}
       />
     </View>
   );
