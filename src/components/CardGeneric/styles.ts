@@ -97,6 +97,6 @@ export const ContentLabel = styled.View<DeviceType>`
 export const Label = styled.Text<DeviceType>`
   font-family: ${(props) => props.theme.fonts.subtitle};
   font-size: ${(props) =>
-    sizeDeviceTypeScale(props.deviceType, 8, props.theme.size.small)};
+    sizeDeviceTypeScale(props.deviceType, 7, props.theme.size.small)};
   color: ${(props) => props.theme.colors.textCategory};
 `;

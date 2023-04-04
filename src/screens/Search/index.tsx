@@ -138,6 +138,19 @@ export default function Search() {
     }
   }
 
+  const MARGIN_TOP = 20;
+  const ITEM_HEIGHT =
+    deviceType === "tablet" ? scale(90) + MARGIN_TOP : scale(140) + MARGIN_TOP;
+
+  const getItemLayout = useCallback(
+    (data: CardProps[] | null | undefined, index: number) => ({
+      length: ITEM_HEIGHT,
+      offset: ITEM_HEIGHT * index,
+      index: index,
+    }),
+    []
+  );
+
   const renderItem = useCallback(
     ({ item }: RenderItemProps) => (
       <CardGeneric
@@ -218,6 +231,7 @@ export default function Search() {
               itemVisiblePercentThreshold: 50,
               minimumViewTime: 300,
             }}
+            getItemLayout={getItemLayout}
           />
         ) : (
           <NotFound />

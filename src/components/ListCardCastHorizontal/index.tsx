@@ -4,6 +4,7 @@ import { FlatList } from "react-native";
 import { CrewProps, DeviceTypeProps } from "@src/interfaces";
 import CardCast from "@src/components/CardCast";
 import { Container, Title } from "./styles";
+import { scale } from "react-native-size-matters";
 
 type ListCardCastHorizontalProps = {
   data: CrewProps[];
@@ -24,11 +25,22 @@ function ListCardCastHorizontal({
     (item: CrewProps) => item.credit_id.toString(),
     []
   );
+
   const renderItem = useCallback(
     ({ item }: RenderItemCrewProps) => (
       <CardCast data={item} deviceType={deviceType} />
     ),
     [deviceType]
+  );
+  const ITEM_HEIGHT = deviceType === "tablet" ? scale(80) : scale(100);
+
+  const getItemLayout = useCallback(
+    (data: CrewProps[] | null | undefined, index: number) => ({
+      length: ITEM_HEIGHT,
+      offset: ITEM_HEIGHT * index,
+      index: index,
+    }),
+    []
   );
   return (
     <Container>
@@ -48,6 +60,7 @@ function ListCardCastHorizontal({
         }}
         removeClippedSubviews={true}
         showsHorizontalScrollIndicator={false}
+        getItemLayout={getItemLayout}
       />
     </Container>
   );
