@@ -16,7 +16,7 @@ import { apiFetchMovieAndTv } from "@src/services/services";
 import LoadPage from "@src/components/LoadPage";
 import { isValid } from "date-fns";
 
-export function Initial() {
+export default function Initial() {
   const navigation = useNavigation();
   const { deviceType, saveUser, language, adult, region } = useSettings();
   const [image, setImage] = useState("");

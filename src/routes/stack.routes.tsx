@@ -1,14 +1,14 @@
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { Detail } from "@src/screens/Detail";
-import { DetailSeason } from "@src/screens/DetailSeason";
-import { Initial } from "@src/screens/Initial";
-import { Collection } from "@src/screens/Collection";
-
-import { TabRoutes } from "./tab.routes";
-import SeeMore from "@src/screens/SeeMore";
 import { useSettings } from "@src/hooks/settings";
+
+const Detail = React.lazy(() => import("@src/screens/Detail"));
+const DetailSeason = React.lazy(() => import("@src/screens/DetailSeason"));
+const Initial = React.lazy(() => import("@src/screens/Initial"));
+const Collection = React.lazy(() => import("@src/screens/Collection"));
+const TabRoutes = React.lazy(() => import("./tab.routes"));
+const SeeMore = React.lazy(() => import("@src/screens/SeeMore"));
 
 const Stack = createNativeStackNavigator();
 

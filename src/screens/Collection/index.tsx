@@ -56,7 +56,7 @@ const GroupTitleDescription = ({
   );
 };
 
-export function Collection() {
+export default function Collection() {
   LogBox.ignoreLogs([
     "Did not receive response to shouldStartLoad in time, defaulting to YES",
     "startLoadWithResult invoked with invalid lockIdentifier",

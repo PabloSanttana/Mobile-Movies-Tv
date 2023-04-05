@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { useTheme } from "styled-components";
 import { StatusBar } from "expo-status-bar";
 
@@ -172,6 +172,7 @@ export function Home() {
           onPress={handleDetail}
         />
       )}
+
       <ListCardHorizontal
         movies={nowPlaying}
         deviceType={deviceType}
@@ -183,6 +184,7 @@ export function Home() {
         onPressDetail={(item) => handleDetail(item, "movie")}
         marginHorizontal={theme.space.marginHorizontal}
       />
+
       <ListCardHorizontal
         movies={trendingMovie}
         deviceType={deviceType}

@@ -14,7 +14,7 @@ import { useSettings } from "@src/hooks/settings";
 
 const Tab = createBottomTabNavigator();
 
-export function TabRoutes() {
+export default function TabRoutes() {
   const theme = useTheme();
   const { deviceType } = useSettings();
   const isTablet = deviceType === "tablet";

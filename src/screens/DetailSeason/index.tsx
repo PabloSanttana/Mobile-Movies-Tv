@@ -49,7 +49,7 @@ type ParamsProps = {
 var indexNextTrailer = 1;
 
 const { width, height } = Dimensions.get("screen");
-export function DetailSeason() {
+export default function DetailSeason() {
   LogBox.ignoreLogs([
     "Did not receive response to shouldStartLoad in time, defaulting to YES",
     "startLoadWithResult invoked with invalid lockIdentifier",
