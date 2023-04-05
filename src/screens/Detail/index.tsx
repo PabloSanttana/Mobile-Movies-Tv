@@ -202,13 +202,7 @@ export default function Detail() {
   if (!data) return <LoadPage />;
 
   const trailerWidth =
-    orientation === 1
-      ? deviceType === "tablet"
-        ? width
-        : width
-      : deviceType === "tablet"
-      ? height
-      : width;
+    orientation === 1 ? width : deviceType === "tablet" ? height : width;
   // const trailerHeight = orientation === 1 ? width * 0.56 : height * 0.56;
 
   const poster_path_small = imagePathIsValidMemorized(
@@ -401,7 +395,7 @@ export default function Detail() {
                 onShouldStartLoadWithRequest={() => true}
               />
             )}
-            contentContainerStyle={{ paddingHorizontal: 20 }}
+            //contentContainerStyle={{ paddingHorizontal: 20 }}
             ListEmptyComponent={
               <SubTitle deviceType={deviceType}>
                 Trailers não encontrados
