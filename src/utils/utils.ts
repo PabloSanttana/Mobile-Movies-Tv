@@ -14,6 +14,7 @@ import {
   ResponseDetailSeasonProps,
   ResponseHttpDetailSeasonProps,
   DeviceTypeProps,
+  VideoProps,
 } from "@src/interfaces";
 import { CardProps } from "@src/interfaces";
 import Logo from "@src/assets/logo.png";
@@ -167,31 +168,32 @@ export async function formatDataMovieToCardPageDetail(
   genresStr = data.genres.map((item) => item.name);
 
   //filtrando só as pessoas com esses perfils de trabalhos
-  const jobs = ["Characters", "Director", "Writer"];
-  const crewFilter = data.credits.crew.filter((item) =>
-    jobs.includes(item.job)
-  );
+  // set busca O(1)
+  const jobs = new Set(["Characters", "Director", "Writer"]);
+  const crewFilter = data.credits.crew.filter((item) => jobs.has(item.job));
 
   //Somente traile do YouTube
-  const trailers = data.videos.results.filter(
-    (item) => item.site === "YouTube"
-  );
+  const trailers: VideoProps[] = [];
+  data.videos.results.forEach((item) => {
+    if (item.site === "YouTube") {
+      if (item.type === "Trailer") {
+        trailers.push(item);
+      }
+    }
+  });
 
   const recommendations = await formatDataMovieToCard(
     data.recommendations.results
   );
 
-  var belongs_to_collection =
-    data.belongs_to_collection !== null
-      ? {
-          id: data.belongs_to_collection.id,
-          backdrop_path: `${BASE_IMAGE_URL}w780${data.belongs_to_collection.backdrop_path}`,
-          backdrop_path_small: `${BASE_IMAGE_URL}w300${data.belongs_to_collection.backdrop_path}`,
-          name: data.belongs_to_collection.name,
-          poster_path: `${BASE_IMAGE_URL}w500${data.belongs_to_collection.poster_path}`,
-          poster_path_small: `${BASE_IMAGE_URL}w92${data.belongs_to_collection.poster_path}`,
-        }
-      : null;
+  const belongs_to_collection = data.belongs_to_collection && {
+    id: data.belongs_to_collection.id,
+    backdrop_path: `${BASE_IMAGE_URL}w780${data.belongs_to_collection.backdrop_path}`,
+    backdrop_path_small: `${BASE_IMAGE_URL}w300${data.belongs_to_collection.backdrop_path}`,
+    name: data.belongs_to_collection.name,
+    poster_path: `${BASE_IMAGE_URL}w500${data.belongs_to_collection.poster_path}`,
+    poster_path_small: `${BASE_IMAGE_URL}w92${data.belongs_to_collection.poster_path}`,
+  };
 
   return {
     ...data,
@@ -233,7 +235,7 @@ export async function formatDataTvToCardPageDetail(
   let genresStr: string[] = [];
   genresStr = data.genres.map((item) => item.name);
   //filtrando só as pessoas com esses perfils de trabalhos
-  const jobs = ["Characters", "Director", "Writer"];
+  //const jobs = ["Characters", "Director", "Writer"];
   //const crewFilter = data.credits.crew.filter(({ job }) => jobs.includes(job));
   const crewFilter = data.created_by.map((item) => {
     return {
@@ -254,10 +256,14 @@ export async function formatDataTvToCardPageDetail(
     };
   });
   //Somente traile do YouTube
-  const trailers = data.videos.results.filter(
-    (item) => item.site === "YouTube"
-  );
-
+  const trailers: VideoProps[] = [];
+  data.videos.results.forEach((item) => {
+    if (item.site === "YouTube") {
+      if (item.type === "Trailer") {
+        trailers.push(item);
+      }
+    }
+  });
   const recommendations = await formatDataTvToCard(
     data.recommendations.results
   );
@@ -401,13 +407,20 @@ export function formatDataDetailSeason(
   data: ResponseHttpDetailSeasonProps
 ): ResponseDetailSeasonProps {
   const newDate = formatData(data.air_date ?? "00");
-  const jobs = ["Characters", "Director", "Writer"];
-  const crewFilter = data.credits.crew.filter((item) =>
-    jobs.includes(item.job)
-  );
-  const trailers = data.videos.results.filter(
-    (item) => item.site === "YouTube"
-  );
+
+  //filtrando só as pessoas com esses perfils de trabalhos
+  // set busca O(1)
+  const jobs = new Set(["Characters", "Director", "Writer"]);
+  const crewFilter = data.credits.crew.filter((item) => jobs.has(item.job));
+
+  const trailers: VideoProps[] = [];
+  data.videos.results.forEach((item) => {
+    if (item.site === "YouTube") {
+      if (item.type === "Trailer") {
+        trailers.push(item);
+      }
+    }
+  });
 
   const episodes: CardProps[] = data.episodes.map((item) => {
     return {

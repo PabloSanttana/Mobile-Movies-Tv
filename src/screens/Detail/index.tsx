@@ -349,6 +349,8 @@ export default function Detail() {
             deviceType={deviceType}
           />
         </View>
+
+        <SubTitle deviceType={deviceType}>Onde assistir</SubTitle>
       </Content>
 
       <ListCardCastHorizontal
