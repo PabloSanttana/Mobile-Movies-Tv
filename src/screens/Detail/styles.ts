@@ -54,6 +54,8 @@ export const ButtonTrailerText = styled.Text<DeviceType>`
   padding: 3px 5px;
   transform: translateY(-10px);
   border-radius: 10px;
+  width: ${convertScale(70)};
+  text-align: center;
   font-size: ${(props) => sizeDeviceTypeScale(props.deviceType, 12, 17)};
 `;
 

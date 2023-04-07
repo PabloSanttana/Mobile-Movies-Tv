@@ -5,6 +5,8 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
+  LayoutChangeEvent,
+  Platform,
 } from "react-native";
 import { WebView } from "react-native-webview";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -84,6 +86,7 @@ const GroupTitleDescription = ({
 };
 
 var indexNextTrailer = 1;
+var positionSessionTrailer = 0;
 const { width, height } = Dimensions.get("screen");
 export default function Detail() {
   LogBox.ignoreLogs([
@@ -108,6 +111,7 @@ export default function Detail() {
   const flatListRef = useRef<FlatList>(null);
   const [heartAnimation, setHeartAnimation] = useState(false);
   const theme = useTheme();
+  const [isIOS] = useState(Platform.OS === "ios");
   console.log("Detail", id);
   const [data, setData] = useState<ResponseFormattedDetailMovieProps | null>();
 
@@ -115,6 +119,7 @@ export default function Detail() {
     fetchDetail();
     return () => {
       indexNextTrailer = 1;
+      positionSessionTrailer = 0;
     };
   }, [id, type]);
 
@@ -138,11 +143,18 @@ export default function Detail() {
   }
 
   function play() {
-    const run = `setTimeout(() => {
-      document.querySelector(".ytp-play-button").click();
-      true
-    }, 50);`;
-    webViewRef.current[0].injectJavaScript(run);
+    if (isIOS) {
+      const run = `setTimeout(() => {
+        document.querySelector(".ytp-play-button").click();
+        true
+      }, 50);`;
+      webViewRef.current[0].injectJavaScript(run);
+    } else {
+      scrollViewRef.current?.scrollTo({
+        animated: true,
+        y: positionSessionTrailer - 100,
+      });
+    }
   }
 
   function toggleFavorite(value: ResponseFormattedDetailMovieProps) {
@@ -196,6 +208,12 @@ export default function Detail() {
   }
   const imagePathIsValidMemorized = useCallback(
     (path: string) => imagePathIsValid(path),
+    []
+  );
+
+  const gerPositionSessionTrailer = useCallback(
+    (event: LayoutChangeEvent) =>
+      (positionSessionTrailer = event.nativeEvent.layout.y),
     []
   );
 
@@ -365,7 +383,7 @@ export default function Detail() {
       />
 
       {data.videos.results.length > 0 && (
-        <>
+        <View style={{ flex: 1 }} onLayout={gerPositionSessionTrailer}>
           <HeaderList
             title="Trailers"
             isMore={data.videos.results.length > 1}
@@ -375,8 +393,10 @@ export default function Detail() {
           <FlatList
             ref={flatListRef}
             style={{
-              height: deviceType === "tablet" ? scale(220) : scale(250),
+              height: deviceType === "tablet" ? scale(240) : scale(270),
               flex: 1,
+              paddingBottom: scale(20),
+              backgroundColor: theme.colors.backgroundSecondary,
             }}
             data={data.videos.results}
             horizontal
@@ -404,7 +424,7 @@ export default function Detail() {
               </SubTitle>
             }
           />
-        </>
+        </View>
       )}
 
       {data.seasons && (
