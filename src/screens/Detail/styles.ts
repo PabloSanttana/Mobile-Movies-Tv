@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { Dimensions } from "react-native";
+import { Dimensions, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { convertScale, sizeDeviceTypeScale } from "@src/utils/utils";
 import { DeviceTypeProps } from "@src/interfaces";
@@ -11,7 +11,7 @@ type DeviceType = {
 
 const { width, height } = Dimensions.get("screen");
 
-export const Container = styled.ScrollView`
+export const Container = styled(Animated.ScrollView)`
   flex: 1;
   background-color: ${(props) => props.theme.colors.backgroundPrimary};
 `;

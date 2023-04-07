@@ -4,10 +4,16 @@ import {
   LogBox,
   Dimensions,
   TouchableOpacity,
-  ScrollView,
   LayoutChangeEvent,
   Platform,
 } from "react-native";
+import {
+  useSharedValue,
+  useAnimatedRef,
+  scrollTo,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 import { WebView } from "react-native-webview";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -57,7 +63,9 @@ import {
   convertDataFavoriteToCard,
   formatDataDetailToSessions,
   imagePathIsValid,
+  youtubeHTML,
 } from "@src/utils/utils";
+import { useDerivedValue } from "react-native-reanimated";
 
 type ParamsProps = {
   params: {
@@ -107,11 +115,12 @@ export default function Detail() {
   const router = useRoute() as ParamsProps;
   const { id, type } = router.params;
   const webViewRef = useRef<WebView[]>([]);
-  const scrollViewRef = useRef<ScrollView>(null);
+  const scrollViewRef = useAnimatedRef();
+  const scroll = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
   const [heartAnimation, setHeartAnimation] = useState(false);
   const theme = useTheme();
-  const [isIOS] = useState(Platform.OS === "ios");
+
   console.log("Detail", id);
   const [data, setData] = useState<ResponseFormattedDetailMovieProps | null>();
 
@@ -133,28 +142,31 @@ export default function Detail() {
         adult,
       });
       setData(response);
-      scrollViewRef?.current?.scrollTo({
-        animated: true,
-        y: 0,
+      scroll.value = withTiming(0, {
+        duration: 1500,
+        easing: Easing.ease,
       });
     } catch (error) {
       console.log(error);
     }
   }
 
+  useDerivedValue(() => {
+    scrollTo(scrollViewRef, 0, scroll.value, true);
+  });
+
   function play() {
-    if (isIOS) {
-      const run = `setTimeout(() => {
-        document.querySelector(".ytp-play-button").click();
-        true
-      }, 50);`;
-      webViewRef.current[0].injectJavaScript(run);
-    } else {
-      scrollViewRef.current?.scrollTo({
-        animated: true,
-        y: positionSessionTrailer - 100,
+    if (Platform.OS === "android") {
+      scroll.value = withTiming(positionSessionTrailer, {
+        duration: 2500,
+        easing: Easing.ease,
       });
     }
+    const run = `setTimeout(() => {
+          playVideo();
+           true
+         }, 50);`;
+    webViewRef.current[0].injectJavaScript(run);
   }
 
   function toggleFavorite(value: ResponseFormattedDetailMovieProps) {
@@ -233,6 +245,8 @@ export default function Detail() {
       ref={scrollViewRef}
       showsVerticalScrollIndicator={false}
       bounces={false}
+      decelerationRate="normal"
+      scrollEventThrottle={16}
     >
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
         <BackgroundImage source={poster_path_small} blurRadius={1}>
@@ -401,6 +415,7 @@ export default function Detail() {
             data={data.videos.results}
             horizontal
             keyExtractor={(item) => item.key}
+            pagingEnabled={true}
             renderItem={({ item, index }) => (
               <WebView
                 key={item.key}
@@ -411,13 +426,22 @@ export default function Detail() {
                 ref={(r) => (webViewRef.current[index] = r)}
                 javaScriptEnabled={true}
                 source={{
-                  uri: `https://www.youtube.com/embed/${item.key}?rel=0&autoplay=0&showinfo=0&controls=1`,
+                  html: youtubeHTML(
+                    item.key,
+                    deviceType === "tablet" ? scale(230) : scale(260),
+                    trailerWidth
+                  ),
                 }}
                 startInLoadingState={true}
                 onShouldStartLoadWithRequest={() => true}
+                allowsFullscreenVideo={true}
+                mediaPlaybackRequiresUserAction={true}
+                androidLayerType="hardware"
+                // onMessage={(event) => {
+                //   console.log("evente", event.nativeEvent.data);
+                // }}
               />
             )}
-            //contentContainerStyle={{ paddingHorizontal: 20 }}
             ListEmptyComponent={
               <SubTitle deviceType={deviceType}>
                 Trailers não encontrados

@@ -494,3 +494,58 @@ export function convertDataFavoriteToCard(
     poster_path_small: "",
   };
 }
+
+export function youtubeHTML(videoID: string, height: number, width: number) {
+  //see https://medium.com/capriza-engineering/communicating-between-react-native-and-the-webview-ac14b8b8b91a
+  const returnValue = `<!DOCTYPE html>
+  <html>
+  <head>
+
+<meta name="viewport" content="initial-scale=1.0">
+  </head>
+  <body style="margin: 0px;background-color:#000;">
+      <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+      <div id="player"></div>
+
+      <script>
+        // 2. This code loads the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // 3. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        var player;
+        function onYouTubeIframeAPIReady() {
+          player = new YT.Player('player', {
+            height: '${height}',
+            width: '${width}',
+            videoId: '${videoID}',
+            events: {
+              'onStateChange': onPlayerStateChange,
+              'onReady':onPlayerReady,
+            }
+          });
+        }
+
+        // 4. The API calls this function when the player's state changes.
+        //    The function indicates that when playing a video (state=1),
+        //    the player should play for six seconds and then stop.
+        var done = false;
+        function onPlayerStateChange(event) {
+          window.ReactNativeWebView.postMessage("videoEvent_"+JSON.stringify(event.data))
+        }
+        function onPlayerReady(event) {
+          window.ReactNativeWebView.postMessage("uploadedSuccessfully")
+        }
+        function playVideo() {
+          player.playVideo();
+          player.toggleFullscreen();
+        }
+      </script>
+    </body>
+  </html>`;
+  return returnValue;
+}
