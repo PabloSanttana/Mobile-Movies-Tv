@@ -1,5 +1,4 @@
 import React, { useCallback } from "react";
-import { FlatList } from "react-native";
 
 import { DeviceTypeProps, flatrateRentBuyProps } from "@src/interfaces";
 
@@ -9,15 +8,12 @@ import {
 } from "@src/components/ListCardCastHorizontal/styles";
 import { scale } from "react-native-size-matters";
 import Watch from "@src/components/Watch";
+import { View } from "react-native";
 
 type ListWatchProps = {
   data?: flatrateRentBuyProps[];
   title: string;
   deviceType: DeviceTypeProps;
-};
-
-type RenderItemWatch = {
-  item: flatrateRentBuyProps;
 };
 
 function ListWatch({ data, title, deviceType }: ListWatchProps) {
@@ -26,14 +22,18 @@ function ListWatch({ data, title, deviceType }: ListWatchProps) {
   }
 
   const renderItem = useCallback(
-    (item: flatrateRentBuyProps) => <Watch data={item} />,
+    (item: flatrateRentBuyProps) => (
+      <Watch key={item.provider_id} data={item} />
+    ),
     [deviceType]
   );
 
   return (
     <Container>
       <Title deviceType={deviceType}>{title}</Title>
-      {data?.map((item) => renderItem(item))}
+      <View style={{ flexDirection: "row", flexWrap: "wrap", paddingLeft: 20 }}>
+        {data?.map((item) => renderItem(item))}
+      </View>
     </Container>
   );
 }

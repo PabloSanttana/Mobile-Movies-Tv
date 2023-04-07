@@ -16,6 +16,7 @@ export default function Watch({ data }: WatchProps) {
           height: scale(50),
           borderRadius: scale(3),
           marginRight: 10,
+          marginBottom: 10,
         }}
         source={{ uri: data.logo_path }}
       />

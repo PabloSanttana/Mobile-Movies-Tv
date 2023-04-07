@@ -56,7 +56,7 @@ function SettingsProvider({ children }: SettingsContextProvider) {
   const [deviceType, setDeviceType] = useState<DeviceTypeProps>("phone");
   const [favorites, setFavorites] = useState<CardProps[]>([]);
   const [language, setLanguage] = useState<LanguageProps>("pt-BR");
-  const [region, setRegion] = useState<RegionProps>("US");
+  const [region, setRegion] = useState<RegionProps>("BR");
   const [adult, setAdult] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [orientation, setOrientation] = useState<number>(0);
