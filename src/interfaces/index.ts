@@ -129,6 +129,28 @@ export type CrewProps = {
   order: number;
 };
 
+export type flatrateRentBuyProps = {
+  logo_path: string;
+  provider_id: number;
+  provider_name: string;
+  display_priority: number;
+};
+
+export type watchProvidersItemProps = {
+  US?: {
+    link: string;
+    flatrate?: flatrateRentBuyProps[];
+    rent?: flatrateRentBuyProps[];
+    buy?: flatrateRentBuyProps[];
+  };
+  BR?: {
+    link: string;
+    flatrate?: flatrateRentBuyProps[];
+    rent?: flatrateRentBuyProps[];
+    buy?: flatrateRentBuyProps[];
+  };
+};
+
 export type ResponseHttpDetailBase = {
   adult: boolean;
   backdrop_path: string;
@@ -155,6 +177,9 @@ export type ResponseHttpDetailBase = {
   vote_average: number;
   vote_count: number;
   video: boolean;
+  "watch/providers": {
+    results?: watchProvidersItemProps;
+  };
   videos: {
     results: VideoProps[];
   };
@@ -267,6 +292,9 @@ export type ResponseHttpDetailBaseTv = {
   type: string;
   vote_average: number;
   vote_count: number;
+  "watch/providers": {
+    results: watchProvidersItemProps;
+  };
   videos: {
     results: VideoProps[];
   };

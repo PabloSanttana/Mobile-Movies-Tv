@@ -67,6 +67,8 @@ import {
 } from "@src/utils/utils";
 import { useDerivedValue } from "react-native-reanimated";
 
+import ListWatch from "@src/components/ListWatch";
+
 type ParamsProps = {
   params: {
     id: number;
@@ -240,6 +242,12 @@ export default function Detail() {
   );
   const poster_path = imagePathIsValidMemorized(data.poster_path);
 
+  const providers = data["watch/providers"].results?.[region];
+  const isWatch =
+    (providers?.buy?.length ?? 0) > 0 ||
+    (providers?.flatrate?.length ?? 0) > 0 ||
+    (providers?.rent?.length ?? 0) > 0;
+
   return (
     <Container
       ref={scrollViewRef}
@@ -381,9 +389,29 @@ export default function Detail() {
             deviceType={deviceType}
           />
         </View>
-
-        <SubTitle deviceType={deviceType}>Onde assistir</SubTitle>
       </Content>
+
+      {isWatch && (
+        <Content>
+          <SubTitle deviceType={deviceType}>Onde assistir</SubTitle>
+
+          <ListWatch
+            data={data["watch/providers"].results?.[region]?.flatrate}
+            title="Stream"
+            deviceType={deviceType}
+          />
+          <ListWatch
+            data={data["watch/providers"].results?.[region]?.rent}
+            title="Alugar"
+            deviceType={deviceType}
+          />
+          <ListWatch
+            data={data["watch/providers"].results?.[region]?.buy}
+            title="Comprar"
+            deviceType={deviceType}
+          />
+        </Content>
+      )}
 
       <ListCardCastHorizontal
         deviceType={deviceType}

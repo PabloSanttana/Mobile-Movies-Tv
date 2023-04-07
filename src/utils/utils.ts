@@ -15,6 +15,7 @@ import {
   ResponseHttpDetailSeasonProps,
   DeviceTypeProps,
   VideoProps,
+  watchProvidersItemProps,
 } from "@src/interfaces";
 import { CardProps } from "@src/interfaces";
 import Logo from "@src/assets/logo.png";
@@ -157,6 +158,7 @@ export async function formatDataMovieToCardPageDetail(
   data: ResponseHttpDefaultDetailMovieProps
 ): Promise<ResponseFormattedDetailMovieProps> {
   //formatando a data
+
   const newData = formatData(data.release_date);
 
   //formatando a horas do filme
@@ -186,6 +188,45 @@ export async function formatDataMovieToCardPageDetail(
     data.recommendations.results
   );
 
+  const watchProviders: watchProvidersItemProps = {
+    BR: {
+      link: data["watch/providers"].results?.BR?.link ?? "",
+      flatrate:
+        data["watch/providers"].results?.BR?.flatrate?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+      buy:
+        data["watch/providers"].results?.BR?.buy?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+      rent:
+        data["watch/providers"].results?.BR?.rent?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+    },
+    US: {
+      link: data["watch/providers"].results?.US?.link ?? "",
+      flatrate:
+        data["watch/providers"].results?.US?.flatrate?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+      buy:
+        data["watch/providers"].results?.US?.buy?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+      rent:
+        data["watch/providers"].results?.US?.rent?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+    },
+  };
+
   const belongs_to_collection = data.belongs_to_collection && {
     id: data.belongs_to_collection.id,
     backdrop_path: `${BASE_IMAGE_URL}w780${data.belongs_to_collection.backdrop_path}`,
@@ -213,6 +254,9 @@ export async function formatDataMovieToCardPageDetail(
     },
     videos: {
       results: trailers,
+    },
+    "watch/providers": {
+      results: watchProviders,
     },
     recommendations: {
       ...data.recommendations,
@@ -273,6 +317,45 @@ export async function formatDataTvToCardPageDetail(
     air_date: item.air_date?.split("-")?.[0] ?? "----",
   }));
 
+  const watchProviders: watchProvidersItemProps = {
+    BR: {
+      link: data["watch/providers"].results?.BR?.link ?? "",
+      flatrate:
+        data["watch/providers"].results?.BR?.flatrate?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+      buy:
+        data["watch/providers"].results?.BR?.buy?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+      rent:
+        data["watch/providers"].results?.BR?.rent?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+    },
+    US: {
+      link: data["watch/providers"].results?.US?.link ?? "",
+      flatrate:
+        data["watch/providers"].results?.US?.flatrate?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+      buy:
+        data["watch/providers"].results?.US?.buy?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+      rent:
+        data["watch/providers"].results?.US?.rent?.map((item) => ({
+          ...item,
+          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+        })) ?? [],
+    },
+  };
+
   const newData: ResponseFormattedDetailMovieProps = {
     adult: data.adult,
     backdrop_path: `${BASE_IMAGE_URL}original${data.backdrop_path}`,
@@ -302,6 +385,9 @@ export async function formatDataTvToCardPageDetail(
     vote_average: Number(data.vote_average.toFixed(1)),
     vote_count: data.vote_count,
     video: false,
+    "watch/providers": {
+      results: watchProviders,
+    },
     videos: {
       results: trailers,
     },
