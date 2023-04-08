@@ -9,6 +9,7 @@ import {
   ResponseFormattedCollectionProps,
   ResponseHttpCollectionProps,
   ResponseDetailSeasonProps,
+  DetailPersonProps,
 } from "@src/interfaces";
 import {
   formatDataMovieToCard,
@@ -17,6 +18,8 @@ import {
   formatDataTvToCardPageDetail,
   formatDataCollectionToCard,
   formatDataDetailSeason,
+  formatDataDetailPersonProps,
+  formatDataDetailPersonMoviesProps,
 } from "@src/utils/utils";
 const { API_KEY } = process.env;
 
@@ -303,6 +306,83 @@ export async function apiFetchDetailSeason({
     });
     if (response.data) {
       return formatDataDetailSeason(response.data);
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return null;
+  } finally {
+    callback();
+  }
+}
+
+type ApiFetchPersonDetailProps = {
+  id: number;
+  language: string;
+  region: string;
+  adult: boolean;
+  callback?: () => void;
+};
+
+export async function apiFetchPersonDetail({
+  id,
+  language,
+  region,
+  adult,
+  callback = () => {},
+}: ApiFetchPersonDetailProps): Promise<DetailPersonProps | null> {
+  try {
+    const response = await api.get(`person/${id}`, {
+      params: {
+        api_key: API_KEY,
+        language: language,
+        region: region,
+        adult: adult,
+        append_to_response: "",
+      },
+    });
+    if (response.data) {
+      return formatDataDetailPersonProps(response.data);
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return null;
+  } finally {
+    callback();
+  }
+}
+export async function apiFetchPersonMovies({
+  id,
+  language,
+  region,
+  adult,
+  callback = () => {},
+}: ApiFetchPersonDetailProps) {
+  try {
+    const responseMovie = await api.get(`person/${id}/movie_credits`, {
+      params: {
+        api_key: API_KEY,
+        language: language,
+        region: region,
+        adult: adult,
+        append_to_response: "",
+      },
+    });
+    const responseTv = await api.get(`person/${id}/tv_credits`, {
+      params: {
+        api_key: API_KEY,
+        language: language,
+        region: region,
+        adult: adult,
+        append_to_response: "",
+      },
+    });
+    if (responseMovie.data && responseTv.data) {
+      return formatDataDetailPersonMoviesProps(
+        responseMovie.data,
+        responseTv.data
+      );
     } else {
       return null;
     }

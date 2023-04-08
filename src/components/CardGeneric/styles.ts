@@ -36,22 +36,20 @@ export const Content = styled.View`
 `;
 
 export const Title = styled.Text<DeviceType>`
-  margin-bottom: 7px;
   font-family: ${(props) => props.theme.fonts.title};
   font-size: ${(props) =>
     sizeDeviceTypeScale(props.deviceType, 9, props.theme.size.average)};
   color: ${(props) => props.theme.colors.textPrimary};
+  margin-bottom: 5px;
 `;
 
 export const ContainerGenre = styled.View`
   flex-direction: row;
-  margin-top: 5px;
   flex-wrap: wrap;
   width: 100%;
 `;
 
 export const SubTitle = styled.Text<DeviceType>`
-  margin-top: 7px;
   font-family: ${(props) => props.theme.fonts.subtitle};
   font-size: ${(props) =>
     sizeDeviceTypeScale(props.deviceType, 9, props.theme.size.small)};
@@ -78,7 +76,7 @@ export const Span = styled.Text<DeviceType>`
   font-size: ${(props) =>
     sizeDeviceTypeScale(props.deviceType, 7, props.theme.size.small)};
   position: absolute;
-  bottom: 10px;
+  bottom: 5px;
   left: 20px;
 `;
 

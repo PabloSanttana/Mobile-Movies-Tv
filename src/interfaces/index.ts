@@ -374,3 +374,32 @@ export type ResponseDetailSeasonProps = ResponseDetailSeasonPropsBase & {
   episodes: CardProps[];
   vote_average: number;
 };
+
+export type DetailPersonProps = {
+  adult: boolean;
+  also_known_as: string[];
+  biography: string;
+  birthday: string;
+  deathday: null;
+  gender: number;
+  homepage: null;
+  id: number;
+  imdb_id: string;
+  known_for_department: string;
+  name: string;
+  place_of_birth: string;
+  popularity: number;
+  profile_path: string;
+  profile_path_small?: string;
+};
+
+export type DetailPersonMovieProps = {
+  cast: MovieProps[];
+  crew: MovieProps[];
+  id: number;
+};
+export type DetailPersonTvProps = {
+  cast: TvProps[];
+  crew: TvProps[];
+  id: number;
+};

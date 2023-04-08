@@ -1,3 +1,4 @@
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   FlatList,
   View,
@@ -6,6 +7,7 @@ import {
   TouchableOpacity,
   LayoutChangeEvent,
   Platform,
+  ScrollView,
 } from "react-native";
 import {
   useSharedValue,
@@ -15,7 +17,6 @@ import {
   Easing,
 } from "react-native-reanimated";
 import { WebView } from "react-native-webview";
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   DeviceTypeProps,
@@ -145,11 +146,12 @@ export default function Detail() {
       });
       setData(response);
       scroll.value = withTiming(0, {
-        duration: 1500,
+        duration: 1000,
         easing: Easing.ease,
       });
     } catch (error) {
       console.log(error);
+    } finally {
     }
   }
 
@@ -191,27 +193,46 @@ export default function Detail() {
       });
     indexNextTrailer++;
   }
-  function handleDetail(id: Number) {
-    //@ts-ignore
-    navigation.push("Detail", {
-      id: id,
-      type: type,
-    });
-  }
-  function handleSeeMore(path: UrlsIsValidProps, title: string) {
-    //@ts-ignore
-    navigation.push("SeeMore", {
-      path: path,
-      title: title,
-    });
-  }
-  function handleCollection(id: number) {
-    //@ts-ignore
-    navigation.push("Collection", {
-      id: id,
-    });
-  }
-  function handleSessions() {
+  const handleDetail = useCallback(
+    (id: Number) => {
+      //@ts-ignore
+      navigation.push("Detail", {
+        id: id,
+        type: type,
+      });
+    },
+    [navigation]
+  );
+  const handleNavigateToDetailPerson = useCallback(
+    (id: number) => {
+      //@ts-ignore
+      navigation.push("DetailPerson", {
+        id: id,
+      });
+    },
+    [navigation]
+  );
+  const handleSeeMore = useCallback(
+    (path: UrlsIsValidProps, title: string) => {
+      //@ts-ignore
+      navigation.push("SeeMore", {
+        path: path,
+        title: title,
+      });
+    },
+    [navigation]
+  );
+
+  const handleCollection = useCallback(
+    (id: number) => {
+      //@ts-ignore
+      navigation.push("Collection", {
+        id: id,
+      });
+    },
+    [navigation]
+  );
+  const handleSessions = useCallback(() => {
     if (!data) return;
     const context = formatDataDetailToSessions(data);
     //@ts-ignore
@@ -219,7 +240,8 @@ export default function Detail() {
       id: id,
       context: context,
     });
-  }
+  }, [data, navigation]);
+
   const imagePathIsValidMemorized = useCallback(
     (path: string) => imagePathIsValid(path),
     []
@@ -257,7 +279,7 @@ export default function Detail() {
       scrollEventThrottle={16}
     >
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
-        <BackgroundImage source={poster_path_small} blurRadius={1}>
+        <BackgroundImage source={poster_path_small} blurRadius={2}>
           <BackgroundImage source={poster_path} resizeMode="contain">
             <HeaderDetail
               deviceType={deviceType}
@@ -417,11 +439,13 @@ export default function Detail() {
         deviceType={deviceType}
         data={data.credits.cast}
         title="Elenco"
+        onPress={handleNavigateToDetailPerson}
       />
       <ListCardCastHorizontal
         deviceType={deviceType}
         data={data.credits.crew}
         title="Produção"
+        onPress={handleNavigateToDetailPerson}
       />
 
       {data.videos.results.length > 0 && (

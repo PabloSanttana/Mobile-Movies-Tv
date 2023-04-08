@@ -42,7 +42,10 @@ function ListCardHorizontal(data: ListCardTvProps) {
     }),
     []
   );
-  const KeyExtractor = useCallback((item: CardProps) => item.id.toString(), []);
+  const KeyExtractor = useCallback(
+    (item: CardProps, index: number) => `${item.id}-${index}`,
+    []
+  );
 
   const renderItem = useCallback(
     ({ item }: RenderItemProps) => (
@@ -76,8 +79,8 @@ function ListCardHorizontal(data: ListCardTvProps) {
           minimumViewTime: 300,
         }}
         removeClippedSubviews={true}
-        maxToRenderPerBatch={5}
-        initialNumToRender={5}
+        maxToRenderPerBatch={9}
+        initialNumToRender={9}
         getItemLayout={getItemLayout}
       />
     </View>

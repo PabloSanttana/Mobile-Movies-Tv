@@ -26,6 +26,7 @@ export const ContainerCard = styled.View`
 
 export const ImageCard = styled.Image`
   width: ${convertScale(120)};
+  height: 100%;
   border-top-left-radius: ${convertScale(5)};
   border-bottom-left-radius: ${convertScale(5)};
 `;

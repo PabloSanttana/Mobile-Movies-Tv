@@ -9,6 +9,7 @@ const Initial = React.lazy(() => import("@src/screens/Initial"));
 const Collection = React.lazy(() => import("@src/screens/Collection"));
 const TabRoutes = React.lazy(() => import("./tab.routes"));
 const SeeMore = React.lazy(() => import("@src/screens/SeeMore"));
+const DetailPerson = React.lazy(() => import("@src/screens/DetailPerson"));
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export function StackRoutes() {
       <Stack.Screen name="SeeMore" component={SeeMore} />
       <Stack.Screen name="Collection" component={Collection} />
       <Stack.Screen name="DetailSeason" component={DetailSeason} />
+      <Stack.Screen name="DetailPerson" component={DetailPerson} />
     </Stack.Navigator>
   );
 }

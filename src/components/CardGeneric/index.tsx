@@ -42,6 +42,7 @@ function CardGeneric({
   if (dictionary && !isOverview) {
     genre = data.genre_ids.map((id) => dictionary[id]);
   }
+
   const postImage = imagePathIsValid(data.poster_path);
 
   return (

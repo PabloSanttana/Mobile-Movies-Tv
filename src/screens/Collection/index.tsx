@@ -1,4 +1,4 @@
-import { View, LogBox, FlatList } from "react-native";
+import { View, LogBox } from "react-native";
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";

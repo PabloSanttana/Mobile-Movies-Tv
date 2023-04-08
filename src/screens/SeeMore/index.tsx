@@ -195,8 +195,8 @@ export default function SeeMore() {
         data={item}
         dictionary={genres}
         onPress={() => handleDetail(item.id, item.media_type)}
-        sizeStar={isTablet ? 8 : 15}
-        sizeText={isTablet ? 8 : 15}
+        sizeStar={isTablet ? 8 : 12}
+        sizeText={isTablet ? 8 : 12}
       />
     ),
     [deviceType, genres]

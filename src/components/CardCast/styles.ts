@@ -6,7 +6,7 @@ type DeviceType = {
   deviceType: DeviceTypeProps;
 };
 
-export const Container = styled.View<DeviceType>`
+export const Container = styled.TouchableOpacity<DeviceType>`
   margin: 10px 0px;
   margin-right: ${convertScale(10)};
   width: ${(props) => sizeDeviceTypeScale(props.deviceType, 70, 90)};

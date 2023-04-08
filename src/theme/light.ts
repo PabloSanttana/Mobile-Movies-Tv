@@ -14,8 +14,8 @@ export const light = {
   },
   size: {
     big: 18,
-    average: 15,
-    small: 12,
+    average: 13,
+    small: 11,
   },
   fonts: {
     title: "Roboto_700Bold",

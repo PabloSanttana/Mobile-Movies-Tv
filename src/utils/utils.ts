@@ -16,6 +16,9 @@ import {
   DeviceTypeProps,
   VideoProps,
   watchProvidersItemProps,
+  DetailPersonProps,
+  DetailPersonMovieProps,
+  DetailPersonTvProps,
 } from "@src/interfaces";
 import { CardProps } from "@src/interfaces";
 import Logo from "@src/assets/logo.png";
@@ -581,6 +584,51 @@ export function convertDataFavoriteToCard(
   };
 }
 
+export function formatDataDetailPersonProps(
+  data: DetailPersonProps
+): DetailPersonProps {
+  return {
+    ...data,
+    profile_path: `${BASE_IMAGE_URL}w500${data.profile_path}`,
+    profile_path_small: `${BASE_IMAGE_URL}w92${data.profile_path}`,
+  };
+}
+
+export function formatDataDetailPersonMoviesProps(
+  movie: DetailPersonMovieProps,
+  tv: DetailPersonTvProps
+): { movie: CardProps[]; tv: CardProps[] } {
+  function compareMovie(a: MovieProps, b: MovieProps) {
+    if (a.release_date > b.release_date) {
+      return -1;
+    }
+    if (a.release_date < b.release_date) {
+      return 1;
+    }
+    return 0;
+  }
+  function compareTv(a: TvProps, b: TvProps) {
+    if (a.first_air_date > b.first_air_date) {
+      return -1;
+    }
+    if (a.first_air_date < b.first_air_date) {
+      return 1;
+    }
+    return 0;
+  }
+
+  var newMovie = movie.cast.sort(compareMovie).slice(0, 50);
+  var newTv = tv.cast.sort(compareTv).slice(0, 50);
+
+  const castMovie = formatDataMovieToCard(newMovie);
+
+  const castTv = formatDataTvToCard(newTv);
+
+  return {
+    movie: castMovie,
+    tv: castTv,
+  };
+}
 export function youtubeHTML(videoID: string, height: number, width: number) {
   //see https://medium.com/capriza-engineering/communicating-between-react-native-and-the-webview-ac14b8b8b91a
   const returnValue = `<!DOCTYPE html>

@@ -10,6 +10,7 @@ type ListCardCastHorizontalProps = {
   data: CrewProps[];
   title: string;
   deviceType: DeviceTypeProps;
+  onPress: (id: number) => void;
 };
 
 type RenderItemCrewProps = {
@@ -20,6 +21,7 @@ function ListCardCastHorizontal({
   data,
   title,
   deviceType,
+  onPress,
 }: ListCardCastHorizontalProps) {
   const KeyExtractor = useCallback(
     (item: CrewProps) => item.credit_id.toString(),
@@ -28,7 +30,7 @@ function ListCardCastHorizontal({
 
   const renderItem = useCallback(
     ({ item }: RenderItemCrewProps) => (
-      <CardCast data={item} deviceType={deviceType} />
+      <CardCast data={item} deviceType={deviceType} onPress={onPress} />
     ),
     [deviceType]
   );

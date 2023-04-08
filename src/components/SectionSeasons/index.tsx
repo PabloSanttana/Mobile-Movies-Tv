@@ -36,7 +36,7 @@ function SectionSeasons({ data, onPress, deviceType }: SectionSeasonsProps) {
       />
       <Container>
         <ContainerCard>
-          <ImageCard source={image} />
+          <ImageCard source={image} resizeMode="contain" />
           <ContentCard>
             <CardTitle deviceType={deviceType}>
               {data.name} ({data.air_date})
