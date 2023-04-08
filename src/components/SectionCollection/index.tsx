@@ -25,6 +25,8 @@ function SectionCollection({
 }: SectionCollectionProps) {
   const backdrop_path_small = imagePathIsValid(data.backdrop_path);
   const backdrop_path = imagePathIsValid(data.backdrop_path);
+  const poster_path = imagePathIsValid(data.poster_path);
+
   return (
     <>
       <HeaderList
@@ -45,7 +47,7 @@ function SectionCollection({
             <Image
               deviceType={deviceType}
               doubleSize={false}
-              source={backdrop_path}
+              source={poster_path}
             />
             <ButtonCollection
               activeOpacity={0.7}

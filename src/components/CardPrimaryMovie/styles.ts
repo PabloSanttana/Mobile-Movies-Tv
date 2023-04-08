@@ -39,6 +39,7 @@ export const Image = styled.Image<DeviceType>`
   height: ${(props) =>
     props.deviceType === "tablet" ? convertScale(150) : convertScale(210)};
   border-radius: ${convertScale(5)};
+  background-color: ${(props) => props.theme.colors.backgroundSecondary};
 `;
 
 export const Title = styled.Text<DeviceType>`

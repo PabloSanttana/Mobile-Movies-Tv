@@ -445,7 +445,7 @@ export function formatDataCollectionToCard(
     ...data,
     poster_path: `${BASE_IMAGE_URL}w500${data.poster_path}`,
     poster_path_small: `${BASE_IMAGE_URL}w92${data.poster_path}`,
-    backdrop_path: `${BASE_IMAGE_URL}w780${data.backdrop_path}`,
+    backdrop_path: `${BASE_IMAGE_URL}w1280${data.backdrop_path}`,
     backdrop_path_small: `${BASE_IMAGE_URL}w300${data.backdrop_path}`,
     parts,
     genresStr: genresStr.join(", "),

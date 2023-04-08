@@ -279,7 +279,7 @@ export default function Detail() {
       scrollEventThrottle={16}
     >
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
-        <BackgroundImage source={poster_path_small} blurRadius={2}>
+        <BackgroundImage source={poster_path_small} blurRadius={1}>
           <BackgroundImage source={poster_path} resizeMode="contain">
             <HeaderDetail
               deviceType={deviceType}

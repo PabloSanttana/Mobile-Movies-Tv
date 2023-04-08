@@ -150,11 +150,12 @@ export default function Collection() {
     data.backdrop_path_small
   );
   const backdrop_path = imagePathIsValidMemorized(data.backdrop_path);
+  const poster_path = imagePathIsValidMemorized(data.poster_path);
 
   return (
     <Container showsVerticalScrollIndicator={false} bounces={false}>
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
-        <BackgroundImage source={backdrop_path_small}>
+        <BackgroundImage source={backdrop_path_small} blurRadius={1}>
           <BackgroundImage source={backdrop_path}>
             <HeaderDetail
               deviceType={deviceType}
@@ -184,7 +185,7 @@ export default function Collection() {
                 }}
               >
                 <Image
-                  source={backdrop_path}
+                  source={poster_path}
                   deviceType={deviceType}
                   doubleSize={false}
                 />
