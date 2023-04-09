@@ -489,6 +489,9 @@ export default function Detail() {
                 allowsFullscreenVideo={true}
                 mediaPlaybackRequiresUserAction={true}
                 androidLayerType="hardware"
+                showsVerticalScrollIndicator={false}
+                scrollEnabled={false}
+                bounces={false}
                 // onMessage={(event) => {
                 //   console.log("evente", event.nativeEvent.data);
                 // }}
