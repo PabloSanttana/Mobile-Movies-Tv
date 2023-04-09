@@ -87,7 +87,6 @@ function SettingsProvider({ children }: SettingsContextProvider) {
 
     const subscription = ScreenOrientation.addOrientationChangeListener(
       (evt) => {
-        console.log(evt.orientationInfo.orientation);
         setOrientation(evt.orientationInfo.orientation);
       }
     );

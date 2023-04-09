@@ -23,6 +23,10 @@ function ListCardCastHorizontal({
   deviceType,
   onPress,
 }: ListCardCastHorizontalProps) {
+  if (data.length === 0 || data === undefined || data === null) {
+    return null;
+  }
+
   const KeyExtractor = useCallback(
     (item: CrewProps) => item.credit_id.toString(),
     []

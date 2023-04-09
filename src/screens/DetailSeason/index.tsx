@@ -35,7 +35,7 @@ import ListCardCastHorizontal from "@src/components/ListCardCastHorizontal";
 import StarRating from "@src/components/StarRating";
 import { DivRow } from "../Collection/styles";
 import CardGeneric from "@src/components/CardGeneric";
-import { imagePathIsValid } from "@src/utils/utils";
+import { imagePathIsValid, youtubeHTML } from "@src/utils/utils";
 
 type ParamsProps = {
   params: {
@@ -122,6 +122,15 @@ export default function DetailSeason() {
     (path: string) => imagePathIsValid(path),
     []
   );
+  const handleNavigateToDetailPerson = useCallback(
+    (id: number) => {
+      //@ts-ignore
+      navigation.push("DetailPerson", {
+        id: id,
+      });
+    },
+    [navigation]
+  );
 
   if (!data) return <LoadPage />;
 
@@ -140,9 +149,13 @@ export default function DetailSeason() {
   const poster_path = imagePathIsValidMemorized(data.poster_path);
 
   return (
-    <Container showsVerticalScrollIndicator={false} bounces={false}>
+    <Container
+      showsVerticalScrollIndicator={false}
+      bounces={false}
+      removeClippedSubviews={true}
+    >
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
-        <BackgroundImage source={poster_path_small}>
+        <BackgroundImage source={poster_path_small} blurRadius={1}>
           <BackgroundImage source={poster_path} resizeMode="contain">
             <HeaderDetail
               deviceType={deviceType}
@@ -203,11 +216,13 @@ export default function DetailSeason() {
         deviceType={deviceType}
         data={data.credits.cast}
         title="Elenco"
+        onPress={handleNavigateToDetailPerson}
       />
       <ListCardCastHorizontal
         deviceType={deviceType}
         data={data.credits.crew}
         title="Produção"
+        onPress={handleNavigateToDetailPerson}
       />
 
       {data.videos.results.length > 0 && (
@@ -237,10 +252,23 @@ export default function DetailSeason() {
                 ref={(r) => (webViewRef.current[index] = r)}
                 javaScriptEnabled={true}
                 source={{
-                  uri: `https://www.youtube.com/embed/${item.key}?rel=0&autoplay=0&showinfo=0&controls=1`,
+                  html: youtubeHTML(
+                    item.key,
+                    deviceType === "tablet" ? scale(230) : scale(260),
+                    trailerWidth
+                  ),
                 }}
                 startInLoadingState={true}
                 onShouldStartLoadWithRequest={() => true}
+                allowsFullscreenVideo={true}
+                mediaPlaybackRequiresUserAction={true}
+                androidLayerType="hardware"
+                showsVerticalScrollIndicator={false}
+                scrollEnabled={false}
+                bounces={false}
+                // onMessage={(event) => {
+                //   console.log("evente", event.nativeEvent.data);
+                // }}
               />
             )}
             contentContainerStyle={{ paddingHorizontal: 20 }}

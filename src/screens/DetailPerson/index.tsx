@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, FlatList, ActivityIndicator } from "react-native";
+import { View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useSettings } from "@src/hooks/settings";
 import {
   TypeDetailProps,
-  apiFetchGenres,
   apiFetchPersonDetail,
   apiFetchPersonMovies,
 } from "@src/services/services";
-import { CardProps, DetailPersonProps, RenderItemProps } from "@src/interfaces";
+import { CardProps, DetailPersonProps } from "@src/interfaces";
 import LoadPage from "@src/components/LoadPage";
 import {
   BackgroundContainer,
@@ -25,8 +24,6 @@ import HeaderDetail from "@src/components/HeaderDetail";
 import { imagePathIsValid } from "@src/utils/utils";
 import { useTheme } from "styled-components";
 import { scale } from "react-native-size-matters";
-import CardGeneric from "@src/components/CardGeneric";
-import { ObjectGenresProps } from "../Favorites";
 import ListCardHorizontal from "@src/components/ListCardHorizontal";
 
 type ParamsProps = {
@@ -42,36 +39,13 @@ export default function DetailPerson() {
   const theme = useTheme();
   const { region, deviceType, language, adult, orientation } = useSettings();
   const [person, setPerson] = useState<DetailPersonProps>();
-  const [genres, setGenres] = useState<ObjectGenresProps>({});
   const [movies, setMovies] = useState<CardProps[]>([]);
   const [tv, setTv] = useState<CardProps[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const isTablet = deviceType === "tablet";
 
-  console.log(id);
   useEffect(() => {
-    fetchListGenres();
-  }, [id]);
-
-  async function fetchListGenres() {
-    setIsLoading(true);
-    const responseMovie = await apiFetchGenres({
-      type: "movie",
-      language: language,
-    });
-    const responseTv = await apiFetchGenres({ type: "tv", language: language });
-    if (responseMovie && responseTv) {
-      var objectGenres: ObjectGenresProps = {};
-      responseMovie?.genres.forEach((item) => {
-        objectGenres[item.id] = item.name;
-      });
-      responseTv?.genres.forEach((item) => {
-        objectGenres[item.id] = item.name;
-      });
-      setGenres(objectGenres);
-    }
     getAll();
-  }
+  }, [id]);
 
   async function getAll() {
     const [personDetail, personMovies] = await Promise.all([

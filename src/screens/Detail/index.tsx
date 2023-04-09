@@ -124,7 +124,6 @@ export default function Detail() {
   const [heartAnimation, setHeartAnimation] = useState(false);
   const theme = useTheme();
 
-  console.log("Detail", id);
   const [data, setData] = useState<ResponseFormattedDetailMovieProps | null>();
 
   useEffect(() => {
