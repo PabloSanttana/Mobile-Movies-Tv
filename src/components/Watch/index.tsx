@@ -7,7 +7,7 @@ type WatchProps = {
   data: flatrateRentBuyProps;
 };
 
-export default function Watch({ data }: WatchProps) {
+function Watch({ data }: WatchProps) {
   return (
     <View>
       <Image
@@ -23,3 +23,5 @@ export default function Watch({ data }: WatchProps) {
     </View>
   );
 }
+
+export default React.memo(Watch);

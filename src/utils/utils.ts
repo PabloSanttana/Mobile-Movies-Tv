@@ -157,6 +157,31 @@ export function formatDataMovieToCard(movies: MovieProps[]): CardProps[] {
   return data;
 }
 
+function formatWatchProviderItems(items: any[]) {
+  return items.map((item) => ({
+    ...item,
+    logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
+  }));
+}
+
+function formattedWatchProviders(data: watchProvidersItemProps | null) {
+  const { BR, US } = data ?? ({} as watchProvidersItemProps);
+
+  return {
+    BR: {
+      link: BR?.link ?? "",
+      flatrate: formatWatchProviderItems(BR?.flatrate ?? []),
+      buy: formatWatchProviderItems(BR?.buy ?? []),
+      rent: formatWatchProviderItems(BR?.rent ?? []),
+    },
+    US: {
+      link: US?.link ?? "",
+      flatrate: formatWatchProviderItems(US?.flatrate ?? []),
+      buy: formatWatchProviderItems(US?.buy ?? []),
+      rent: formatWatchProviderItems(US?.rent ?? []),
+    },
+  };
+}
 export async function formatDataMovieToCardPageDetail(
   data: ResponseHttpDefaultDetailMovieProps
 ): Promise<ResponseFormattedDetailMovieProps> {
@@ -191,44 +216,9 @@ export async function formatDataMovieToCardPageDetail(
     data.recommendations.results
   );
 
-  const watchProviders: watchProvidersItemProps = {
-    BR: {
-      link: data["watch/providers"].results?.BR?.link ?? "",
-      flatrate:
-        data["watch/providers"].results?.BR?.flatrate?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-      buy:
-        data["watch/providers"].results?.BR?.buy?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-      rent:
-        data["watch/providers"].results?.BR?.rent?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-    },
-    US: {
-      link: data["watch/providers"].results?.US?.link ?? "",
-      flatrate:
-        data["watch/providers"].results?.US?.flatrate?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-      buy:
-        data["watch/providers"].results?.US?.buy?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-      rent:
-        data["watch/providers"].results?.US?.rent?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-    },
-  };
+  const watchProviders: watchProvidersItemProps = formattedWatchProviders(
+    data["watch/providers"].results ?? null
+  );
 
   const belongs_to_collection = data.belongs_to_collection && {
     id: data.belongs_to_collection.id,
@@ -320,44 +310,9 @@ export async function formatDataTvToCardPageDetail(
     air_date: item.air_date?.split("-")?.[0] ?? "----",
   }));
 
-  const watchProviders: watchProvidersItemProps = {
-    BR: {
-      link: data["watch/providers"].results?.BR?.link ?? "",
-      flatrate:
-        data["watch/providers"].results?.BR?.flatrate?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-      buy:
-        data["watch/providers"].results?.BR?.buy?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-      rent:
-        data["watch/providers"].results?.BR?.rent?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-    },
-    US: {
-      link: data["watch/providers"].results?.US?.link ?? "",
-      flatrate:
-        data["watch/providers"].results?.US?.flatrate?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-      buy:
-        data["watch/providers"].results?.US?.buy?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-      rent:
-        data["watch/providers"].results?.US?.rent?.map((item) => ({
-          ...item,
-          logo_path: `${BASE_IMAGE_URL}w92${item.logo_path}`,
-        })) ?? [],
-    },
-  };
+  const watchProviders: watchProvidersItemProps = formattedWatchProviders(
+    data["watch/providers"].results ?? null
+  );
 
   const newData: ResponseFormattedDetailMovieProps = {
     adult: data.adult,

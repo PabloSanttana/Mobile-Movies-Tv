@@ -6,7 +6,6 @@ import {
   Container,
   Title,
 } from "@src/components/ListCardCastHorizontal/styles";
-import { scale } from "react-native-size-matters";
 import Watch from "@src/components/Watch";
 import { View } from "react-native";
 
