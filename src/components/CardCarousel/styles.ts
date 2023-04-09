@@ -25,6 +25,7 @@ export const CardWrapper = styled.TouchableOpacity`
 export const Card = styled.Image`
   width: ${width - 40 + "px"};
   height: ${width * 0.5 + "px"};
+  background-color: ${(props) => props.theme.colors.backgroundSecondary};
 `;
 
 export const ContentLabel = styled.View`
@@ -33,7 +34,7 @@ export const ContentLabel = styled.View`
   right: 0px;
   border-top-left-radius: 8px;
   padding: 10px;
-  background-color: ${(props) => props.theme.colors.backgroundPrimary};
+  background-color: ${(props) => props.theme.colors.backgroundSecondary};
 `;
 
 export const Label = styled.Text<DeviceType>`
