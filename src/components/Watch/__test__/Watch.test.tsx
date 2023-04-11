@@ -11,8 +11,8 @@ describe("Watch", () => {
       provider_name: "provider name",
       display_priority: 1,
     };
-    const { debug, getByTestId } = render(<Watch data={data} />);
-    debug();
+    const { getByTestId } = render(<Watch data={data} />);
+
     expect(getByTestId("watch-image")).toBeTruthy();
   });
 });

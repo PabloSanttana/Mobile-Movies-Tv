@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Container, Button, Title, Icon } from "./styled";
 import { DeviceTypeProps } from "@src/interfaces";
 
-type HeaderProps = {
+export type HeaderProps = {
   title: string;
   iconRight?: () => JSX.Element;
   onPressRight?: () => void;
@@ -24,17 +24,26 @@ function Header({
 
   return (
     <Container
+      testID="HeaderContainerID"
       deviceType={deviceType}
       style={[removedBackground && { backgroundColor: "transparent" }]}
     >
-      <Button onPress={() => navigation.goBack()} activeOpacity={0.7}>
+      <Button
+        testID="goBack"
+        onPress={() => navigation.goBack()}
+        activeOpacity={0.7}
+      >
         <Icon
           name="arrowleft"
           size={deviceType === "tablet" ? scale(16) : scale(24)}
         />
       </Button>
       <Title deviceType={deviceType}>{title}</Title>
-      <Button activeOpacity={0.7} onPress={onPressRight}>
+      <Button
+        testID="RightTouchableOpacity"
+        activeOpacity={0.7}
+        onPress={onPressRight}
+      >
         {iconRight ? (
           iconRight()
         ) : (
@@ -49,7 +58,10 @@ function Header({
   );
 }
 
-function arePropsEqual(prevProps: HeaderProps, NextProps: HeaderProps) {
+export function arePropsEqualHeader(
+  prevProps: HeaderProps,
+  NextProps: HeaderProps
+) {
   if (prevProps.title === NextProps.title) {
     return true;
   } else {
@@ -57,4 +69,4 @@ function arePropsEqual(prevProps: HeaderProps, NextProps: HeaderProps) {
   }
 }
 
-export default React.memo(Header, arePropsEqual);
+export default React.memo(Header, arePropsEqualHeader);

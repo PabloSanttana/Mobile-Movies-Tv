@@ -32,24 +32,23 @@ describe("CardPrimaryMovie", () => {
   };
 
   it("renders correctly with the given props", () => {
-    const { getByText, getByTestId, debug } = render(
+    const { getByText, getByTestId } = render(
       <ThemeProvider theme={dark}>
         <CardPrimaryMovie data={cardPropsMock} deviceType="phone" />
       </ThemeProvider>
     );
-    debug();
+
     expect(getByText(/Shazam! Fúria dos Deuses/i)).toBeTruthy();
     expect(getByText(cardPropsMock.release_date)).toBeTruthy();
     expect(getByTestId("post")).toBeTruthy();
   });
 
   it("renders correctly with the given props is tablet", () => {
-    const { getByText, getByTestId, debug } = render(
+    const { getByText, getByTestId } = render(
       <ThemeProvider theme={dark}>
         <CardPrimaryMovie data={cardPropsMock} deviceType="tablet" doubleSize />
       </ThemeProvider>
     );
-    debug();
     expect(getByText(/Shazam! Fúria dos Deuses/i)).toBeTruthy();
     expect(getByText(cardPropsMock.release_date)).toBeTruthy();
     expect(getByTestId("post")).toBeTruthy();

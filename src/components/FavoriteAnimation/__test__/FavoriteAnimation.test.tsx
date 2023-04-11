@@ -5,8 +5,7 @@ import FavoriteAnimation from "../index";
 
 describe("FavoriteAnimation", () => {
   it("renders the heart animation", () => {
-    const { debug, getByTestId } = render(<FavoriteAnimation />);
-    debug();
+    const { getByTestId } = render(<FavoriteAnimation />);
 
     expect(getByTestId("Heart")).toBeTruthy();
   });
