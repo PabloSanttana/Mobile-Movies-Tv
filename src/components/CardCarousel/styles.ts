@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
-import { convertScale, sizeDeviceTypeScale } from "@src/utils/utils";
+import { sizeDeviceTypeScale } from "@src/utils/utils";
 import { DeviceTypeProps } from "@src/interfaces";
 
 const { width } = Dimensions.get("window");

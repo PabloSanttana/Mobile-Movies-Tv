@@ -5,7 +5,7 @@ import { Container, Card, CardWrapper, ContentLabel, Label } from "./styles";
 
 import { imagePathIsValid } from "@src/utils/utils";
 
-type CardCarouselProps = TouchableOpacityProps & {
+export type CardCarouselProps = TouchableOpacityProps & {
   movie: CardProps;
   deviceType: DeviceTypeProps;
 };
@@ -15,8 +15,8 @@ function CardCarousel({ movie, deviceType, ...rest }: CardCarouselProps) {
 
   return (
     <Container key={movie.id}>
-      <CardWrapper {...rest}>
-        <Card source={IMAGE_PATH_OR_DEFAULT} resizeMode="cover" />
+      <CardWrapper testID="ContainerPost" {...rest}>
+        <Card testID="post" source={IMAGE_PATH_OR_DEFAULT} resizeMode="cover" />
         <ContentLabel>
           <Label numberOfLines={1} deviceType={deviceType}>
             {movie.title}
@@ -26,7 +26,7 @@ function CardCarousel({ movie, deviceType, ...rest }: CardCarouselProps) {
     </Container>
   );
 }
-function arePropsEqual(
+export function arePropsEqualCardCarousel(
   prevProps: CardCarouselProps,
   nextProps: CardCarouselProps
 ) {
@@ -36,4 +36,4 @@ function arePropsEqual(
   return false;
 }
 
-export default React.memo(CardCarousel, arePropsEqual);
+export default React.memo(CardCarousel, arePropsEqualCardCarousel);
