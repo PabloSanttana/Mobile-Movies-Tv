@@ -75,7 +75,7 @@ describe("Header", () => {
       removedBackground: true,
       deviceType: "tablet",
     };
-    const { getByTestId, debug } = render(
+    const { getByTestId } = render(
       <ThemeProvider theme={dark}>
         <Header {...mockShowButtonRightProps} />
       </ThemeProvider>
