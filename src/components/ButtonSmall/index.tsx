@@ -22,16 +22,21 @@ function ButtonSmall({
       deviceType={deviceType}
       active={isActive}
       activeOpacity={0.7}
+      testID="button-small"
       {...rest}
     >
-      <CategoryTitle deviceType={deviceType} active={isActive}>
+      <CategoryTitle
+        testID="button-title"
+        deviceType={deviceType}
+        active={isActive}
+      >
         {data[1]}
       </CategoryTitle>
     </CategoryButton>
   );
 }
 
-function arePropsEqual(
+export function arePropsEqualButtonSmall(
   prevProps: ButtonSmallProps,
   nextProps: ButtonSmallProps
 ) {
@@ -41,4 +46,4 @@ function arePropsEqual(
   return false;
 }
 
-export default React.memo(ButtonSmall, arePropsEqual);
+export default React.memo(ButtonSmall, arePropsEqualButtonSmall);
