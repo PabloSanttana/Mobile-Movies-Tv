@@ -40,7 +40,11 @@ function CardPrimaryMovie({
   return (
     <Container deviceType={deviceType} doubleSize={doubleSize}>
       <ContainerImage>
-        <ContainerButton activeOpacity={0.7} {...rest}>
+        <ContainerButton
+          testID="postTouchableOpacity"
+          activeOpacity={0.7}
+          {...rest}
+        >
           <Image
             accessibilityLabel={data.title}
             deviceType={deviceType}
@@ -61,7 +65,11 @@ function CardPrimaryMovie({
           />
         </ContainerVoteAverage>
       </ContainerImage>
-      <ContainerButton activeOpacity={0.7} {...rest}>
+      <ContainerButton
+        testID="titleTouchableOpacity"
+        activeOpacity={0.7}
+        {...rest}
+      >
         <Title deviceType={deviceType} doubleSize={doubleSize}>
           {data.title}
         </Title>

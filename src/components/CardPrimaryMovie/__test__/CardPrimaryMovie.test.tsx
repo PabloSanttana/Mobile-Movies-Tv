@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react-native";
+import { render, fireEvent } from "@testing-library/react-native";
 import CardPrimaryMovie, { arePropsEqualCardPrimaryMovie } from "../index";
 import { ThemeProvider } from "styled-components/native";
 import { dark } from "../../../theme/dark";
@@ -53,6 +53,23 @@ describe("CardPrimaryMovie", () => {
     expect(getByText(/Shazam! Fúria dos Deuses/i)).toBeTruthy();
     expect(getByText(cardPropsMock.release_date)).toBeTruthy();
     expect(getByTestId("post")).toBeTruthy();
+  });
+
+  it("should call onPress function when button is pressed", () => {
+    const onPressMock = jest.fn();
+    const { getByTestId } = render(
+      <ThemeProvider theme={dark}>
+        <CardPrimaryMovie
+          data={cardPropsMock}
+          deviceType="tablet"
+          doubleSize
+          onPress={onPressMock}
+        />
+      </ThemeProvider>
+    );
+    fireEvent.press(getByTestId("titleTouchableOpacity"));
+    fireEvent.press(getByTestId("postTouchableOpacity"));
+    expect(onPressMock).toBeCalledTimes(2);
   });
 
   it("arePropsEqual returns true for identical props and false for non-identical props", () => {
