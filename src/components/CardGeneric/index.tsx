@@ -48,7 +48,12 @@ function CardGeneric({
   return (
     <Container deviceType={deviceType}>
       <Button activeOpacity={0.7} {...rest}>
-        <Image deviceType={deviceType} resizeMode="cover" source={postImage} />
+        <Image
+          testID="poster"
+          deviceType={deviceType}
+          resizeMode="cover"
+          source={postImage}
+        />
       </Button>
       <Content>
         <Button activeOpacity={0.7} {...rest}>
@@ -95,7 +100,7 @@ function CardGeneric({
   );
 }
 
-function arePropsEqual(
+export function arePropsEqualCardGeneric(
   prevProps: CardGenericProps,
   nextProps: CardGenericProps
 ) {
@@ -109,4 +114,4 @@ function arePropsEqual(
   return false;
 }
 
-export default React.memo(CardGeneric, arePropsEqual);
+export default React.memo(CardGeneric, arePropsEqualCardGeneric);

@@ -19,7 +19,7 @@ import {
   BackgroundContainer,
 } from "@src/screens/Detail/styles";
 
-import { useTheme } from "styled-components";
+import { useTheme } from "styled-components/native";
 import StarRating from "@src/components/StarRating";
 import { apiFetchCollection, TypeDetailProps } from "@src/services/services";
 

@@ -22,7 +22,7 @@ import {
 } from "../Detail/styles";
 import HeaderDetail from "@src/components/HeaderDetail";
 import { imagePathIsValid } from "@src/utils/utils";
-import { useTheme } from "styled-components";
+import { useTheme } from "styled-components/native";
 import { scale } from "react-native-size-matters";
 import ListCardHorizontal from "@src/components/ListCardHorizontal";
 

@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Container, IconFontAwesome, Text } from "./styles";
+import { View } from "react-native";
 
 import { scale } from "react-native-size-matters";
 
@@ -28,23 +29,28 @@ function StarRating({ value, sizeText = 15, sizeStar = 15 }: StarRatingProps) {
 
   return (
     <Container>
-      {list.map((item) => (
-        <IconFontAwesome
-          key={item.id}
-          name={item.name}
-          size={scale(sizeStar)}
-        />
+      {list.map((item, index) => (
+        <View testID={item.name + "-" + index} key={index}>
+          <IconFontAwesome
+            key={item.id}
+            name={item.name}
+            size={scale(sizeStar)}
+          />
+        </View>
       ))}
       <Text size={sizeText}>{value.toFixed(1)}</Text>
     </Container>
   );
 }
 
-function arePropsEqual(prevProps: StarRatingProps, nextProps: StarRatingProps) {
+export function arePropsEquaStarRating(
+  prevProps: StarRatingProps,
+  nextProps: StarRatingProps
+) {
   if (prevProps.value === nextProps.value) {
     return true;
   }
   return false;
 }
 
-export default React.memo(StarRating, arePropsEqual);
+export default React.memo(StarRating, arePropsEquaStarRating);

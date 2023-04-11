@@ -28,6 +28,8 @@ function VoteAverage({
         strokeWidth="7"
         fill="transparent"
         strokeOpacity={0.4}
+        //@ts-ignore
+        testID="background-circle"
       />
       <Circle
         cx="50"
@@ -35,6 +37,8 @@ function VoteAverage({
         r="40"
         strokeLinecap="round"
         fill="transparent"
+        //@ts-ignore
+        testID="progress-bar"
         stroke={progressValueColor}
         strokeWidth="7"
         strokeDasharray={`${circumference}`}
@@ -50,6 +54,8 @@ function VoteAverage({
         x="48"
         y="60"
         textAnchor="middle"
+        //@ts-ignore
+        testID="percentage-text"
       >
         {(progressValue * 10).toFixed(0)}
       </Text>
@@ -67,7 +73,7 @@ function VoteAverage({
   );
 }
 
-function arePropsEqual(
+export function arePropsEqualVoteAverage(
   prevProps: VoteAverageProps,
   nextProps: VoteAverageProps
 ) {
@@ -80,4 +86,4 @@ function arePropsEqual(
   return false;
 }
 
-export default React.memo(VoteAverage, arePropsEqual);
+export default React.memo(VoteAverage, arePropsEqualVoteAverage);

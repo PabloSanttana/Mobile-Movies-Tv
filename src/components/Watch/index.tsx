@@ -18,7 +18,9 @@ function Watch({ data }: WatchProps) {
           marginRight: 10,
           marginBottom: 10,
         }}
+        accessibilityLabel={data.provider_name}
         source={{ uri: data.logo_path }}
+        testID="watch-image"
       />
     </View>
   );

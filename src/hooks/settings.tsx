@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { Platform } from "react-native";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components/native";
 import { DeviceType, getDeviceTypeAsync } from "expo-device";
 import * as NavigationBar from "expo-navigation-bar";
 

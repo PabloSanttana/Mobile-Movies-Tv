@@ -3,7 +3,7 @@ import { View } from "react-native";
 import LottieView from "lottie-react-native";
 import LoadingCard from "@src/assets/loading-card.json";
 import { scale } from "react-native-size-matters";
-import { useTheme } from "styled-components";
+import { useTheme } from "styled-components/native";
 
 export default function LoadItem() {
   const theme = useTheme();

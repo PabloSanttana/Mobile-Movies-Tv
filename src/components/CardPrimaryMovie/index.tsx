@@ -46,6 +46,7 @@ function CardPrimaryMovie({
             deviceType={deviceType}
             source={postImage}
             resizeMode="cover"
+            testID="post"
             //onLoad={() => console.log(data.title)}
             alt={data.title}
             doubleSize={doubleSize}
@@ -73,7 +74,7 @@ function CardPrimaryMovie({
   );
 }
 
-function arePropsEqual(
+export function arePropsEqualCardPrimaryMovie(
   prevProps: CardPrimaryMovieProps,
   nextProps: CardPrimaryMovieProps
 ) {
@@ -83,4 +84,4 @@ function arePropsEqual(
   return false;
 }
 
-export default React.memo(CardPrimaryMovie, arePropsEqual);
+export default React.memo(CardPrimaryMovie, arePropsEqualCardPrimaryMovie);

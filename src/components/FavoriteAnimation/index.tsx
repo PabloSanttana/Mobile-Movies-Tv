@@ -14,6 +14,7 @@ export default function FavoriteAnimation() {
         alignItems: "center",
         backgroundColor: "transparent",
       }}
+      testID="Heart"
     >
       <LottieView
         autoPlay
@@ -24,6 +25,7 @@ export default function FavoriteAnimation() {
         }}
         source={Heart}
         loop={false}
+        testID="Heart_Animation"
       />
     </View>
   );

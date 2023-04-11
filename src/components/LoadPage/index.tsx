@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import LottieView from "lottie-react-native";
 import LoadingPage from "@src/assets/loadingPage.json";
-import { useTheme } from "styled-components";
+import { useTheme } from "styled-components/native";
 import { scale } from "react-native-size-matters";
 
 export default function LoadPage() {

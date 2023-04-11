@@ -20,7 +20,7 @@ import {
   BackgroundContainer,
 } from "@src/screens/Detail/styles";
 
-import { useTheme } from "styled-components";
+import { useTheme } from "styled-components/native";
 
 import { apiFetchDetailSeason } from "@src/services/services";
 

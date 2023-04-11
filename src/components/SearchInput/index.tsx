@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Container, Search, ButtonSearch, IconSearch } from "./styles";
-import { useTheme } from "styled-components";
+import { useTheme } from "styled-components/native";
 import { DeviceTypeProps } from "@src/interfaces";
 import { scale } from "react-native-size-matters";
 

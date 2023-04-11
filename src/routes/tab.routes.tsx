@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 import { Octicons, Feather } from "@expo/vector-icons";
 import { scale } from "react-native-size-matters";
 
-import { useTheme } from "styled-components";
+import { useTheme } from "styled-components/native";
 
 import { Home } from "@src/screens/home";
 import Search from "@src/screens/Search";

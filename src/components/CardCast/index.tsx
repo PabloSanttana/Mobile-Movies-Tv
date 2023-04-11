@@ -20,7 +20,12 @@ function CardCast({ data, deviceType, onPress }: CardCastProps) {
       deviceType={deviceType}
       onPress={() => onPress(data.id)}
     >
-      <Image deviceType={deviceType} source={postImage} resizeMode="cover" />
+      <Image
+        testID="profile_path"
+        deviceType={deviceType}
+        source={postImage}
+        resizeMode="cover"
+      />
       <Title deviceType={deviceType}>{data.name}</Title>
       <Text deviceType={deviceType}>
         {data.job ? data.job : data.character}
@@ -29,8 +34,11 @@ function CardCast({ data, deviceType, onPress }: CardCastProps) {
   );
 }
 
-function arePropsEqual(prevProps: CardCastProps, nextProps: CardCastProps) {
+export function arePropsEqualCardCast(
+  prevProps: CardCastProps,
+  nextProps: CardCastProps
+) {
   return prevProps.data === nextProps.data;
 }
 
-export default React.memo(CardCast, arePropsEqual);
+export default React.memo(CardCast, arePropsEqualCardCast);

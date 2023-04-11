@@ -45,7 +45,7 @@ import {
   BackgroundContainer,
 } from "./styles";
 
-import { useTheme } from "styled-components";
+import { useTheme } from "styled-components/native";
 import StarRating from "@src/components/StarRating";
 import { apiFetchDetail, TypeDetailProps } from "@src/services/services";
 
