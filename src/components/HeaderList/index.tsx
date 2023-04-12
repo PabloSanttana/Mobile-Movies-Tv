@@ -16,8 +16,10 @@ function HeaderList({
   deviceType,
 }: HeaderListProps) {
   return (
-    <Container>
-      <Title deviceType={deviceType}>{title}</Title>
+    <Container testID="container">
+      <Title testID="title" deviceType={deviceType}>
+        {title}
+      </Title>
       {isMore && (
         <Button onPress={() => onPress()} activeOpacity={0.7}>
           <ButtonText deviceType={deviceType}>Ver mais</ButtonText>
@@ -27,11 +29,14 @@ function HeaderList({
   );
 }
 
-function arePropsEqual(prevProps: HeaderListProps, nextProps: HeaderListProps) {
+export function arePropsEqualHeaderList(
+  prevProps: HeaderListProps,
+  nextProps: HeaderListProps
+) {
   if (prevProps.title === nextProps.title) {
     return true;
   }
   return false;
 }
 
-export default React.memo(HeaderList, arePropsEqual);
+export default React.memo(HeaderList, arePropsEqualHeaderList);

@@ -46,6 +46,15 @@ describe("Header", () => {
     );
     expect(getByTestId("goBack")).toBeTruthy();
   });
+  it("calls onPressGoBack function when goBack icon button is pressed", () => {
+    const { getByTestId, debug } = render(
+      <ThemeProvider theme={dark}>
+        <Header {...mockProps} />
+      </ThemeProvider>
+    );
+    debug();
+    expect(fireEvent.press(getByTestId("goBack")));
+  });
   it("calls onPressRight function when right icon button is pressed", () => {
     const { getByTestId } = render(
       <ThemeProvider theme={dark}>
@@ -85,15 +94,18 @@ describe("Header", () => {
       getByTestId("HeaderContainerID").props.style[1].backgroundColor
     ).toEqual("transparent");
   });
-  it("returns true if previous and next props have the same title", () => {
-    const prevProps = { title: "Header Title", deviceType: "phone" };
-    const nextProps = { title: "Header Title", deviceType: "phone" };
-    expect(arePropsEqualHeader(prevProps, nextProps)).toBe(true);
-  });
 
-  it("returns false if previous and next props have different titles", () => {
-    const prevProps = { title: "Header Title", deviceType: "phone" };
-    const nextProps = { title: "New Header Title", deviceType: "phone" };
-    expect(arePropsEqualHeader(prevProps, nextProps)).toBe(false);
+  describe("arePropsEqualHeader function is correct", () => {
+    it("returns true if previous and next props have the same title", () => {
+      const prevProps = { title: "Header Title", deviceType: "phone" };
+      const nextProps = { title: "Header Title", deviceType: "phone" };
+      expect(arePropsEqualHeader(prevProps, nextProps)).toBe(true);
+    });
+
+    it("returns false if previous and next props have different titles", () => {
+      const prevProps = { title: "Header Title", deviceType: "phone" };
+      const nextProps = { title: "New Header Title", deviceType: "phone" };
+      expect(arePropsEqualHeader(prevProps, nextProps)).toBe(false);
+    });
   });
 });
