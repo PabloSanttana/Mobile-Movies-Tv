@@ -47,13 +47,15 @@ describe("Header", () => {
     expect(getByTestId("goBack")).toBeTruthy();
   });
   it("calls onPressGoBack function when goBack icon button is pressed", () => {
-    const { getByTestId, debug } = render(
+    const navigation = useNavigation();
+    const spyFn = jest.spyOn(navigation, "goBack");
+    const { getByTestId } = render(
       <ThemeProvider theme={dark}>
         <Header {...mockProps} />
       </ThemeProvider>
     );
-    debug();
-    expect(fireEvent.press(getByTestId("goBack")));
+    fireEvent.press(getByTestId("goBack"));
+    expect(spyFn).toBeCalledTimes(1);
   });
   it("calls onPressRight function when right icon button is pressed", () => {
     const { getByTestId } = render(
