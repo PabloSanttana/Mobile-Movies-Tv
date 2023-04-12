@@ -11,6 +11,17 @@ jest.mock("@react-navigation/native", () => ({
   useNavigation: jest.fn(),
 }));
 
+jest.mock("@expo/vector-icons", () => {
+  const { View } = require("react-native");
+  return {
+    AntDesign: View,
+  };
+});
+
+jest.mock("react-native-iphone-x-helper", () => ({
+  getStatusBarHeight: jest.fn(),
+}));
+
 describe("Header", () => {
   const mockProps: HeaderProps = {
     title: "Header Title",
@@ -49,11 +60,16 @@ describe("Header", () => {
   it("calls onPressGoBack function when goBack icon button is pressed", () => {
     const navigation = useNavigation();
     const spyFn = jest.spyOn(navigation, "goBack");
-    const { getByTestId } = render(
+    const mockPropsRemovedIconRight = {
+      ...mockProps,
+    };
+    delete mockPropsRemovedIconRight.iconRight;
+    const { getByTestId, debug } = render(
       <ThemeProvider theme={dark}>
-        <Header {...mockProps} />
+        <Header {...mockPropsRemovedIconRight} />
       </ThemeProvider>
     );
+    debug();
     fireEvent.press(getByTestId("goBack"));
     expect(spyFn).toBeCalledTimes(1);
   });

@@ -4,7 +4,7 @@ import React from "react";
 import { scale } from "react-native-size-matters";
 import { Container, ButtonIcon, ArrowLeft, HomeIcon } from "./styles";
 
-type HeaderDetailProps = {
+export type HeaderDetailProps = {
   onPressLeft: () => void;
   onPressRight: () => void;
   deviceType: DeviceTypeProps;
@@ -17,13 +17,17 @@ function HeaderDetail({
 }: HeaderDetailProps) {
   return (
     <Container>
-      <ButtonIcon deviceType={deviceType} onPress={onPressLeft}>
+      <ButtonIcon
+        testID="arrowleft"
+        deviceType={deviceType}
+        onPress={onPressLeft}
+      >
         <ArrowLeft
           name="arrowleft"
           size={deviceType === "tablet" ? scale(14) : scale(20)}
         />
       </ButtonIcon>
-      <ButtonIcon deviceType={deviceType} onPress={onPressRight}>
+      <ButtonIcon testID="home" deviceType={deviceType} onPress={onPressRight}>
         <HomeIcon
           name="home"
           size={deviceType === "tablet" ? scale(14) : scale(20)}

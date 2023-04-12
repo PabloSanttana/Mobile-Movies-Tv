@@ -61,6 +61,24 @@ describe("CardGeneric", () => {
     expect(getByText(cardPropsMock.media_type)).toBeTruthy();
   });
 
+  it("renders correctly is Tablet with the given props ", () => {
+    const { getByText, getByTestId } = render(
+      <ThemeProvider theme={dark}>
+        <CardGeneric
+          data={dataPropsMock.data}
+          deviceType="tablet"
+          dictionary={dataPropsMock.dictionary}
+        />
+      </ThemeProvider>
+    );
+    expect(getByTestId("poster")).toBeTruthy();
+    expect(getByText(cardPropsMock.title)).toBeTruthy();
+    expect(getByText("Gênero:")).toBeTruthy();
+    expect(getByText("Ação, Comédia, Fantasia")).toBeTruthy();
+    expect(getByText(cardPropsMock.release_date)).toBeTruthy();
+    expect(getByText(cardPropsMock.media_type)).toBeTruthy();
+  });
+
   it("renders correctly when isOverview is true", () => {
     const { getByText, getByTestId, queryByText } = render(
       <ThemeProvider theme={dark}>
