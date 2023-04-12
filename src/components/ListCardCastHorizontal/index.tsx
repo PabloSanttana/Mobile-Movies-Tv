@@ -6,7 +6,7 @@ import CardCast from "@src/components/CardCast";
 import { Container, Title } from "./styles";
 import { scale } from "react-native-size-matters";
 
-type ListCardCastHorizontalProps = {
+export type ListCardCastHorizontalProps = {
   data: CrewProps[];
   title: string;
   deviceType: DeviceTypeProps;
@@ -52,6 +52,7 @@ function ListCardCastHorizontal({
     <Container>
       <Title deviceType={deviceType}>{title}</Title>
       <FlatList
+        testID="flatList"
         data={data}
         keyExtractor={KeyExtractor}
         renderItem={renderItem}
@@ -72,7 +73,7 @@ function ListCardCastHorizontal({
   );
 }
 
-function arePropsEqual(
+export function arePropsEqualListCardCastHorizontal(
   prevProps: ListCardCastHorizontalProps,
   nextProps: ListCardCastHorizontalProps
 ) {
@@ -82,4 +83,7 @@ function arePropsEqual(
   return false;
 }
 
-export default React.memo(ListCardCastHorizontal, arePropsEqual);
+export default React.memo(
+  ListCardCastHorizontal,
+  arePropsEqualListCardCastHorizontal
+);

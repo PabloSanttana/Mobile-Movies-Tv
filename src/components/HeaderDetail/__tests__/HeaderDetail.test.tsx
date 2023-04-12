@@ -21,7 +21,7 @@ describe("HeaderDetail", () => {
   const mockProps: HeaderDetailProps = {
     onPressLeft: jest.fn(),
     onPressRight: jest.fn(),
-    deviceType: "mobile",
+    deviceType: "phone",
   };
 
   it("renders correctly with required props", () => {
