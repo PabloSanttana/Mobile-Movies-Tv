@@ -67,6 +67,7 @@ function ListCardHorizontal(data: ListCardTvProps) {
         onPress={data.onPressSeeMore}
       />
       <FlatList
+        testID="flatList"
         data={data.movies}
         keyExtractor={KeyExtractor}
         renderItem={renderItem}
@@ -87,7 +88,10 @@ function ListCardHorizontal(data: ListCardTvProps) {
   );
 }
 
-function arePropsEqual(prevProps: ListCardTvProps, nextProps: ListCardTvProps) {
+export function arePropsEqualListCardHorizontal(
+  prevProps: ListCardTvProps,
+  nextProps: ListCardTvProps
+) {
   if (
     prevProps.movies === nextProps.movies &&
     prevProps.doubleSize === nextProps.doubleSize
@@ -97,4 +101,4 @@ function arePropsEqual(prevProps: ListCardTvProps, nextProps: ListCardTvProps) {
   return false;
 }
 
-export default React.memo(ListCardHorizontal, arePropsEqual);
+export default React.memo(ListCardHorizontal, arePropsEqualListCardHorizontal);
