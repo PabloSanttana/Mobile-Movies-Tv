@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   LayoutChangeEvent,
   Platform,
-  ScrollView,
 } from "react-native";
 import {
   useSharedValue,
@@ -18,14 +17,16 @@ import {
 } from "react-native-reanimated";
 import { WebView } from "react-native-webview";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
+import { Fontisto } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+import { useTheme } from "styled-components/native";
+
 import {
   DeviceTypeProps,
   ResponseFormattedDetailMovieProps,
   UrlsIsValidProps,
 } from "@src/interfaces";
-import { Fontisto } from "@expo/vector-icons";
-
-import { FontAwesome } from "@expo/vector-icons";
 
 import {
   Container,
@@ -45,7 +46,6 @@ import {
   BackgroundContainer,
 } from "./styles";
 
-import { useTheme } from "styled-components/native";
 import StarRating from "@src/components/StarRating";
 import { apiFetchDetail, TypeDetailProps } from "@src/services/services";
 
@@ -180,7 +180,7 @@ export default function Detail() {
       setHeartAnimation(true);
       setTimeout(() => {
         setHeartAnimation(false);
-      }, 1000);
+      }, 1200);
     }
   }
 
@@ -313,13 +313,13 @@ export default function Detail() {
                   activeOpacity={0.7}
                   onPress={() => toggleFavorite(data)}
                 >
-                  <Fontisto
-                    name="favorite"
-                    size={deviceType === "tablet" ? scale(18) : scale(24)}
+                  <AntDesign
+                    name="heart"
+                    size={deviceType === "tablet" ? scale(17) : scale(23)}
                     color={
                       favoritesIds.includes(id) ? theme.colors.red : "gray"
                     }
-                    style={{ transform: [{ translateY: 6 }] }}
+                    style={{ marginLeft: 5, transform: [{ translateY: 6 }] }}
                   />
                 </TouchableOpacity>
               </ContainerTitle>

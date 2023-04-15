@@ -1,13 +1,14 @@
 import React from "react";
-import { View } from "react-native";
 import LottieView from "lottie-react-native";
 import Heart from "@src/assets/favoriteheart.json";
+
+import Animated, { ZoomIn } from "react-native-reanimated";
 
 import { scale } from "react-native-size-matters";
 
 export default function FavoriteAnimation() {
   return (
-    <View
+    <Animated.View
       style={{
         flex: 1,
         justifyContent: "center",
@@ -15,11 +16,12 @@ export default function FavoriteAnimation() {
         backgroundColor: "transparent",
       }}
       testID="Heart"
+      entering={ZoomIn.duration(350)}
     >
       <LottieView
-        autoPlay
+        autoPlay={true}
         style={{
-          height: scale(250),
+          height: scale(200),
           borderRadius: 5,
           backgroundColor: "transparent",
         }}
@@ -27,6 +29,6 @@ export default function FavoriteAnimation() {
         loop={false}
         testID="Heart_Animation"
       />
-    </View>
+    </Animated.View>
   );
 }

@@ -64,12 +64,6 @@ export const PostImage = styled.Image`
   height: ${width * 0.4 + "px"};
 `;
 
-export const Title = styled.Text<DeviceType>`
-  font-family: ${(props) => props.theme.fonts.title};
-  font-size: ${(props) => sizeDeviceTypeScale(props.deviceType, 18, 23)};
-  color: ${(props) => props.theme.colors.textPrimary};
-  margin-bottom: 10px;
-`;
 export const DivRow = styled.View`
   flex-direction: row;
   align-items: center;
@@ -78,6 +72,14 @@ export const DivRow = styled.View`
 export const ContainerTitle = styled.View`
   flex-direction: row;
   justify-content: space-between;
+`;
+
+export const Title = styled.Text<DeviceType>`
+  flex: 1;
+  font-family: ${(props) => props.theme.fonts.title};
+  font-size: ${(props) => sizeDeviceTypeScale(props.deviceType, 18, 23)};
+  color: ${(props) => props.theme.colors.textPrimary};
+  margin-bottom: 10px;
 `;
 
 export const Text = styled.Text<DeviceType>`
