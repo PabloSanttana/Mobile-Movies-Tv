@@ -6,7 +6,7 @@ import { Title, Container } from "./styles";
 import { ObjectGenresProps } from "@src/screens/SeeMore";
 import { DeviceTypeProps } from "@src/interfaces";
 
-type ListCategoryProps = {
+export type ListCategoryProps = {
   data: ObjectGenresProps;
   genreSelected: string;
   selectGenre: (value: string) => void;
@@ -64,7 +64,7 @@ function ListCategory({
   );
 }
 
-function arePropsEqual(
+export function arePropsEqualListCategory(
   prevProps: ListCategoryProps,
   nextProps: ListCategoryProps
 ) {
@@ -77,4 +77,4 @@ function arePropsEqual(
   return false;
 }
 
-export default React.memo(ListCategory, arePropsEqual);
+export default React.memo(ListCategory, arePropsEqualListCategory);

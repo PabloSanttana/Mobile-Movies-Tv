@@ -76,13 +76,7 @@ describe("ListCardHorizontal", () => {
         doubleSize: false,
       };
       const nextProps: ListCardTvProps = {
-        movies: movies,
-        title: "Movies Title",
-        deviceType: "phone",
-        marginHorizontal: 20,
-        onPressSeeMore: jest.fn(),
-        onPressDetail: jest.fn(),
-        doubleSize: false,
+        ...prevProps,
       };
 
       expect(arePropsEqualListCardHorizontal(prevProps, nextProps)).toBe(true);
@@ -98,12 +92,9 @@ describe("ListCardHorizontal", () => {
         doubleSize: false,
       };
       const nextProps: ListCardTvProps = {
+        ...prevProps,
         movies: movies.slice(0, 2),
-        title: "Movies Title",
         deviceType: "tablet",
-        marginHorizontal: 20,
-        onPressSeeMore: jest.fn(),
-        onPressDetail: jest.fn(),
         doubleSize: true,
       };
 

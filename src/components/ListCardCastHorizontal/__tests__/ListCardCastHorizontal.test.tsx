@@ -66,10 +66,7 @@ describe("ListCardCastHorizontal", () => {
         deviceType: "phone",
       };
       const nextProps: ListCardCastHorizontalProps = {
-        data: dataMocks,
-        onPress: jest.fn(),
-        title: "Cast",
-        deviceType: "phone",
+        ...prevProps,
       };
 
       expect(arePropsEqualListCardCastHorizontal(prevProps, nextProps)).toBe(
@@ -85,10 +82,8 @@ describe("ListCardCastHorizontal", () => {
         deviceType: "phone",
       };
       const nextProps: ListCardCastHorizontalProps = {
+        ...prevProps,
         data: [],
-        onPress: jest.fn(),
-        title: "Cast",
-        deviceType: "phone",
       };
 
       expect(arePropsEqualListCardCastHorizontal(prevProps, nextProps)).toBe(

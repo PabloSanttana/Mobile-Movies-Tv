@@ -56,8 +56,7 @@ describe("ListCarousel", () => {
         deviceType: "phone",
       };
       const nextProps: ListCarouselProps = {
-        data: moviesMocks,
-        deviceType: "phone",
+        ...prevProps,
       };
 
       expect(arePropsEqualListCarousel(prevProps, nextProps)).toBe(true);

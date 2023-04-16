@@ -460,7 +460,8 @@ export default function Detail() {
             style={{
               height: deviceType === "tablet" ? scale(240) : scale(270),
               flex: 1,
-              paddingBottom: scale(20),
+              paddingBottom: scale(10),
+              paddingTop: scale(10),
               backgroundColor: theme.colors.backgroundSecondary,
             }}
             data={data.videos.results}

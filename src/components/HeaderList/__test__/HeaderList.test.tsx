@@ -85,9 +85,7 @@ describe("HeaderList", () => {
         onPress: jest.fn(),
       };
       const nextProps = {
-        title: "Header Title",
-        deviceType: "phone",
-        onPress: jest.fn(),
+        ...prevProps,
       };
       expect(arePropsEqualHeaderList(prevProps, nextProps)).toBe(true);
     });
