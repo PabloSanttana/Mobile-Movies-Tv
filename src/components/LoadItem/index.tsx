@@ -23,7 +23,7 @@ export default function LoadItem() {
   );
 
   return (
-    <View style={{ paddingHorizontal: 20 }}>
+    <View testID="container" style={{ paddingHorizontal: 20 }}>
       {data.map((item) => RenderItem(item))}
     </View>
   );
