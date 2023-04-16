@@ -15,6 +15,7 @@ export default function LoadPage() {
         alignItems: "center",
         backgroundColor: theme.colors.backgroundPrimary,
       }}
+      testID="container"
     >
       <LottieView
         autoPlay
