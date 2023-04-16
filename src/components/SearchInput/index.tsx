@@ -20,8 +20,9 @@ export default function SearchInput({
 }: SearchInputProps) {
   const theme = useTheme();
   return (
-    <Container deviceType={deviceType}>
+    <Container testID="container" deviceType={deviceType}>
       <Search
+        testID="search"
         value={value}
         onChangeText={setValue}
         placeholder="Pesquisar..."
@@ -30,11 +31,13 @@ export default function SearchInput({
         deviceType={deviceType}
       />
       <ButtonSearch
+        testID="button-search"
         deviceType={deviceType}
         onPress={onPress}
         activeOpacity={0.7}
       >
         <IconSearch
+          testID="icon-search"
           name="search"
           size={deviceType === "tablet" ? scale(13) : scale(19)}
           color="black"

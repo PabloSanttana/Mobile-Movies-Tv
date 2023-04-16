@@ -23,7 +23,7 @@ describe("CardCast", () => {
     credit_id: "credit id",
   };
   it("renders correctly with given props", () => {
-    const { debug, getByText, getByTestId } = render(
+    const { getByText, getByTestId } = render(
       <ThemeProvider theme={dark}>
         <CardCast
           data={mockCrewProps}
