@@ -30,7 +30,10 @@ function ListWatch({ data, title, deviceType }: ListWatchProps) {
   return (
     <Container>
       <Title deviceType={deviceType}>{title}</Title>
-      <View style={{ flexDirection: "row", flexWrap: "wrap", paddingLeft: 20 }}>
+      <View
+        testID="watch-list"
+        style={{ flexDirection: "row", flexWrap: "wrap", paddingLeft: 20 }}
+      >
         {data?.map((item) => renderItem(item))}
       </View>
     </Container>

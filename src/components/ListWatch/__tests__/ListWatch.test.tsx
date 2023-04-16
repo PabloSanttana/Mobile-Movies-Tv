@@ -1,12 +1,12 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react-native";
+import { render } from "@testing-library/react-native";
 import { ThemeProvider } from "styled-components/native";
 import { dark } from "../../../theme/dark";
 
 import ListWatch, { ListWatchProps, arePropsEqualListWatch } from "../index";
 import dataMock from "./dataMocks";
 
-describe("ListCategory", () => {
+describe("ListWatch", () => {
   describe("Component", () => {
     const mockProps: ListWatchProps = {
       data: dataMock,
@@ -20,6 +20,28 @@ describe("ListCategory", () => {
         </ThemeProvider>
       );
       expect(getByText(/Produção/i)).toBeTruthy();
+    });
+    it("renders correctly with data empty", () => {
+      const mockPropsDataEmpty = {
+        ...mockProps,
+        data: [],
+      };
+      const { queryByText } = render(
+        <ThemeProvider theme={dark}>
+          <ListWatch {...mockPropsDataEmpty} />
+        </ThemeProvider>
+      );
+      expect(queryByText("Produção")).toBeNull();
+    });
+    it("should render watches if data has items", () => {
+      const { getByTestId } = render(
+        <ThemeProvider theme={dark}>
+          <ListWatch {...mockProps} />
+        </ThemeProvider>
+      );
+      expect(getByTestId("watch-list").children.length).toEqual(
+        dataMock.length
+      );
     });
   });
 
