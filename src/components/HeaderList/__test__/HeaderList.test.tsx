@@ -78,7 +78,7 @@ describe("HeaderList", () => {
   });
 
   describe("arePropsEqualHeaderList function is correct", () => {
-    it("returns true if previous and next props have the same title", () => {
+    it("returns True if previous and next props have equal props", () => {
       const prevProps = {
         title: "Header Title",
         deviceType: "phone",

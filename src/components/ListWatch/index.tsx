@@ -9,7 +9,7 @@ import {
 import Watch from "@src/components/Watch";
 import { View } from "react-native";
 
-type ListWatchProps = {
+export type ListWatchProps = {
   data?: flatrateRentBuyProps[];
   title: string;
   deviceType: DeviceTypeProps;
@@ -37,11 +37,14 @@ function ListWatch({ data, title, deviceType }: ListWatchProps) {
   );
 }
 
-function arePropsEqual(prevProps: ListWatchProps, nextProps: ListWatchProps) {
+export function arePropsEqualListWatch(
+  prevProps: ListWatchProps,
+  nextProps: ListWatchProps
+) {
   if (prevProps.data === nextProps.data) {
     return true;
   }
   return false;
 }
 
-export default React.memo(ListWatch, arePropsEqual);
+export default React.memo(ListWatch, arePropsEqualListWatch);

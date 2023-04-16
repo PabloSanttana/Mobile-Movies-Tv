@@ -58,7 +58,7 @@ describe("ListCardCastHorizontal", () => {
     });
   });
   describe("arePropsEqualListCardCastHorizontal function is correct", () => {
-    it("returns true if previous and next props have the same title", () => {
+    it("returns True if previous and next props have equal props", () => {
       const prevProps: ListCardCastHorizontalProps = {
         data: dataMocks,
         onPress: jest.fn(),

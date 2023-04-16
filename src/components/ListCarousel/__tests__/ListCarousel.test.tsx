@@ -50,7 +50,7 @@ describe("ListCarousel", () => {
   });
 
   describe("Function Are Props Equal React.mome", () => {
-    it("returns false if previous and next props have different Props", () => {
+    it("returns True if previous and next props have equal props", () => {
       const prevProps: ListCarouselProps = {
         data: moviesMocks,
         deviceType: "phone",
