@@ -64,12 +64,12 @@ describe("Header", () => {
       ...mockProps,
     };
     delete mockPropsRemovedIconRight.iconRight;
-    const { getByTestId, debug } = render(
+    const { getByTestId } = render(
       <ThemeProvider theme={dark}>
         <Header {...mockPropsRemovedIconRight} />
       </ThemeProvider>
     );
-    debug();
+
     fireEvent.press(getByTestId("goBack"));
     expect(spyFn).toBeCalledTimes(1);
   });

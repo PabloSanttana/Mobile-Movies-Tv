@@ -5,9 +5,8 @@ import Carousel, { PaginationLight } from "react-native-x-carousel";
 import { CardProps, DeviceTypeProps } from "@src/interfaces";
 import { Title, Container } from "./styled";
 import { TypeDetailProps } from "@src/services/services";
-import { View } from "react-native";
 
-type ListCarouselProps = {
+export type ListCarouselProps = {
   data: CardProps[];
   onPress?: (id: number, type: TypeDetailProps) => void;
   deviceType: DeviceTypeProps;
@@ -32,7 +31,7 @@ function ListCarousel({
   );
 
   return (
-    <Container>
+    <Container testID="containerCarousel">
       <Title>Nos cinemas</Title>
       <Carousel
         pagination={PaginationLight}
@@ -46,7 +45,7 @@ function ListCarousel({
   );
 }
 
-function arePropsEqual(
+export function arePropsEqualListCarousel(
   prevProps: ListCarouselProps,
   nextProps: ListCarouselProps
 ) {
@@ -56,4 +55,4 @@ function arePropsEqual(
   return false;
 }
 
-export default React.memo(ListCarousel, arePropsEqual);
+export default React.memo(ListCarousel, arePropsEqualListCarousel);
