@@ -12,7 +12,7 @@ import {
 } from "./styles";
 import { imagePathIsValid } from "@src/utils/utils";
 
-type SectionCollectionProps = {
+export type SectionCollectionProps = {
   data: BelongsToCollectionProps;
   deviceType: DeviceTypeProps;
   onPress: (id: number) => void;
@@ -23,6 +23,9 @@ function SectionCollection({
   deviceType,
   onPress,
 }: SectionCollectionProps) {
+  if (data === null || data === undefined) {
+    return <></>;
+  }
   const backdrop_path_small = imagePathIsValid(data.backdrop_path);
   const backdrop_path = imagePathIsValid(data.backdrop_path);
   const poster_path = imagePathIsValid(data.poster_path);
@@ -42,16 +45,19 @@ function SectionCollection({
         <BackgroundImageCollection
           deviceType={deviceType}
           source={backdrop_path}
+          testID="background-image-collection"
         >
           <Gradient colors={["rgba(0, 0, 0,0.5)", "rgba(0, 0, 0,0.5)"]}>
             <Image
               deviceType={deviceType}
               doubleSize={false}
               source={poster_path}
+              testID="image"
             />
             <ButtonCollection
               activeOpacity={0.7}
               onPress={() => onPress(data.id)}
+              testID="button-collection"
             >
               <ButtonCollectionTitle deviceType={deviceType}>
                 Mostrar Coletânea
@@ -64,11 +70,11 @@ function SectionCollection({
   );
 }
 
-function arePropsEqual(
+export function arePropsEqualSectionCollection(
   prevProps: SectionCollectionProps,
   nextProps: SectionCollectionProps
 ) {
   return prevProps.data === nextProps.data;
 }
 
-export default React.memo(SectionCollection, arePropsEqual);
+export default React.memo(SectionCollection, arePropsEqualSectionCollection);

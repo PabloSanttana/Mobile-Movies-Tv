@@ -44,12 +44,11 @@ describe("ListCategory", () => {
         ...mockProps,
         genreSelected: "1",
       };
-      const { getByText, debug } = render(
+      const { getByText } = render(
         <ThemeProvider theme={dark}>
           <ListCategory {...mockPropsCategorySelected} />
         </ThemeProvider>
       );
-      debug();
       expect(getByText(/category 1/i).props.style[0].color).toEqual("#000");
       expect(getByText(/category 2/i).props.style[0].color).not.toEqual("#000");
     });
