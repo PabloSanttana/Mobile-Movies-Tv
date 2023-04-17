@@ -27,7 +27,7 @@ describe("Header", () => {
     title: "Header Title",
     iconRight: () => <></>,
     onPressRight: jest.fn(),
-    deviceType: "mobile",
+    deviceType: "phone",
   };
 
   beforeEach(() => {
@@ -66,7 +66,7 @@ describe("Header", () => {
     delete mockPropsRemovedIconRight.iconRight;
     const { getByTestId } = render(
       <ThemeProvider theme={dark}>
-        <Header {...mockPropsRemovedIconRight} />
+        <Header {...mockPropsRemovedIconRight} deviceType="tablet" />
       </ThemeProvider>
     );
 
