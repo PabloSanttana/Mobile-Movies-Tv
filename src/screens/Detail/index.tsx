@@ -233,6 +233,7 @@ export default function Detail() {
   );
   const handleSessions = useCallback(() => {
     if (!data) return;
+    // Trasforma dados para proxima pagina
     const context = formatDataDetailToSessions(data);
     //@ts-ignore
     navigation.push("Collection", {

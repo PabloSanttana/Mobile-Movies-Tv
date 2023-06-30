@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "package": "com.pablosantana.movies"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -36,6 +37,11 @@
           "initialOrientation": "DEFAULT"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ea3e1043-e290-4070-ae4c-644d4b88d6c4"
+      }
+    }
   }
 }

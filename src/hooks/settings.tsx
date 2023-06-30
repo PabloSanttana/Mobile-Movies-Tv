@@ -183,10 +183,15 @@ function SettingsProvider({ children }: SettingsContextProvider) {
 
   const changeFavorite = useCallback(
     (value: CardProps) => {
-      const index = favorites.findIndex((favorite) => favorite.id === value.id);
-      setFavorites(
-        index >= 0 ? favorites.slice(0, index) : [...favorites, value]
-      );
+      setFavorites((state) => {
+        const index = state.findIndex((item) => item.id === value.id);
+        if (index >= 0) {
+          state.splice(index, 1);
+          return [...state];
+        } else {
+          return [value, ...state];
+        }
+      });
     },
     [favorites]
   );
