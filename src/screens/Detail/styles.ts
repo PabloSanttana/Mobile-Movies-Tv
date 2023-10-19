@@ -26,7 +26,7 @@ export const BackgroundContainer = styled.View<BackgroundContainerProps>`
   height: ${(props) =>
     sizeDeviceTypeScale(
       props.deviceType,
-      props.orientation === 1 ? height * 0.3 : width * 0.4,
+      props.orientation === 1 ? 350 : 300,
       props.orientation === 1 ? height * 0.59 : width * 0.7
     )};
 `;

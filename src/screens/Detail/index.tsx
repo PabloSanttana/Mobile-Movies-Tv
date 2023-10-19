@@ -279,7 +279,7 @@ export default function Detail() {
       scrollEventThrottle={16}
     >
       <BackgroundContainer deviceType={deviceType} orientation={orientation}>
-        <BackgroundImage source={poster_path_small} blurRadius={1}>
+        <BackgroundImage source={poster_path_small} blurRadius={1.2}>
           <BackgroundImage source={poster_path} resizeMode="contain">
             <HeaderDetail
               deviceType={deviceType}
@@ -313,14 +313,21 @@ export default function Detail() {
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={() => toggleFavorite(data)}
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: scale(24),
+                    height: scale(24),
+                    marginLeft: 5,
+                    transform: [{ translateY: 6 }],
+                  }}
                 >
                   <AntDesign
                     name="heart"
-                    size={deviceType === "tablet" ? scale(17) : scale(23)}
+                    size={deviceType === "tablet" ? scale(23) : scale(23)}
                     color={
                       favoritesIds.includes(id) ? theme.colors.red : "gray"
                     }
-                    style={{ marginLeft: 5, transform: [{ translateY: 6 }] }}
                   />
                 </TouchableOpacity>
               </ContainerTitle>

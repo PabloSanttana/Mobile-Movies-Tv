@@ -1,5 +1,7 @@
 import { DeviceTypeProps } from "@src/interfaces";
 import { sizeDeviceTypeScale } from "@src/utils/utils";
+import { Platform } from "react-native";
+import { scale } from "react-native-size-matters";
 import styled from "styled-components/native";
 
 type DeviceType = {
@@ -29,8 +31,8 @@ export const Image = styled.Image<DeviceType>`
 
 export const Content = styled.View`
   flex: 1;
-  padding: 20px;
-  padding-top: 5px;
+  padding: ${scale(8) + "px"};
+  padding-top: ${scale(2) + "px"};
   padding-bottom: 0px;
   position: relative;
 `;
@@ -77,7 +79,7 @@ export const Span = styled.Text<DeviceType>`
     sizeDeviceTypeScale(props.deviceType, 7, props.theme.size.small)};
   position: absolute;
   bottom: 5px;
-  left: 20px;
+  left: ${scale(8) + "px"};
 `;
 
 export const ContentLabel = styled.View<DeviceType>`
@@ -88,7 +90,7 @@ export const ContentLabel = styled.View<DeviceType>`
     sizeDeviceTypeScale(props.deviceType, 3, 5)};
   border-bottom-right-radius: ${(props) =>
     sizeDeviceTypeScale(props.deviceType, 3, 5)};
-  padding: 4px 10px;
+  padding: ${scale(2) + "px"} ${scale(5) + "px"};
   background-color: ${(props) => props.theme.colors.backgroundCategory};
 `;
 

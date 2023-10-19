@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { useTheme } from "styled-components/native";
 import { StatusBar } from "expo-status-bar";
 
@@ -8,11 +8,11 @@ import { useSettings } from "@src/hooks/settings";
 import { CardProps, UrlsIsValidProps } from "@src/interfaces";
 import ListCardHorizontal from "@src/components/ListCardHorizontal";
 import ListCarousel from "@src/components/ListCarousel";
+import Footer from "@src/components/Footer";
 import { apiFetchMovieAndTv, TypeDetailProps } from "@src/services/services";
 
 import { Container } from "./styles";
 import LoadPage from "@src/components/LoadPage";
-import { scale } from "react-native-size-matters";
 
 export function Home() {
   const navigation = useNavigation();
@@ -157,7 +157,13 @@ export function Home() {
   );
 
   if (onLoad) {
-    return <LoadPage />;
+    return (
+      <View
+        style={{ flex: 1, backgroundColor: theme.colors.backgroundPrimary }}
+      >
+        <LoadPage />
+      </View>
+    );
   }
 
   const listCarousel = nowPlaying?.slice(0, 10);
@@ -236,8 +242,7 @@ export function Home() {
         }
         onPressDetail={(id) => handleDetail(id, "movie")}
       />
-
-      <View style={{ height: scale(60) }}></View>
+      <Footer deviceType={deviceType} />
     </Container>
   );
 }

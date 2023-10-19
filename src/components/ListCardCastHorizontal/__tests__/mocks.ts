@@ -16,7 +16,7 @@ for (let i = 0; i < 10; i++) {
     credit_id: `${i}`,
     department: `department - ${i}`,
     //@ts-ignore
-    job: par ? `department - ${i}` : undefined,
+    job: par ? `job - ${i}` : undefined,
     cast_id: i,
     character: `character - ${i}`,
     order: i,

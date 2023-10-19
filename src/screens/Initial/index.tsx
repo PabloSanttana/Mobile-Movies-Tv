@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { KeyboardAvoidingView, Platform, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StatusBar, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import {
@@ -18,7 +18,8 @@ import { isValid } from "date-fns";
 
 export default function Initial() {
   const navigation = useNavigation();
-  const { deviceType, saveUser, language, adult, region } = useSettings();
+  const { deviceType, saveUser, language, adult, region, themeText } =
+    useSettings();
   const [image, setImage] = useState("");
   const [firstName, setFirstName] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -78,6 +79,11 @@ export default function Initial() {
         uri: image,
       }}
     >
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle={themeText === "light" ? "dark-content" : "light-content"}
+        hidden={!(Platform.OS === "ios")}
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1, justifyContent: "center" }}

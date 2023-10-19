@@ -17,7 +17,8 @@
     "ios": {
       "supportsTablet": true,
       "userInterfaceStyle": "automatic",
-      "requireFullScreen": true
+      "requireFullScreen": true,
+      "bundleIdentifier": "com.pablosantana.movies"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +26,10 @@
         "backgroundColor": "#ffffff"
       },
       "userInterfaceStyle": "automatic",
-      "package": "com.pablosantana.movies"
+      "package": "com.pablosantana.movies",
+      "NavigationBar": {
+        "visible": "leanback-immersive"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

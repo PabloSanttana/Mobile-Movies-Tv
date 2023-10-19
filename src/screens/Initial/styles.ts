@@ -14,7 +14,6 @@ export const Container = styled.ImageBackground`
   width: 100%;
   align-items: center;
   justify-content: center;
-  //padding-top: ${height * 0.2 + "px"};
 `;
 export const Content = styled.View`
   align-items: center;

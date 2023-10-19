@@ -20,7 +20,11 @@ export const Container = styled.View<ContentProps>`
   background-color: ${(props) => props.theme.colors.backgroundPrimary};
 `;
 
-export const Button = styled.TouchableOpacity``;
+export const Button = styled.TouchableOpacity`
+  width: ${scale(30) + "px"};
+  height: ${scale(30) + "px"};
+  justify-content: center;
+`;
 
 export const Title = styled.Text<ContentProps>`
   font-family: ${(props) => props.theme.fonts.title};

@@ -132,7 +132,7 @@ export default function SeeMore() {
 
   const closeHeader = useCallback(() => {
     Animated.timing(toggleHeader, {
-      toValue: scale(isTablet ? -50 : -75),
+      toValue: -scale(75),
       duration: 300,
       useNativeDriver: true,
     }).start();

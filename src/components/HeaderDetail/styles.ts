@@ -23,8 +23,8 @@ export const Container = styled.View`
 
 export const ButtonIcon = styled.TouchableOpacity<DeviceType>`
   background-color: ${(props) => props.theme.colors.backgroundPrimary};
-  width: ${(props) => sizeDeviceTypeScale(props.deviceType, 23, 30)};
-  height: ${(props) => sizeDeviceTypeScale(props.deviceType, 23, 30)};
+  width: ${(props) => sizeDeviceTypeScale(props.deviceType, 30, 30)};
+  height: ${(props) => sizeDeviceTypeScale(props.deviceType, 30, 30)};
   border-radius: ${convertScale(20)};
   align-items: center;
   justify-content: center;

@@ -35,7 +35,7 @@ function Header({
       >
         <Icon
           name="arrowleft"
-          size={deviceType === "tablet" ? scale(16) : scale(24)}
+          size={deviceType === "tablet" ? scale(20) : scale(24)}
         />
       </Button>
       <Title deviceType={deviceType}>{title}</Title>
