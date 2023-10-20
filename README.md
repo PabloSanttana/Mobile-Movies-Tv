@@ -1,4 +1,4 @@
-# Aplicativo Movel Catálogo de Filmes e Séries
+# Aplicativo Movie: Catálogo de Filmes e Séries
 
 <img src="./layout/baner.png" alt="Baner" style="width:100%; height:300px">
 
