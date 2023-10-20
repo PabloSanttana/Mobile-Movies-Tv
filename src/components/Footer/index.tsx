@@ -28,7 +28,7 @@ function Footer({ deviceType }: FooterProps) {
             Linking.openURL("https://developer.themoviedb.org/docs");
           }}
         >
-          <Text>Sobre o TMDB</Text>
+          <Text>Sobre API</Text>
         </Button>
       </Content>
     </Container>

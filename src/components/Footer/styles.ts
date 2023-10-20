@@ -10,7 +10,7 @@ type ContainerProps = {
 
 export const Container = styled.View<ContainerProps>`
   background-color: #032541;
-  height: ${(props) => sizeDeviceTypeScale(props.deviceType, 100, 120)};
+  height: ${(props) => sizeDeviceTypeScale(props.deviceType, 100, 125)};
   margin-top: ${scale(50) + "px"};
 `;
 
