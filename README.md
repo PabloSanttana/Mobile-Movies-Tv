@@ -44,11 +44,24 @@ O aplicativo oferece as seguintes features e funcionalidades:
 
 ## Layout Mobile
 
-![Layout Mobile](/screenshots/mobile.png)
+Home                            |  Detalhe                           |  Coleção
+:------------------------------:|:----------------------------------:|:------------------------------------:
+![m-home](./layout/m-home.png)  | ![m-detail](./layout/m-detail.png) | ![m-detail](./layout/m-colection.png)
+
+Pesquisa                        |  Favorito                          |  Ajuste
+:------------------------------:|:----------------------------------:|:------------------------------------:
+![m-search](./layout/m-search.png)  | ![m-favort](./layout/m-favort.png) | ![m-settings](./layout/m-settings.png)
 
 ## Layout Tablet
 
-![Layout Tablet](/screenshots/tablet.png)
+Home                            |  Detalhe                           |  Coleção
+:------------------------------:|:----------------------------------:|:------------------------------------:
+![t-home](./layout/t-home.png)  | ![t-detail](./layout/t-detail.png) | ![t-detail](./layout/t-colection.png)
+
+Pesquisa                        |  Favorito                          |  Ajuste
+:------------------------------:|:----------------------------------:|:------------------------------------:
+![t-search](./layout/t-search.png)  | ![t-favort](./layout/t-favort.png) | ![t-settings](./layout/t-settings.png)
+
 
 ## APK Android
 -[aplicativo]()
