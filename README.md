@@ -32,6 +32,7 @@ O aplicativo oferece as seguintes features e funcionalidades:
 - [x] Visualização Tendêcias de filme e séries.
 - [x] Visualização filmes Populares.
 - [x] Visualização Em breve nos cinemas.
+- [ ] Visualização dos trailer de filmes e séries.
 - [x] Visualizações das avaliações de filmes e séries.
 - [x] Detalhes completos de filmes, séries e programas de TV, incluindo elenco, classificações e sinopse.
 - [x] Pesquisa de filmes, séries e programas de TV por nome.
