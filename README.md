@@ -62,9 +62,17 @@ Pesquisa                        |  Favorito                          |  Ajuste
 :------------------------------:|:----------------------------------:|:------------------------------------:
 ![t-search](./layout/t-search.png)  | ![t-favort](./layout/t-favort.png) | ![t-settings](./layout/t-settings.png)
 
-
 ## APK Android
 - [Movie.apk](https://drive.google.com/file/d/1bM0D4l2QWJc-gWyWOywrBrJNfjAQcoUR/view?usp=share_link)
+
+## Vídeo de Demonstração
+
+
+
+https://github.com/PabloSanttana/Mobile-Movies-Tv/assets/52142127/29fbce4b-6d6b-445c-b6f1-444fb18d3f6f
+
+
+
 ## Referências
 
 - [Documentação da API do TMDB](https://developers.themoviedb.org/3/getting-started/introduction)
