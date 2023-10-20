@@ -67,8 +67,6 @@ Pesquisa                        |  Favorito                          |  Ajuste
 
 ## Vídeo de Demonstração
 
-
-
 https://github.com/PabloSanttana/Mobile-Movies-Tv/assets/52142127/29fbce4b-6d6b-445c-b6f1-444fb18d3f6f
 
 
