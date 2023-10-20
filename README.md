@@ -1,4 +1,4 @@
-# Catálogo de Lançamentos de Filmes e Séries
+# Aplicativo Mobile Catálogo de Filmes e Séries
 
 Este é um aplicativo de catálogo que permite aos usuários explorar os lançamentos mais recentes de filmes, séries e programas de TV usando a API do The Movie Database (TMDB).
 
