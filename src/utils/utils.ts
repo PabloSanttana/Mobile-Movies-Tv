@@ -129,7 +129,7 @@ export function formatDataTvToCard(movies: TvProps[]): CardProps[] {
       poster_path: `${BASE_IMAGE_URL}w500${movie.poster_path}`,
       poster_path_small: `${BASE_IMAGE_URL}w92${movie.poster_path}`,
       release_date: formatData(movie.first_air_date ?? "00"),
-      title: movie.original_name,
+      title: movie.name,
       video: false,
       vote_average: movie.vote_average,
       vote_count: movie.vote_count,

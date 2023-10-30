@@ -75,7 +75,7 @@ export default function SeeMore() {
     ApiFetchData();
   }, [genreSelected, language, router]);
 
-  console.log("seemore", router.path);
+  //console.log("seemore", router.path);
 
   async function fetchListGenres() {
     setIsLoadingGenre(true);
