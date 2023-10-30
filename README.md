@@ -1,4 +1,4 @@
-# Aplicativo Movel Catálogo de Filmes e Séries
+# Aplicativo Movie: Catálogo de Filmes e Séries
 
 <img src="./layout/baner.png" alt="Baner" style="width:100%; height:300px">
 
@@ -32,7 +32,7 @@ O aplicativo oferece as seguintes features e funcionalidades:
 - [x] Visualização Tendêcias de filme e séries.
 - [x] Visualização filmes Populares.
 - [x] Visualização Em breve nos cinemas.
-- [ ] Visualização dos trailer de filmes e séries.
+- [x] Visualização dos trailer de filmes e séries.
 - [x] Visualizações das avaliações de filmes e séries.
 - [x] Detalhes completos de filmes, séries e programas de TV, incluindo elenco, classificações e sinopse.
 - [x] Pesquisa de filmes, séries e programas de TV por nome.
@@ -44,14 +44,33 @@ O aplicativo oferece as seguintes features e funcionalidades:
 
 ## Layout Mobile
 
-![Layout Mobile](/screenshots/mobile.png)
+Home                            |  Detalhe                           |  Coleção
+:------------------------------:|:----------------------------------:|:------------------------------------:
+![m-home](./layout/m-home.png)  | ![m-detail](./layout/m-detail.png) | ![m-detail](./layout/m-colection.png)
+
+Pesquisa                        |  Favorito                          |  Ajuste
+:------------------------------:|:----------------------------------:|:------------------------------------:
+![m-search](./layout/m-search.png)  | ![m-favort](./layout/m-favort.png) | ![m-settings](./layout/m-settings.png)
 
 ## Layout Tablet
 
-![Layout Tablet](/screenshots/tablet.png)
+Home                            |  Detalhe                           |  Coleção
+:------------------------------:|:----------------------------------:|:------------------------------------:
+![t-home](./layout/t-home.png)  | ![t-detail](./layout/t-detail.png) | ![t-detail](./layout/t-colection.png)
+
+Pesquisa                        |  Favorito                          |  Ajuste
+:------------------------------:|:----------------------------------:|:------------------------------------:
+![t-search](./layout/t-search.png)  | ![t-favort](./layout/t-favort.png) | ![t-settings](./layout/t-settings.png)
 
 ## APK Android
--[aplicativo]()
+- [Movie.apk](https://drive.google.com/file/d/1bM0D4l2QWJc-gWyWOywrBrJNfjAQcoUR/view?usp=share_link)
+
+## Vídeo de Demonstração
+
+https://github.com/PabloSanttana/Mobile-Movies-Tv/assets/52142127/29fbce4b-6d6b-445c-b6f1-444fb18d3f6f
+
+
+
 ## Referências
 
 - [Documentação da API do TMDB](https://developers.themoviedb.org/3/getting-started/introduction)
